@@ -21,7 +21,6 @@ data_2018 <- data.1[3,]
 
 data_2018.1 <- data_2018[,2:ncol(data_2018)]
 
-View(data_2018.1)
 
 
 
@@ -35,15 +34,7 @@ colnames(data_2018.2) <- variables_names
 
 
 
-
-
-
 data_2018.2.df <- as.data.frame(data_2018.2)
-
-
-View(data_2018.2.df)
-
-fix(data_2018.2.df)
 
 
 colSums(is.na(data_2018.2.df))
@@ -64,13 +55,18 @@ View(X454_ratings)
 #extraction ratings
 ratings <- X454_ratings[5:nrow(X454_ratings) , 3]
 
-ratings
 
 
 #cbind ratings et data_2018.2.df
 
 data_2018.2.df <- cbind(ratings, data_2018.2.df)
-fix(data_2018.2.df)
+
+#renommer premiere colonne par RATINGS
+names(data_2018.2.df)[1] <- "RATINGS"
+
+
+
+
 
 # suppression_des_rows_with_not_data ---------------------------------
 
@@ -83,7 +79,7 @@ rowSums(is.na(data_2018.2.df))
 
 #si on a plus de 35 NA on delete le row (sachant qu'on a 35 variables)
 data_2018.3.df <- data_2018.2.df[rowSums(is.na(data_2018.2.df))<35,]
-fix(data_2018.3.df)
+
 
 
 
@@ -104,7 +100,7 @@ colSums(is.na(data_2018.3.df))
 data_2018.4.df <- data_2018.3.df[ ,colSums(is.na(data_2018.3.df))<228]
 dim(data_2018.4.df) # il me reste 24 variables
 
-fix(data_2018.4.df)
+
 
 x <- colnames(data_2018.4.df)
 
@@ -115,7 +111,8 @@ x <- colnames(data_2018.4.df)
 
 data_2018.5.df <- data_2018.4.df[!duplicated(data_2018.4.df[c("PROF_MARGIN", "EBITDA_MARGIN")]),]
 dim(data_2018.5.df)
-fix(data_2018.5.df)
+
+
 
 
 
@@ -125,50 +122,119 @@ library(mice)
 
 #voir le type de mes données
 summary(data_2018.5.df[,2:ncol(data_2018.5.df)])  #données sont des character donc changer en numérique
-
+str(data_2018.5.df)
 #changement type character en numeric
 
-library(dplyr)
+#source :  https://stackoverflow.com/questions/37707060/converting-data-frame-column-from-character-to-numeric/37707117
+#pour convertir les colonnes 1 by 1 en numeric
+#------------> yyz$b <- as.numeric(as.character(yyz$b))
 
-x <- colnames(data_2018.5.df)
+data_2018.5.df$EBITDA_MARGIN <- as.numeric(as.character(data_2018.5.df$EBITDA_MARGIN)) 
 
-as.vector(x)
+#pour onvertir toutes les colonnes en une seule fois en numeric
+#------------> yyz[] <- lapply(yyz, function(x) as.numeric(as.character(x)))
 
-#quand je fais select(PROF_MARGIN)%>%  ça marche
-
-
-  data_2018.5.df %>%
-  select(GEO_GROW_TOT_ASSET)%>%
-  unlist()%>%
-  class()
-
-
-
-  
-  data_2018.5.df %>%
-    select(starts_with("PROF_MARGIN"))%>%
-    select(ends_with("GEO_GROW_TOT_ASSET"))%>%
-    unlist()%>%
-    class()
-  
-
-mean(data_2018.5.df$EBITDA_TO_REVENUE) # see message d'erreur
+data_2018.5.df[,-1] <- lapply(data_2018.5.df[,-1], function(x) as.numeric(as.character(x)))
 
 summary(data_2018.5.df)
 
+# convertir colonne RATINGS en factor
+is.factor(data_2018.5.df$RATINGS)
+
+data_2018.5.df$RATINGS <- as.factor(data_2018.5.df$RATINGS)
+
+summary(data_2018.5.df)
+dim(data_2018.5.df)
 
 
-summary(data_2018.5.df[-1])
+# y a t'il des NA sur EBITDA_MARGIN et ou se trouvent t'ils
+any(is.na(data_2018.5.df$EBITDA_MARGIN))
+which(is.na(data_2018.5.df$EBITDA_MARGIN))
 
-str(data_2018.5.df)
+# exple remplacer par la moyenne toutes les rows vide par exple pour EBITDA_MARGIN
+#---> data_2018.5.df$EBITDA_MARGIN[which(is.na(data_2018.5.df$EBITDA_MARGIN))] <- mean(data_2018.5.df$EBITDA_MARGIN, na.rm = TRUE)
+
+#---> which(is.na(data_2018.5.df$EBITDA_MARGIN))
+#---> any(is.na(data_2018.5.df$EBITDA_MARGIN))
 
 
 
+#continuons avec mice pour remplacer NA value : imputation
+
+# pour savoir les différentes méthodes d'imputation qui exixste sur mice 
+#---> methods(mice)
+
+
+#créons un new dataset pour mice
+data_2018.6.df <- data_2018.5.df
+
+summary(data_2018.6.df)
+
+
+#=============================================================================
+
+#lorsque je l'ai fait la premiere fois ça n'a pas marché pour certaine variables
+
+#car colinéaire à un autre : solution : remove.collinear = FALSE
+
+#car leur min -33 000 trés démesuré par rapport au max +90 pour la
+#firme numéro 13 donc must delete this firme pour que ça soit cohérent
+
+#dans la ligne 105 aussi on retrouve la même chose
+
+#il en rete toujours car il est collinéaire avec un autre donc solution
+# remove.collinear = FALSE
+#=============================================================================
+
+
+#créons un new dataset ou l'on delete firmes à la ligne numero 13 et 105
+data_2018.6.df <- data_2018.6.df[c(-13, -105),]
+
+summary(data_2018.6.df)
+
+
+#pour maxit, plus c'est grand plus la prédiction est good, 
+# solution ne pas tenir compte de la colinéarité : remove.collinear = FALSE
+data_imputation <- mice(data_2018.6.df[-1], m=5, method = "pmm", maxit = 20, remove.collinear = TRUE)
+
+#apres le run, data_imputation n'est pas un database mais ce qui a permis de faire imputation
+
+summary(data_2018.6.df$RETURN_COM_EQY)
+
+data_imputation$imp$PROF_MARGIN
+
+final_clean_dataset <- complete(data_imputation, 5)
+
+#pour voir le nombre de loggedEven c--à-d les variables qui n'ont pas été traité par mice
+data_imputation$loggedEvents
+
+
+any(is.na(final_clean_dataset))
+
+colSums(final_clean_dataset)
+
+
+#il en restre toujours 2 not traité avec la colinéarité donc je le résoud en
+#ls remplaçant par la moyenne
+
+#identifions les
+summary(final_clean_dataset) 
+data_imputation$loggedEvents
+
+
+final_clean_dataset$EBIT_TO_NET_SALES[which(is.na(final_clean_dataset$EBIT_TO_NET_SALES))] <- mean(final_clean_dataset$EBIT_TO_NET_SALES, na.rm = TRUE)
+final_clean_dataset$EBITDA_TO_REVENUE[which(is.na(final_clean_dataset$EBITDA_TO_REVENUE))] <- mean(final_clean_dataset$EBITDA_TO_REVENUE, na.rm = TRUE)
+
+
+any(is.na(final_clean_dataset)) 
 
 # Calculer pourcentage de data NA -----------------------------------------
 p <- function(x){sum(is.na(x))/length(x)*100}
-apply(data_2018.4.df, 2, p)
+apply(final_clean_dataset, 2, p)
 
+summary(final_clean_dataset)
+
+fix(final_clean_dataset)
 
 
 
@@ -180,22 +246,26 @@ apply(data_2018.4.df, 2, p)
 
 
 #####################################done!############################
-# mardi : supprimer all lignes et col avec NA only sans other values
+# mardi 3 Nov : supprimer all lignes et col avec NA only sans other values
 ######################################################################
 
 
 #####################################done!############################
-# mercredi : (1)  delete doublons 
+# mercredi 4 Nov : (1)  delete doublons 
 ######################################################################
 
+
+
+
+#####################################done!############################
+# jeudi 5 Nov :  #(1.1)impute NA value avec mice, 
+######################################################################
 
 
 
 #*************OBJECTIF_AVANT_VENDREDI_BIEN-AVANCER*************************
 
-
-
-            #(1.1)impute NA value avec mice, 
+           
              # (2) convertir ratings, 
              # (3) constituer good ratios, (4) faire 1st régression
 ##################
