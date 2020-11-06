@@ -123,6 +123,8 @@ library(mice)
 #voir le type de mes données
 summary(data_2018.5.df[,2:ncol(data_2018.5.df)])  #données sont des character donc changer en numérique
 str(data_2018.5.df)
+
+
 #changement type character en numeric
 
 #source :  https://stackoverflow.com/questions/37707060/converting-data-frame-column-from-character-to-numeric/37707117
@@ -191,7 +193,7 @@ summary(data_2018.6.df)
 data_2018.6.df <- data_2018.6.df[c(-13, -105),]
 
 summary(data_2018.6.df)
-
+dim(data_2018.6.df)
 
 #pour maxit, plus c'est grand plus la prédiction est good, 
 # solution ne pas tenir compte de la colinéarité : remove.collinear = FALSE
@@ -231,11 +233,158 @@ any(is.na(final_clean_dataset))
 # Calculer pourcentage de data NA -----------------------------------------
 p <- function(x){sum(is.na(x))/length(x)*100}
 apply(final_clean_dataset, 2, p)
+md.pattern(final_clean_dataset)
+
+#pour plot NA value
+library(DataExplorer)
+plot_missing(final_clean_dataset)
+
 
 summary(final_clean_dataset)
 
-fix(final_clean_dataset)
 
+
+
+# convertir_les_ratings_en_valeur_numérique -------------------------------
+
+
+#ratings = Variable catégorielle ordonnée
+
+#j'ai 19 nivveaux donc 19 éléments différents et chacun je l'ai 1 ou plusieurs fois
+my_RATINGS <- data_2018.6.df$RATINGS
+my_RATINGS <- matrix(my_RATINGS)
+dim(my_RATINGS)
+
+
+
+
+
+#avant de le convertir en factor on doit faire les conversion
+# en grand groupe et en numerique sinon ça va inverser l'ordre
+#lors transformation en grd group et en numeric
+
+
+
+# conversion en grand groupe AAA, AA, A, BBB, BB, B, CCC
+# way [ http://www.duclert.org/r-vecteurs-operations/vecteurs-R.php  ]
+#test
+# ----> v <- c("a" = "A", "b" = "B", "c" = "C"); 
+# ----> v[c("a", "b", "b", "a", "c")] 
+
+
+grd_grp_rat <- c("AAA"="AAA", "AA+"="AA", "AA"="AA", "AA-"="AA",
+                 "A+"="A", "A"="A", "A-"="A",
+                 "BBB+"="BBB", "BBB"="BBB", "BBB-"="BBB",
+                 "BB+"="BB", "BB"="BB", "BB-"="BB",
+                 "B+"="B","B"="B","B-"="B",
+                 "CCC+"="CCC", "CCC"="CCC","CCC-"="CCC")
+
+my_rating_grd_grp <- grd_grp_rat[my_RATINGS]
+
+#pour voir si conversion bien fait / a my_RATINGS
+see <- matrix(my_rating_grd_grp)
+dim(see)
+
+
+
+
+# (1)convertir les rating en chiffres (en tenant compte investement et speculative grade)
+#conversion des grand groupe en valeur numerique 1, 2, 3, 4, 5, 6, 7
+
+
+grd_grp_num <- c("AAA"=1, "AA"=2,"A"=3,
+                 "BBB"=4,"BB"=5,"B"=6, "CCC"=7)
+
+my_rating_grd_num <- grd_grp_num[my_rating_grd_grp]
+
+#pour pouvoir comparer si good après conversion
+see_2 <- matrix(my_rating_grd_num)
+dim(see_2)
+
+
+
+#juste pour faire good plot
+
+see <- factor(see, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+a <- cbind(see, final_clean_dataset)
+
+library(dplyr)
+count_data <- a %>% 
+  count(see)
+
+
+#changer ordre bin
+ggplot(count_data, aes(x=see, y=n))+
+  geom_bar(stat = "identity", fill="gray16")+
+  geom_text(aes(label=n), vjust=-0.500)+
+  labs(x="Cote de crédit", u="Nombre d'observation",
+       title = "")
+  
+
+
+
+
+
+
+# cbind()_ratings_numérik_et_final_data ------------------------------------
+
+data_2018_avt_good_ratio <-cbind(my_rating_grd_num, final_clean_dataset)
+
+#plot see_2 pour voir hist des mes ratings
+
+# hist(data_2018_avt_good_ratio$my_rating_grd_num)
+
+
+
+library(ggplot2)
+
+ggplot(data_2018_avt_good_ratio,aes(x=my_rating_grd_num))+
+  geom_bar()  
+
+
+#Renommer all names en FR 
+
+
+
+
+
+
+
+
+#---------------------- a delete after done------------------
+#je peux même le mettre apès lors qu'il ne va rester que faire la régression
+#---------------------- a delete after done------------------
+
+
+#(2) définissons le niveau (levels) des facteurs précisant 
+#le level de chacun
+#permet de passer aux régressions
+# si on le transforme en facteur avant ça va réarranger l'ordre 
+#ajoutons un ordre au facteur my_rating_grd_num   # EN LEVER POUR L'INSTANT
+
+
+
+#---------------------- a delete after done------------------
+#on a déjà renommer col et rating en cote_crédit
+#on a déjà fait cbind() entre cte_crédit et data et call final data
+#dnc only colonne cote_credit qu'on met en facteur
+#---------------------- a delete after done------------------
+
+
+
+final_data <- factor(final_data$cote_crédit, ordered = TRUE)
+#(levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+#si on le met, ça reconverti tout en lettre
+
+#pour see sous forme matrice
+mat <- matrix(my_rating_grd_num_fac)
+
+class(my_rating_grd_num_fac) # classe
+typeof(my_rating_grd_num_fac) # sa nature
+
+#extraire le levels (19 différents)
+levels_ratings <- levels(my_rating_grd_num_fac)
+length(levels_ratings)
 
 
 
@@ -259,6 +408,7 @@ fix(final_clean_dataset)
 
 #####################################done!############################
 # jeudi 5 Nov :  #(1.1)impute NA value avec mice, 
+                 # (2) convertir ratings, 
 ######################################################################
 
 
@@ -266,6 +416,6 @@ fix(final_clean_dataset)
 #*************OBJECTIF_AVANT_VENDREDI_BIEN-AVANCER*************************
 
            
-             # (2) convertir ratings, 
+              # (2.2) Renommer all names en FR 
              # (3) constituer good ratios, (4) faire 1st régression
 ##################
