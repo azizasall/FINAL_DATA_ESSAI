@@ -60,6 +60,8 @@ ratings <- X454_ratings[5:nrow(X454_ratings) , 3]
 #cbind ratings et data_2018.2.df
 
 data_2018.2.df <- cbind(ratings, data_2018.2.df)
+dim(ratings)
+dim(data_2018.2.df)
 
 #renommer premiere colonne par RATINGS
 names(data_2018.2.df)[1] <- "RATINGS"
@@ -94,9 +96,29 @@ data_2018.3.df <- data_2018.2.df[rowSums(is.na(data_2018.2.df))<35,]
 #(1)calculer le nombre de NA par column pour avoir une visibiilité
 colSums(is.na(data_2018.3.df))
 
+
+#^^^^^^^^^^^^à delete si je veux^^^^^^^^^^^^
+#_____Pour_see_/_à_after_mice_nbr_NA_227_____
+p_1 <- matrix(data_2018.3.df$TOT_MKT_VAL)
+
+
+
+
+# est-ce que je ne peux pas faire la même chose "mice" pour un ratio de vol
+# avec beaucoup de NA exple pour BEST_EBIT STDDEV
+#ou garder le seul que j'ai applied beta ? 
+
+#BEST_EBIT_STDDEV beaucoup de NA donc garder celui que j'ai et travailler avec
+check <- matrix(data_2018.3.df$BEST_EBIT_STDDEV)
+
+
+
+
 #(2) constituer une new database qui ne tient compte que des colonnes
 #avec moins de 228 NA values (pour savoir le nombre : étape 1)
 
+#calcul la somme des NA sur les colonnes et les colonne dont la somme
+#des NA est supérieure à 228 ne les prends pas en compte
 data_2018.4.df <- data_2018.3.df[ ,colSums(is.na(data_2018.3.df))<228]
 dim(data_2018.4.df) # il me reste 24 variables
 
@@ -213,7 +235,22 @@ data_imputation$loggedEvents
 
 any(is.na(final_clean_dataset))
 
-colSums(final_clean_dataset)
+colSums(final_clean_dataset) #qd y a NA colSums return NA pour colonne avec NA
+
+colSums(is.na(final_clean_dataset))
+
+
+
+
+
+#^^^^^^^^^^^^à delete si je veux^^^^^^^^^^^^
+#_____Pour_see_/_à_after_mice_nbr_NA_avant_227_____
+p_2 <- matrix(final_clean_dataset$TOT_MKT_VAL)
+#fix(p_2)
+
+p_1
+
+
 
 
 #il en restre toujours 2 not traité avec la colinéarité donc je le résoud en
@@ -233,6 +270,10 @@ any(is.na(final_clean_dataset))
 # Calculer pourcentage de data NA -----------------------------------------
 p <- function(x){sum(is.na(x))/length(x)*100}
 apply(final_clean_dataset, 2, p)
+
+#ou 
+colSums(is.na(final_clean_dataset))
+
 md.pattern(final_clean_dataset)
 
 #pour plot NA value
@@ -304,7 +345,7 @@ dim(see_2)
 
 
 #juste pour faire good plot
-
+#on met factor en spécifiant l'ordre (le niveau de chaque factor)
 see <- factor(see, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
 a <- cbind(see, final_clean_dataset)
 
@@ -314,6 +355,10 @@ count_data <- a %>%
 
 
 #changer ordre bin
+
+dev.new() # permet de sortir le plot zoom de son cadre et si j'en écrit envore ça m'en sort un autre
+
+library(ggplot2)
 ggplot(count_data, aes(x=see, y=n))+
   geom_bar(stat = "identity", fill="gray16")+
   geom_text(aes(label=n), vjust=-0.500)+
@@ -330,61 +375,104 @@ ggplot(count_data, aes(x=see, y=n))+
 
 data_2018_avt_good_ratio <-cbind(my_rating_grd_num, final_clean_dataset)
 
-#plot see_2 pour voir hist des mes ratings
-
-# hist(data_2018_avt_good_ratio$my_rating_grd_num)
-
-
-
-library(ggplot2)
-
-ggplot(data_2018_avt_good_ratio,aes(x=my_rating_grd_num))+
-  geom_bar()  
-
-
-#Renommer all names en FR 
 
 
 
 
+# constituer good ratio ---------------------------------------------------
+
+#je peux use tidyverse plutot commode
+library(dplyr)  # database : data_2018_avt_good_ratio
+data_2018_with_good_ratio <- data_2018_avt_good_ratio%>%
+  mutate(ratio_tot_liab_sur_tot_actif=BS_TOTAL_LIABILITIES/BS_TOT_ASSET,
+         ratio_B_non_rep_sur_Tot_actif = BS_PURE_RETAINED_EARNINGS/BS_TOT_ASSET,
+         ratio_Flux_de_TR_expl_sur_passif_cour = CF_CASH_FROM_OPER/BS_CUR_LIAB,
+         ratio_Fonds_de_roulement = WORKING_CAPITAL/BS_TOT_ASSET,
+         ratio_val_marchd_tot_sur_tot_actif =TOT_MKT_VAL/BS_TOT_ASSET)
+
+colnames(data_2018_with_good_ratio)
+
+length(colnames(data_2018_with_good_ratio))
+
+
+
+### {quand puis je dire que ces elements sont déterminants des ratings des firmes canadienne?}
+### est-ce qand c'est good R_square ??? ==> voir solution Amdoumi
 
 
 
 
-#---------------------- a delete after done------------------
-#je peux même le mettre apès lors qu'il ne va rester que faire la régression
-#---------------------- a delete after done------------------
+# Renommer all names en FR  -----------------------------------------------
 
+nom_col <- colnames(data_2018_with_good_ratio)
+length(nom_col)
 
-#(2) définissons le niveau (levels) des facteurs précisant 
-#le level de chacun
-#permet de passer aux régressions
-# si on le transforme en facteur avant ça va réarranger l'ordre 
-#ajoutons un ordre au facteur my_rating_grd_num   # EN LEVER POUR L'INSTANT
-
-
-
-#---------------------- a delete after done------------------
-#on a déjà renommer col et rating en cote_crédit
-#on a déjà fait cbind() entre cte_crédit et data et call final data
-#dnc only colonne cote_credit qu'on met en facteur
-#---------------------- a delete after done------------------
+nom_col_good <- c("Cote_crédit", "Marge_Bénéficiaire", "Marge_sur_EBITDA",
+                  "EBITDA_sur_Revenu", "Marge_sur_EBIT", "Rendement_sur_cap_prop",
+                  "Rendement_sur_actif", "Dette_LT", "Total_passif",
+                  "Total_actif", "Bénéfice_non_rep", "Trésorie d'exp",
+                  "Passif_courant", "ratio_ben_avt_impot_sur_frais_int", "ratio_tot_dette_sur_tot_actif", "ratio_actuel",
+                  "Ratio_de_liquid_réduite", "Ratio_de_liquidité", "Fonds_roulement",
+                  "Ratio_Fonds_de_roulmt_sur_ventes", "Marge_d_explt", "Valeur_marchd_tot",
+                  "Beta_applique", "Croissance_rev_adjuste", "croissance_geom_des_actifs",
+                  "ratio_tot_liab_sur_tot_actif", "ratio_B_non_rep_sur_Tot_actif", "ratio_Flux_de_TR_expl_sur_passif_cour",
+                  "ratio_Fonds_de_roulement", "ratio_val_marchd_tot_sur_tot_actif")
 
 
 
-final_data <- factor(final_data$cote_crédit, ordered = TRUE)
-#(levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
-#si on le met, ça reconverti tout en lettre
+length(nom_col_good)
 
-#pour see sous forme matrice
-mat <- matrix(my_rating_grd_num_fac)
 
-class(my_rating_grd_num_fac) # classe
-typeof(my_rating_grd_num_fac) # sa nature
+#juste pour des fins de comparaisons
 
-#extraire le levels (19 différents)
-levels_ratings <- levels(my_rating_grd_num_fac)
-length(levels_ratings)
+matrice_comparaison_nom_var <- matrix(c(nom_col,nom_col_good), 30, 2)
+
+fix(matrice_comparaison_nom_var)
+
+
+
+# renommer variables ------------------------------------------------------
+
+#pour ne pas avoir nom colonne les mêmes 
+data_2018_with_good_ratio.1 <- data_2018_with_good_ratio
+
+
+colnames(data_2018_with_good_ratio.1) <- nom_col_good
+
+
+
+# extrraire database avec bons ratios only ---------------------------------
+
+library(dplyr)
+bon_variables <- data_2018_with_good_ratio.1%>%
+  select(Cote_crédit, Marge_Bénéficiaire, Marge_sur_EBITDA,
+         Marge_sur_EBIT, Rendement_sur_cap_prop, Rendement_sur_actif,
+         ratio_tot_liab_sur_tot_actif, ratio_B_non_rep_sur_Tot_actif,
+         ratio_Flux_de_TR_expl_sur_passif_cour, ratio_ben_avt_impot_sur_frais_int,
+         ratio_tot_dette_sur_tot_actif, ratio_actuel, Ratio_de_liquid_réduite, ratio_Fonds_de_roulement,
+         Ratio_de_liquidité, Ratio_Fonds_de_roulmt_sur_ventes, Total_actif,
+         Marge_d_explt, ratio_val_marchd_tot_sur_tot_actif, Beta_applique)
+
+
+
+
+
+# REGRESSION AVEC bon_variables -------------------------------------------
+
+# si c'était rating 2020 et ratio data 2019 j'allait pour faire rég
+ # ou rating 2019 et ratio data 2018
+
+bon_variables$Cote_crédit <- factor(bon_variables$Cote_crédit)
+class(bon_variables$Cote_crédit)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -398,13 +486,9 @@ length(levels_ratings)
 # mardi 3 Nov : supprimer all lignes et col avec NA only sans other values
 ######################################################################
 
-
 #####################################done!############################
 # mercredi 4 Nov : (1)  delete doublons 
 ######################################################################
-
-
-
 
 #####################################done!############################
 # jeudi 5 Nov :  #(1.1)impute NA value avec mice, 
@@ -412,10 +496,24 @@ length(levels_ratings)
 ######################################################################
 
 
+#####################################done!############################
+# Vendredi 6 Nov : # (3) constituer good ratios 
+                   # (2.2) Renommer all names en FR 
+
+######################################################################
+
+
+
+
 
 #*************OBJECTIF_AVANT_VENDREDI_BIEN-AVANCER*************************
 
-           
-              # (2.2) Renommer all names en FR 
-             # (3) constituer good ratios, (4) faire 1st régression
+                               # faire data 2019 (samedi)
+              
+                              #, (4) faire 1st régression (ici j'ai rating 2020)
+                                      # ratings 2020 data (ratios) fin year 2019    # faire attention société to delete en fonction data dispo sur base de données
+                                      # ratings 2018 data (ratios) fin year 2018
 ##################
+
+
+                                     # faire back test pour see si modèle tient
