@@ -43,7 +43,9 @@ colnames(data_2018.2.df)
 
 
 
-
+#***********a changer par rating 2019**************
+#**************************************************
+#**************************************************
 # importer_ratings --------------------------------------------------------
 
 library(readxl)
@@ -120,7 +122,7 @@ check <- matrix(data_2018.3.df$BEST_EBIT_STDDEV)
 #calcul la somme des NA sur les colonnes et les colonne dont la somme
 #des NA est supérieure à 228 ne les prends pas en compte
 data_2018.4.df <- data_2018.3.df[ ,colSums(is.na(data_2018.3.df))<228]
-dim(data_2018.4.df) # il me reste 24 variables
+dim(data_2018.4.df) # il me reste 25 variables
 
 
 
@@ -131,6 +133,7 @@ x <- colnames(data_2018.4.df)
 
 # Delete_duplicate_ou_doublons_en_FR --------------------------------------
 
+#ça me laisse seulement le 1er des éléments dupliqués
 data_2018.5.df <- data_2018.4.df[!duplicated(data_2018.4.df[c("PROF_MARGIN", "EBITDA_MARGIN")]),]
 dim(data_2018.5.df)
 
@@ -219,6 +222,7 @@ dim(data_2018.6.df)
 
 #pour maxit, plus c'est grand plus la prédiction est good, 
 # solution ne pas tenir compte de la colinéarité : remove.collinear = FALSE
+library(mice)
 data_imputation <- mice(data_2018.6.df[-1], m=5, method = "pmm", maxit = 20, remove.collinear = TRUE)
 
 #apres le run, data_imputation n'est pas un database mais ce qui a permis de faire imputation
