@@ -600,23 +600,64 @@ fix(bon_variables)
 #extraire base de donneés sur excel
 
 #write.csv(my_extract_data, file = "data_base_2018") # on fait l'extraction 
-write.csv(bon_variables, file = "ma_base_de_donnees_2019.csv") # si on oublie le .csv le dossier ne sera pas dans le wd
+
+#------> write.csv(bon_variables, file = "ma_base_de_donnees_2019.csv") # si on oublie le .csv le dossier ne sera pas dans le wd
 
 
 
 
 # REGRESSION AVEC bon_variables -------------------------------------------
 
+#*** travailler now avec base de données car à chaque relance des 
+#*** codes en haut j'ai une nouvelle base de données à cause du mice
+
+#*** Donc new fichier R nommé REG ou j'importe mas base de données
+#*** 
+
 # si c'était rating 2020 et ratio data 2019 j'allait pour faire rég
 # ou rating 2019 et ratio data 2019
 
-bon_variables$Cote_crédit <- factor(bon_variables$Cote_crédit)
+bon_variables$Cote_crédit <- as.factor(bon_variables$Cote_crédit)
 class(bon_variables$Cote_crédit)
+levels(bon_variables$Cote_crédit)
 
+str(bon_variables)
 summary(bon_variables)
+cor(bon_variables[,-1])
+
+
+#je fais la régression de investement grade (firme d'investissement)
+# en fonction de spéculative grade (firme spéculative)
+
+library(nnet)
+
+#indiquons le levels de reférence
+#pour moi investement grade donc 1, 2, 3, 4
+bon_variables$Cote_crédit <- relevel(bon_variables$Cote_crédit, ref = "1") #car me dit que ref doit être de longueur 1
+
+my_model <- multinom(Cote_crédit~., data = bon_variables)
+summary(my_model)
 
 
 
+#
+
+
+
+
+#Partition data pour sortir un échantillon
+#not dans ce cas car mon échantillon test est dans data 2018 et ratings 2019
+#mais juste pour know comment le faire
+#donc pour cela on partition les données 
+set.seed(222)
+
+bon_variables_tets <- bon_variables
+
+sample_test <- sample(2, nrow(bon_variables_tets),
+                      replace = TRUE,
+                      prob = c(0.7, 0.3)) #la probabilité : &er database 70% et 2nd database 30% data
+sample_training_test <- bon_variables_tets[sample_test==1,]
+sampe_testing_test <- bon_variables_tets[sample_test==2,]
 
 
 
