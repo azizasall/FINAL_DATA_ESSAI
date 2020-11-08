@@ -597,6 +597,12 @@ bon_variables <- data_2019_with_good_ratio.1%>%
 fix(bon_variables)
 
 
+#extraire base de donneés sur excel
+
+#write.csv(my_extract_data, file = "data_base_2018") # on fait l'extraction 
+write.csv(bon_variables, file = "ma_base_de_donnees_2019.csv") # si on oublie le .csv le dossier ne sera pas dans le wd
+
+
 
 
 # REGRESSION AVEC bon_variables -------------------------------------------
@@ -607,7 +613,7 @@ fix(bon_variables)
 bon_variables$Cote_crédit <- factor(bon_variables$Cote_crédit)
 class(bon_variables$Cote_crédit)
 
-
+summary(bon_variables)
 
 
 
