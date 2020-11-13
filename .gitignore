@@ -3,3 +3,8 @@
 .RData
 .Ruserdata
 ma_base_de_donnees_2019 - Copie_pour_check.csv
+test_good_var_avec_char_rating.R
+test_good_var_avec_char_rating.csv
+test_ratings_en_lettre.csv
+test_reg_de_la_fille_video_même_chose_CRAN_same_data_format.R
+Test_not_commit

@@ -442,6 +442,9 @@ dim(see)
 fix(see)
 
 
+
+
+
 # (1)convertir les rating en chiffres (en tenant compte investement et speculative grade)
 #conversion des grand groupe en valeur numerique 1, 2, 3, 4, 5, 6, 7
 
@@ -461,6 +464,14 @@ dim(see_2)
 #on met factor en spécifiant l'ordre des levels (le niveau de chaque factor)
 see <- factor(see, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
 a <- cbind(see, final_clean_dataset.2) # car j'ai besoin que ça soit une base de données pour pouvoir le manipuler dans dplyr et dans ggplot
+
+
+
+#pour tester quelque chose
+#write.csv(a, file = "test_good_var_avec_char_rating.csv") # si on oublie le .csv le dossier ne sera pas dans le wd
+
+
+
 
 library(dplyr)
 count_data <- a %>% 
