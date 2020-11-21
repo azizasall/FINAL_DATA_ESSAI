@@ -71,13 +71,7 @@ dim(ratings)
 dim(data_2019.2.df)
 
 #renommer premiere colonne par RATINGS
-names(data_2019.2.df)[1] <- "RATINGS"
-
-
-
-
-
-# suppression_des_rows_with_not_data ---------------------------------
+names(data_2019.2.df)[1] <- "RATINGS"# suppression_des_rows_with_not_data ---------------------------------
 
 #je sais que j'ai 35 variables donc je construit une new database sans
 #les rows (firmes) qui ont 35 données manquantes donc qui n'ont aucune donnée
@@ -266,7 +260,7 @@ fix(data_2019.6.df)
 # solution ne pas tenir compte de la colinéarité : remove.collinear = FALSE
 
 #identifier la liste des colonnes sans NA value pour ne pas en tenir compte dans imputation de mice
-which(colSums(is.na(data_2019.6.df))==0)
+which(colSums(is.na(data_2019.6.df))==0) # col 1,6, 8, 10, 13, 19
 
 
 library(mice)
@@ -362,6 +356,7 @@ dim(data_2019.6.df)      #22 variables
 
 final_clean_dataset.2 <- cbind(final_clean_dataset, data_2019.6.df[,c(6, 8, 10, 13, 19)])
 dim(final_clean_dataset.2)
+fix(final_clean_dataset.2)
 
 #vérifions si toutes les variables sont présentes
 colnames(final_clean_dataset.2)==colnames(data_2019.6.df)
@@ -454,6 +449,8 @@ grd_grp_num <- c("AAA"=1, "AA"=2,"A"=3,
 
 my_rating_grd_num <- grd_grp_num[my_rating_grd_grp]
 
+as.factor(my_rating_grd_grp)
+
 #pour pouvoir comparer si good après conversion
 see_2 <- matrix(my_rating_grd_num)
 dim(see_2)
@@ -468,7 +465,8 @@ a <- cbind(see, final_clean_dataset.2) # car j'ai besoin que ça soit une base de
 
 
 #pour tester quelque chose
-#write.csv(a, file = "test_good_var_avec_char_rating.csv") # si on oublie le .csv le dossier ne sera pas dans le wd
+# a not good nom en français
+#write.csv(a, file = "ma_base_de_donnees_2019_rating_char.csv") # si on oublie le .csv le dossier ne sera pas dans le wd
 
 
 
@@ -615,6 +613,14 @@ fix(bon_variables)
 #------> write.csv(bon_variables, file = "ma_base_de_donnees_2019.csv") # si on oublie le .csv le dossier ne sera pas dans le wd
 
 
+
+
+
+
+# Pour faire extraction aussi avec rating en character
+
+bon_variables_2 <- cbind(my_rating_grd_grp, bon_variables)
+#------> write.csv(bon_variables_2, file = "ma_base_de_donnees_2019_rating_char_&_num.csv") # si on oublie le .csv le dossier ne sera pas dans le wd
 
 
 # REGRESSION AVEC bon_variables -------------------------------------------
