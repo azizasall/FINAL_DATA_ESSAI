@@ -1,11 +1,24 @@
 ################################################################################
-# CHANGER DATA 2018 PAR 2019
+# DATA BASE POUR 
+# 2000, 
+# pick entre les 2, 
+# 2007, 
+# 2008, 
+# 2009, 
+# pick entre les 2 , 
+#2019
 
-# Deja checked pas identique les data 2018 et 2019
+
 
 
 
 rm(list = ls())
+
+
+
+library(DataExplorer)    #plot_missing()  fait le plot par colonne
+
+
 
 # import_data -------------------------------------------------------------
 
@@ -14,77 +27,358 @@ X454_data_Copie <- read_excel("C:/Users/aziza/Desktop/Session_3/Projet de fin d'
                               col_names = FALSE)
 View(X454_data_Copie)
 
+
+
+
+
 data.1 <- X454_data_Copie[3:23 ,4:ncol(X454_data_Copie)]
 
-
+View(data.1)
 
 # extraction_variables_names ----------------------------------------------------
 
 variables_names <- X454_data_Copie[3,5:39]
+dim(variables_names)
 
-# select _2019_data -------------------------------------------------------
+# pour résoudre problème variables_names, le fait qu'il commence à compter à partir de 5
+# et donc lorsqu'on le ajoute rating qu'il en ajoute 4 de plus
+variables_names <- matrix(variables_names, 1,35)
 
+
+
+# select _2000_2007_2008_2009_2016_2018_2019_data -------------------------------------------------------
+
+#fix(data.1)
+
+data_2000 <- data.1[21,]
+data_2007 <- data.1[14,]
+data_2008 <- data.1[13,]
+data_2009 <- data.1[12,]
+data_2016 <- data.1[5,]
+data_2018 <- data.1[3,]
 data_2019 <- data.1[2,]
 
+#fix(data_2000)
+
+
+#chech qu'il sont bon
+View(data_2000)
+View(data_2007)
+View(data_2008)
+View(data_2009)
+View(data_2016)
+View(data_2018)
+View(data_2019)
+
+
+
+data_2000.1 <- data_2000[,2:ncol(data_2000)]
+data_2007.1 <- data_2007[,2:ncol(data_2007)]
+data_2008.1 <- data_2008[,2:ncol(data_2008)]
+data_2009.1 <- data_2009[,2:ncol(data_2009)]
+data_2016.1 <- data_2016[,2:ncol(data_2016)]
+data_2018.1 <- data_2018[,2:ncol(data_2018)]
 data_2019.1 <- data_2019[,2:ncol(data_2019)]
 
+dim(data_2000.1)
 
 
 
 #j'ai 35 ratios
+View(data_2000.1)
 
+data_2000.2 <- matrix(data_2000.1, 410, 35, byrow = TRUE)
+data_2007.2 <- matrix(data_2007.1, 410, 35, byrow = TRUE)
+data_2008.2 <- matrix(data_2008.1, 410, 35, byrow = TRUE)
+data_2009.2 <- matrix(data_2009.1, 410, 35, byrow = TRUE)
+data_2016.2 <- matrix(data_2016.1, 410, 35, byrow = TRUE)
+data_2018.2 <- matrix(data_2018.1, 410, 35, byrow = TRUE)
 data_2019.2 <- matrix(data_2019.1, 410, 35, byrow = TRUE)
 
-#ajout nom variables
-
-colnames(data_2019.2) <- variables_names
 
 
+
+
+
+
+
+data_2000.2.df <- as.data.frame(data_2000.2)
+dim(data_2000.2.df)
+View(data_2000.2.df)
+fix(data_2000.2.df)
+
+data_2007.2.df <- as.data.frame(data_2007.2)
+dim(data_2007.2.df)
+
+data_2008.2.df <- as.data.frame(data_2008.2)
+dim(data_2008.2.df)
+
+data_2009.2.df <- as.data.frame(data_2009.2)
+dim(data_2009.2.df)
+
+data_2016.2.df <- as.data.frame(data_2016.2)
+dim(data_2016.2.df)
+
+data_2018.2.df <- as.data.frame(data_2018.2)
+dim(data_2018.2.df)
 
 data_2019.2.df <- as.data.frame(data_2019.2)
 dim(data_2019.2.df)
 
+
+
+
+
+library(DataExplorer)
+plot_missing(data_2000.2.df)
+plot_missing(data_2007.2.df)
+plot_missing(data_2008.2.df)
+plot_missing(data_2009.2.df)
+plot_missing(data_2016.2.df)
+plot_missing(data_2018.2.df)
+plot_missing(data_2019.2.df)
+
+
+
+
+
+colSums(is.na(data_2000.2.df))
+colSums(is.na(data_2007.2.df))
+colSums(is.na(data_2008.2.df))
+colSums(is.na(data_2009.2.df))
+colSums(is.na(data_2016.2.df))
+colSums(is.na(data_2018.2.df))
 colSums(is.na(data_2019.2.df))
 
+
+
+
+
+
+colnames(data_2000.2.df)
+colnames(data_2007.2.df)
+colnames(data_2008.2.df)
+colnames(data_2009.2.df)
+colnames(data_2016.2.df)
+colnames(data_2018.2.df)
 colnames(data_2019.2.df)
 
 
 
+# Package DataExplorer
 
-# importer_ratings_2020 --------------------------------------------------------
+
+#plot_missing(as.numeric(as.character(data_2000.2.df)))
+
+
+
+# importer_ratings_2000_2007_2008_2009_2016_2018_2019 --------------------------------------------------------
+# From doc SDM
+
 
 library(readxl)
-X454_ratings <- read_excel("C:/Users/aziza/Desktop/Session_3/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/454_ratings.xlsx", 
+ratings_SDM <- read_excel("C:/Users/aziza/Desktop/Session_3/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/SDM_ratings_2020-12-18-Elhadji-Adbou-Aziz-Sall_a_jour.xlsx", 
                            col_names = FALSE)
-View(X454_ratings)
+View(ratings_SDM)
+
+
 
 
 #extraction ratings
-ratings <- X454_ratings[5:nrow(X454_ratings) , 3]
+ratings_2000 <-matrix(ratings_SDM[9, 3:ncol(ratings_SDM)],410,1)
+ratings_2000 <- data.frame(ratings_2000)
+
+
+View(ratings_2000)
+dim(ratings_2000)
+
+
+
+ratings_2007 <-matrix(ratings_SDM[16, 3:ncol(ratings_SDM)],410,1)
+ratings_2007 <- data.frame(ratings_2007)
+
+ratings_2008 <-matrix(ratings_SDM[17, 3:ncol(ratings_SDM)],410,1)
+ratings_2008 <- data.frame(ratings_2008)
+
+ratings_2009 <-matrix(ratings_SDM[18, 3:ncol(ratings_SDM)],410,1)
+ratings_2009 <- data.frame(ratings_2009)
+
+ratings_2016 <-matrix(ratings_SDM[25, 3:ncol(ratings_SDM)],410,1)
+ratings_2016 <- data.frame(ratings_2016)
+
+ratings_2018 <-matrix(ratings_SDM[27, 3:ncol(ratings_SDM)],410,1)
+ratings_2018 <- data.frame(ratings_2018)
+
+ratings_2019 <-matrix(ratings_SDM[28, 3:ncol(ratings_SDM)],410,1)
+ratings_2019 <- data.frame(ratings_2019)
+
+
+
+
+
+# TO DELETE
+#ratings_2007 <- ratings_SDM[16, 3:ncol(ratings_SDM)]
+#ratings_2008 <- ratings_SDM[17, 3:ncol(ratings_SDM)]
+#ratings_2009 <- ratings_SDM[18, 3:ncol(ratings_SDM)]
+#ratings_2016 <- ratings_SDM[25, 3:ncol(ratings_SDM)]
+#ratings_2018 <- ratings_SDM[27, 3:ncol(ratings_SDM)]
+#ratings_2019 <- ratings_SDM[28, 3:ncol(ratings_SDM)]
+
 
 
 
 #cbind ratings et data_2019.2.df
 
-data_2019.2.df <- cbind(ratings, data_2019.2.df)
-dim(ratings)
-dim(data_2019.2.df)
+data_2000.2.df_rat <- cbind(ratings_2000, data_2000.2.df)
+View(data_2000.2.df_rat)
+fix(data_2000.2.df_rat)
+dim(data_2000.2.df_rat)
 
-#renommer premiere colonne par RATINGS
-names(data_2019.2.df)[1] <- "RATINGS"# suppression_des_rows_with_not_data ---------------------------------
 
-#je sais que j'ai 35 variables donc je construit une new database sans
+
+data_2007.2.df_rat <- cbind(ratings_2007, data_2007.2.df)
+data_2008.2.df_rat <- cbind(ratings_2008, data_2008.2.df)
+data_2009.2.df_rat <- cbind(ratings_2009, data_2009.2.df)
+data_2016.2.df_rat <- cbind(ratings_2016, data_2016.2.df)
+data_2018.2.df_rat <- cbind(ratings_2018, data_2018.2.df)
+data_2019.2.df_rat <- cbind(ratings_2019, data_2019.2.df)
+
+
+fix(data_2019.2.df_rat)
+
+
+
+# suppression_des_rows_with_not_data ---------------------------------
+
+#je sais que j'ai 35 variables donc je construis une new database sans
 #les rows (firmes) qui ont 35 données manquantes donc qui n'ont aucune donnée
 #sur aucune variable
 
 #la somme des NA de chaque row dans la database
-rowSums(is.na(data_2019.2.df))
-colSums(is.na(data_2019.2.df))
+rowSums(is.na(data_2000.2.df_rat))
+rowSums(is.na(data_2007.2.df_rat))
+rowSums(is.na(data_2008.2.df_rat))
+rowSums(is.na(data_2009.2.df_rat))
+rowSums(is.na(data_2016.2.df_rat))
+rowSums(is.na(data_2018.2.df_rat))
+rowSums(is.na(data_2019.2.df_rat))
 
-#si on a plus de 35 NA on delete le row (sachant qu'on a 35 variables)
-data_2019.3.df <- data_2019.2.df[rowSums(is.na(data_2019.2.df))<35,]
 
+
+
+colSums(is.na(data_2019.2.df_rat))
+
+# on ne garder que les lignes dont la somme des NA est inférieur à 34 donc 33 et inf
+dim(data_2000.2.df_rat)
+
+
+
+
+
+# j'élimine que les lignes complètement vides 
+
+# et après avoir éliminer les colonnes complètement vide je vais le refaire cette partie por éliminer les lignes qui ont plus de la moitié des cases vides
+
+
+
+
+# si la somme des NA est inférieure à 36 on garde
+# si la somme des NA est = à 36 ou supérieur à 36 on delete line # ce qui veut dire que si j'ai only one élément dans la ligne je ne vais pas delete la ligne car composé de 36 colonnes
+data_2000.3.df <- data_2000.2.df_rat[rowSums(is.na(data_2000.2.df_rat))<36,]  
+rowSums(is.na(data_2000.3.df))
+dim(data_2000.3.df)
+
+fix(data_2000.3.df)
+
+
+dev.new() 
+plot_missing(data_2000.2.df_rat) # fait le plot par colonne 
+plot_missing(data_2000.3.df)
+
+
+
+
+data_2007.3.df <- data_2007.2.df_rat[rowSums(is.na(data_2007.2.df_rat))<36,]
+dim(data_2007.3.df)
+
+data_2008.3.df <- data_2008.2.df_rat[rowSums(is.na(data_2008.2.df_rat))<36,]
+dim(data_2008.3.df)
+
+data_2009.3.df <- data_2009.2.df_rat[rowSums(is.na(data_2009.2.df_rat))<36,]
+dim(data_2009.3.df)
+
+data_2016.3.df <- data_2016.2.df_rat[rowSums(is.na(data_2016.2.df_rat))<36,]
+dim(data_2016.3.df)
+
+data_2018.3.df <- data_2018.2.df_rat[rowSums(is.na(data_2018.2.df_rat))<36,]
+dim(data_2018.3.df)
+
+data_2019.3.df <- data_2019.2.df_rat[rowSums(is.na(data_2019.2.df_rat))<36,]
 dim(data_2019.3.df)
+
+
+rowSums(is.na(data_2018.3.df))
+rowSums(is.na(data_2000.3.df))
+
+
+
+fix(data_2000.3.df)
+dim(data_2000.3.df)
+
+
+
+
+ncol(data_2000.3.df)
+
+dim(variables_names)
+
+
+
+# just pour le plot quand on pput name pour que ça marche on plot " data_2019.3.df_2 "
+
+data_2000.3.df_2 <- data_2000.3.df
+data_2007.3.df_2 <- data_2007.3.df
+data_2008.3.df_2 <- data_2008.3.df
+data_2009.3.df_2 <- data_2009.3.df
+data_2016.3.df_2 <- data_2016.3.df
+data_2018.3.df_2 <- data_2018.3.df
+data_2019.3.df_2 <- data_2019.3.df
+
+
+
+
+#ajout nom variables
+
+#ajout rating dans la liste
+variables_names_2 <- c("RATINGS", variables_names)
+dim(variables_names_2)
+
+colnames(data_2000.3.df) <- variables_names_2
+fix(data_2000.3.df)
+
+head(variables_names_2)
+tail(variables_names_2)
+
+
+colnames(data_2007.3.df) <- variables_names_2
+colnames(data_2008.3.df) <- variables_names_2
+colnames(data_2009.3.df) <- variables_names_2
+colnames(data_2016.3.df) <- variables_names_2
+colnames(data_2018.3.df) <- variables_names_2
+colnames(data_2019.3.df) <- variables_names_2
+
+dim(data_2007.3.df)
+
+
+
+data_2000.3.df_x <- data_2000.3.df
+
+
+
+
+
+
+
 
 
 
@@ -96,14 +390,50 @@ dim(data_2019.3.df)
 
 #SOLUTION
 
-#(1)calculer le nombre de NA par column pour avoir une visibiilité
+#(1)calculer le nombre de NA par column pour avoir une visibiilité 
+
+# pour see plot_missing le data_2019.3.df_2 donc le _2 car the same 
+# data_2000.3.df_2 = data_2000.3.df (avant qu'on ajoute noms col)
+
+dev.new()
+plot_missing(data_2000.3.df_2) # pour see le nb de cellule vide par colonne
+colSums(is.na(data_2000.3.df))  # pour voir le nombre
+dim(data_2000.3.df) # 256 -> 100 donc 60% -> 153 : car je vais delete all colonne avec plus de 60% NA
+# donc c'est 153 que je vais mettre dans next step ou l'on ne tient pas compte des colonne avec plus de
+# 153 celulles vides
+
+
+plot_missing(data_2007.3.df_2)
+colSums(is.na(data_2007.3.df))
+dim(data_2007.3.df) # 351 -> 100 donc 60% -> 210
+
+
+plot_missing(data_2008.3.df_2)
+colSums(is.na(data_2008.3.df))
+dim(data_2008.3.df) # 355 -> 100 donc 60% -> 213
+
+plot_missing(data_2009.3.df_2)
+colSums(is.na(data_2009.3.df))
+dim(data_2009.3.df) # 363 -> 100 donc 60% -> 217
+
+plot_missing(data_2016.3.df_2)
+colSums(is.na(data_2016.3.df))
+dim(data_2016.3.df) # 403 -> 100 donc 60% -> 241
+
+plot_missing(data_2018.3.df_2)
+colSums(is.na(data_2018.3.df))
+dim(data_2018.3.df)# 406 -> 100 donc 60% -> 243
+
+plot_missing(data_2019.3.df_2)
 colSums(is.na(data_2019.3.df))
+dim(data_2019.3.df)# 407 -> 100 donc 60% -> 243
 
 
 #^^^^^^^^^^^^Not need pour 2019 ça va sauter comme PROFIT MARGIN^^^^^^^^^^^^
 #^^^^^^^^^^^^à delete si je veux^^^^^^^^^^^^
 #_____Pour_see_/_à_after_mice_nbr_NA_227_____
-p_1 <- matrix(data_2019.3.df$TOT_MKT_VAL)
+
+#p_1 <- matrix(data_2019.3.df$TOT_MKT_VAL)
 
 
 
@@ -113,7 +443,13 @@ p_1 <- matrix(data_2019.3.df$TOT_MKT_VAL)
 #ou garder le seul que j'ai applied beta ? 
 
 #BEST_EBIT_STDDEV beaucoup de NA donc garder celui que j'ai et travailler avec
-check <- matrix(data_2019.3.df$BEST_EBIT_STDDEV)
+
+#check <- matrix(data_2019.3.df$BEST_EBIT_STDDEV)
+
+
+
+
+
 
 
 
@@ -125,12 +461,190 @@ check <- matrix(data_2019.3.df$BEST_EBIT_STDDEV)
 #des NA est supérieure à 228 ne les prends pas en compte
 #x <- y[, colSums(is.na(y))<220]
 
-data_2019.4.df <- data_2019.3.df[ ,colSums(is.na(data_2019.3.df))<220]
-dim(data_2019.4.df) # 2018 il me reste 25 variables
-                    # 2019 il me reste 23 variables
+
+#je vais me baser pour chaque data base en fonction du nombre de Ratings
 
 
-x <- colnames(data_2019.4.df)
+
+# le nombre 153 représente 60% de la base de données 2000. Voir step en haut
+data_2000.4.df_x <- data_2000.3.df[ ,colSums(is.na(data_2000.3.df))<153] # Take all colonnes ou la somme du nombre de NA est inférieur à 153. donc si sur une colonne on fait la somme des NA et que c'est 154 ou plus on ne tient pas compte de cette colonne
+dim(data_2000.4.df_x)
+fix(data_2000.4.df_x)
+
+test_data_2000.3.df <- data_2000.2.df_rat[rowSums(is.na(data_2000.2.df_rat))<20,]  
+fix(test_data_2000.3.df)
+
+# COMPTER nombre de celulle qui ne sont pas des NA dans ratings_2000
+nb_not_NA <- sum(as.numeric(!is.na(test_data_2000.3.df$ratings_2000))) # j'en ai que 58
+
+
+
+plot_missing(data_2000.4.df_x)
+
+
+
+
+
+
+
+
+# le nombre 210 représente 60% de la base de données 2007. Voir step en haut
+data_2007.4.df_x <- data_2007.3.df[ ,colSums(is.na(data_2007.3.df))<210]
+dim(data_2007.4.df_x)
+fix(data_2007.4.df_x)
+plot_missing(data_2007.4.df_x)
+
+# le nombre 213 représente 60% de la base de données 2008. Voir step en haut
+data_2008.4.df_x <- data_2008.3.df[ ,colSums(is.na(data_2008.3.df))<213]
+dim(data_2008.4.df_x)
+fix(data_2008.4.df_x)
+plot_missing(data_2008.4.df_x)
+
+# le nombre 217 représente 60% de la base de données 2009. Voir step en haut
+data_2009.4.df_x <- data_2009.3.df[ ,colSums(is.na(data_2009.3.df))<217]
+dim(data_2009.4.df_x)
+fix(data_2009.4.df_x)
+plot_missing(data_2009.4.df_x)
+
+# le nombre 241 représente 60% de la base de données 2016. Voir step en haut
+data_2016.4.df_x <- data_2016.3.df[ ,colSums(is.na(data_2016.3.df))<241]
+dim(data_2016.4.df_x)
+fix(data_2016.4.df_x)
+plot_missing(data_2016.4.df_x)
+
+# le nombre 243 représente 60% de la base de données 2018. Voir step en haut
+data_2018.4.df_x <- data_2018.3.df[ ,colSums(is.na(data_2018.3.df))<243]
+dim(data_2018.4.df_x)
+fix(data_2018.4.df_x)
+plot_missing(data_2018.4.df_x)
+
+# le nombre 243 représente 60% de la base de données 2019. Voir step en haut
+data_2019.4.df_x <- data_2019.3.df[ ,colSums(is.na(data_2019.3.df))<243]
+dim(data_2019.4.df_x) # 2018 il me reste 25 variables
+fix(data_2019.4.df_x)
+plot_missing(data_2019.4.df_x)
+# 2019 il me reste 23 variables
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Refaire le rowSums pour éléiminer les lignes avec plus de la moitié vide par data base
+# si la somme des NA est inférieure à 36 on garde
+# si la somme des NA est = à 36 ou supérieur à 36 on delete line # ce qui veut dire que si j'ai only one élément dans la ligne je ne vais pas delete la ligne car composé de 36 colonnes
+
+# donc je garde si 50% des cases par lignes est filled in
+dim(data_2000.4.df_x) # nrow = 19 donc 19/2 = 10 donc si une ligne à plus de 10 cases vides, je le delete
+data_2000.4.df <- data_2000.4.df_x[rowSums(is.na(data_2000.4.df_x))<10,]  
+rowSums(is.na(data_2000.4.df))
+dim(data_2000.4.df)
+
+
+
+
+dim(data_2007.4.df_x) # nrow = 20 donc 19/2 = 10 donc si une ligne à plus de 10 cases vides, je le delete
+data_2007.4.df <- data_2007.4.df_x[rowSums(is.na(data_2007.4.df_x))<10,]
+dim(data_2007.4.df)
+
+
+
+dim(data_2008.4.df_x) # nrow = 20 donc 19/2 = 10 donc si une ligne à plus de 10 cases vides, je le delete
+data_2008.4.df <- data_2008.4.df_x[rowSums(is.na(data_2008.4.df_x))<10,]
+dim(data_2008.4.df)
+
+
+dim(data_2009.4.df_x)# nrow = 21 donc 19/2 = 11 donc si une ligne à plus de 11 cases vides, je le delete
+data_2009.4.df <- data_2009.4.df_x[rowSums(is.na(data_2009.4.df_x))<11,]
+dim(data_2009.4.df)
+
+
+dim(data_2016.4.df_x) # nrow = 21 donc 19/2 = 10 donc si une ligne à plus de 10 cases vides, je le delete
+data_2016.4.df <- data_2016.4.df_x[rowSums(is.na(data_2016.4.df_x))<10,]
+dim(data_2016.4.df)
+
+
+
+dim(data_2018.4.df_x) # nrow = 24 donc 19/2 = 12 donc si une ligne à plus de 12 cases vides, je le delete
+data_2018.4.df <- data_2018.4.df_x[rowSums(is.na(data_2018.4.df_x))<12,]
+dim(data_2018.4.df)
+
+
+
+dim(data_2019.4.df_x) # nrow = 23 donc 19/2 = 12 donc si une ligne à plus de 12 cases vides, je le delete
+data_2019.4.df <- data_2019.4.df_x[rowSums(is.na(data_2019.4.df_x))<12,]
+dim(data_2019.4.df)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+x1 <- colnames(data_2000.4.df)
+x2 <- colnames(data_2007.4.df)
+x3 <- colnames(data_2008.4.df)
+x4 <- colnames(data_2009.4.df)
+x5 <- colnames(data_2016.4.df)
+x6 <- colnames(data_2018.4.df)
+x7 <- colnames(data_2019.4.df)
+
+
+
+
+
+
+
+
+
+# name qu'on retrouve dans les 2
+intersect(x1, x2) # éléments qui se trouve à la fois dans les 2
+intersect(x2,x1)
+
+unique(c(x1,x2))
+
+union(x1,x2)
+
+setdiff(x1,x2) # 5 éléments qui se trouve dans x1 que l'on ne retrouvera pas dans x1
+
+setdiff(x2,x1) # tous les éléments qu'on trouve dans x2 se trouve aussi dans x1
+
+
+
+
+
+
+
 
 
 
@@ -138,8 +652,27 @@ x <- colnames(data_2019.4.df)
 # Delete_duplicate_ou_doublons_en_FR --------------------------------------
 
 #ça me laisse seulement le 1er des éléments dupliqués
+data_2000.5.df <- data_2000.4.df[!duplicated(data_2000.4.df[c("EBITDA_MARGIN", "EBITDA_TO_REVENUE")]),]
+dim(data_2000.5.df)
+
+data_2007.5.df <- data_2007.4.df[!duplicated(data_2007.4.df[c("EBITDA_MARGIN", "EBITDA_TO_REVENUE")]),]
+dim(data_2007.5.df)
+
+data_2008.5.df <- data_2008.4.df[!duplicated(data_2008.4.df[c("EBITDA_MARGIN", "EBITDA_TO_REVENUE")]),]
+dim(data_2008.5.df)
+
+data_2009.5.df <- data_2009.4.df[!duplicated(data_2009.4.df[c("EBITDA_MARGIN", "EBITDA_TO_REVENUE")]),]
+dim(data_2009.5.df)
+
+data_2016.5.df <- data_2016.4.df[!duplicated(data_2016.4.df[c("EBITDA_MARGIN", "EBITDA_TO_REVENUE")]),]
+dim(data_2016.5.df)
+
+data_2018.5.df <- data_2018.4.df[!duplicated(data_2018.4.df[c("EBITDA_MARGIN", "EBITDA_TO_REVENUE")]),]
+dim(data_2018.5.df)
+
 data_2019.5.df <- data_2019.4.df[!duplicated(data_2019.4.df[c("EBITDA_MARGIN", "EBITDA_TO_REVENUE")]),]
 dim(data_2019.5.df)
+
 
 
 is.na(data_2019.5.df)
@@ -154,7 +687,16 @@ rowSums(is.na(data_2019.5.df))
 library(mice)
 
 #voir le type de mes données
-summary(data_2019.5.df[,2:ncol(data_2019.5.df)])  #données sont des character donc changer en numérique
+
+summary(data_2000.5.df[,2:ncol(data_2000.5.df)])  #données sont des character donc changer en numérique
+summary(data_2007.5.df[,2:ncol(data_2007.5.df)])
+summary(data_2008.5.df[,2:ncol(data_2008.5.df)])
+summary(data_2009.5.df[,2:ncol(data_2009.5.df)])
+summary(data_2016.5.df[,2:ncol(data_2016.5.df)])
+summary(data_2018.5.df[,2:ncol(data_2018.5.df)])
+summary(data_2019.5.df[,2:ncol(data_2019.5.df)])
+
+
 str(data_2019.5.df)
 
 
@@ -169,14 +711,59 @@ data_2019.5.df$EBITDA_MARGIN <- as.numeric(as.character(data_2019.5.df$EBITDA_MA
 #pour onvertir toutes les colonnes en une seule fois en numeric
 #------------> yyz[] <- lapply(yyz, function(x) as.numeric(as.character(x)))
 
-data_2019.5.df[,-1] <- lapply(data_2019.5.df[,-1], function(x) as.numeric(as.character(x)))
+data_2000.5.df[,-1] <- lapply(data_2000.5.df[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2000.5.df)
+dim(data_2000.5.df)
 
+data_2007.5.df[,-1] <- lapply(data_2007.5.df[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2007.5.df)
+dim(data_2007.5.df)
+
+data_2008.5.df[,-1] <- lapply(data_2008.5.df[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2008.5.df)
+dim(data_2008.5.df)
+
+data_2009.5.df[,-1] <- lapply(data_2009.5.df[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2009.5.df)
+dim(data_2009.5.df)
+
+data_2016.5.df[,-1] <- lapply(data_2016.5.df[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2016.5.df)
+dim(data_2016.5.df)
+
+data_2018.5.df[,-1] <- lapply(data_2018.5.df[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2018.5.df)
+dim(data_2018.5.df)
+
+data_2019.5.df[,-1] <- lapply(data_2019.5.df[,-1], function(x) as.numeric(as.character(x)))
 summary(data_2019.5.df)
 dim(data_2019.5.df)
+
+
+
 # convertir colonne RATINGS en factor
 is.factor(data_2019.5.df$RATINGS)
 
+data_2000.5.df$RATINGS <- as.factor(data_2000.5.df$RATINGS)
+data_2007.5.df$RATINGS <- as.factor(data_2007.5.df$RATINGS)
+data_2008.5.df$RATINGS <- as.factor(data_2008.5.df$RATINGS)
+data_2009.5.df$RATINGS <- as.factor(data_2009.5.df$RATINGS)
+data_2016.5.df$RATINGS <- as.factor(data_2016.5.df$RATINGS)
+data_2018.5.df$RATINGS <- as.factor(data_2018.5.df$RATINGS)
 data_2019.5.df$RATINGS <- as.factor(data_2019.5.df$RATINGS)
+
+
+
+
+levels(data_2000.5.df$RATINGS)
+levels(data_2007.5.df$RATINGS)
+levels(data_2008.5.df$RATINGS)
+levels(data_2009.5.df$RATINGS)
+levels(data_2016.5.df$RATINGS)
+levels(data_2018.5.df$RATINGS)
+levels(data_2019.5.df$RATINGS)
+
+
 
 summary(data_2019.5.df)
 dim(data_2019.5.df)
@@ -201,9 +788,30 @@ which(is.na(data_2019.5.df$EBITDA_MARGIN))
 
 
 #créons un new dataset pour mice
+data_2000.6.df <- data_2000.5.df
+data_2007.6.df <- data_2007.5.df
+data_2008.6.df <- data_2008.5.df
+data_2009.6.df <- data_2009.5.df
+data_2016.6.df <- data_2016.5.df
+data_2018.6.df <- data_2018.5.df
 data_2019.6.df <- data_2019.5.df
 
+
+
+
+summary(data_2000.6.df)
+summary(data_2007.6.df) # NO PROBLEM DE VALEUR ABBERANTE
+summary(data_2008.6.df) # NO PROBLEM DE VALEUR ABBERANTE
+summary(data_2009.6.df) 
+summary(data_2016.6.df)
+summary(data_2018.6.df)
 summary(data_2019.6.df)
+
+
+
+
+
+
 
 
 #=============================================================================
@@ -231,23 +839,121 @@ summary(data_2019.6.df)
 # le min par rapport au max ne fait pas de sens donc enlevons la ligne
 
 #quand on le sort() on voit que c'est une valeur abbérante car on quitte -33292 pour aller à -40 le plus petit qui suit et tous à la ligne 3 
+sort(data_2000.6.df$EBIT_TO_NET_SALES)
+sort(data_2007.6.df$EBIT_TO_NET_SALES)# NO PROBLEM DE VALEUR ABBERANTE
+sort(data_2008.6.df$EBIT_TO_NET_SALES)# NO PROBLEM DE VALEUR ABBERANTE
+sort(data_2009.6.df$EBIT_TO_NET_SALES)
+sort(data_2016.6.df$EBIT_TO_NET_SALES)
+sort(data_2018.6.df$EBIT_TO_NET_SALES)
 sort(data_2019.6.df$EBIT_TO_NET_SALES)
 
+
 #identifions le d'abord
+which.min(data_2000.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 13
+which.min(data_2000.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 13
+which.min(data_2000.6.df$EBITDA_TO_REVENUE)
+#supprimons la lignes
+data_2000.6.df <- data_2000.6.df[-63,] # pour checher si c'est enlevé, lorsque je refais le which.min pour savoir ou se trouve le min c'est à a ligne 95
+summary(data_2000.6.df)
+
+
+
+which.min(data_2009.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 13
+which.min(data_2009.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 13
+which.min(data_2009.6.df$EBITDA_TO_REVENUE)
+#supprimons la lignes
+data_2009.6.df <- data_2009.6.df[-96,] # pour checher si c'est enlevé, lorsque je refais le which.min pour savoir ou se trouve le min c'est à a ligne 95
+
+
+which.min(data_2016.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 13
+which.min(data_2016.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 13
+which.min(data_2016.6.df$EBITDA_TO_REVENUE)
+#supprimons la lignes
+data_2016.6.df <- data_2016.6.df[-14,] # pour checher si c'est enlevé, lorsque je refais le which.min pour savoir ou se trouve le min c'est à a ligne 95
+
+
+which.min(data_2018.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 13
+which.min(data_2018.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 13
+which.min(data_2018.6.df$EBITDA_TO_REVENUE)
+#supprimons la lignes
+data_2018.6.df <- data_2018.6.df[-13,] # pour checher si c'est enlevé, lorsque je refais le which.min pour savoir ou se trouve le min c'est à a ligne 95
+
+
 which.min(data_2019.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 13
 which.min(data_2019.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 13
 which.min(data_2019.6.df$EBITDA_TO_REVENUE)
 #supprimons la lignes
 data_2019.6.df <- data_2019.6.df[-13,] # pour checher si c'est enlevé, lorsque je refais le which.min pour savoir ou se trouve le min c'est à a ligne 95
 
+
+
+
+
 #enlevons EBITDA_TO_REVENUE car identique à EBITDA_TO_MARGIN (ici c'est la colonne qu'on enlève)
+data_2000.6.df <- data_2000.6.df[-3]
+dim(data_2000.6.df)
+dim(data_2000.5.df)
+View(data_2000.6.df)
+
+
+data_2007.6.df <- data_2007.6.df[-3]
+dim(data_2007.6.df)
+dim(data_2007.5.df)
+View(data_2007.6.df)
+
+
+data_2008.6.df <- data_2008.6.df[-3]
+dim(data_2008.6.df)
+dim(data_2008.5.df)
+View(data_2008.6.df)
+
+
+data_2009.6.df <- data_2009.6.df[-3]
+dim(data_2009.6.df)
+dim(data_2009.5.df)
+View(data_2009.6.df)
+
+
+data_2016.6.df <- data_2016.6.df[-3]
+dim(data_2016.6.df)
+dim(data_2016.5.df)
+View(data_2016.6.df)
+
+
+
+data_2018.6.df <- data_2018.6.df[-3]
+dim(data_2018.6.df)
+dim(data_2018.5.df)
+View(data_2018.6.df)
+
+
+
 data_2019.6.df <- data_2019.6.df[-3]
 dim(data_2019.6.df)
 dim(data_2019.5.df)
+View(data_2019.6.df)
 
 
 
-n <- colnames(data_2019.6.df)
+
+
+
+
+
+n1 <- colnames(data_2000.6.df)
+n2 <- colnames(data_2007.6.df)
+n3 <- colnames(data_2008.6.df)
+n4 <- colnames(data_2009.6.df)
+n5 <- colnames(data_2016.6.df)
+n6 <- colnames(data_2018.6.df)
+n7 <- colnames(data_2019.6.df)
+
+
+
+
+
+
+
 
 summary(data_2019.6.df)
 dim(data_2019.6.df)
@@ -271,6 +977,13 @@ library(mice)
 # après ça quand je fais mice(), ça marche sans loggedEvents
 
 #data_imputation <- mice(data_2019.6.df[-1], m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+data_imputation <- mice(data_2000.6.df[,], m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+
+
+
+
+
+
 data_imputation <- mice(data_2019.6.df[,c(-1, -6, -8, -10, -13, -19)], m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
 #si j'applique le mice du haut, il y aura toujours un loggedEvents car y a beaucoup de colonnes qui n'ont pas de NA donc mieux vaut ne pas en tenir compte dans le mice
 
@@ -288,9 +1001,9 @@ col_names_var_not_ds_mice <- colnames(var_not_ds_mice)
 #s'il y en a
 #pour voir le nombre de loggedEven c--à-d les variables qui n'ont pas été traité par mice
 data_imputation$loggedEvents #ici c'est EBIT_TO_NET_SALES donc on le tient pas compte de l'imutation 
-                             #et comme il n'a que 3 NA on va le remplacer par sa moyenne
-                             #mais après avoir relancer depuis data_2019.5.df on voir qu'il n'y en a pas. ça apparaisait toujours car je le lancer à partir de la dernière base de données ou j'avais fait des modifications sans l'actualiser
-colSums(is.na(data_2019.6.df))
+#et comme il n'a que 3 NA on va le remplacer par sa moyenne
+#mais après avoir relancer depuis data_2019.5.df on voir qu'il n'y en a pas. ça apparaisait toujours car je le lancer à partir de la dernière base de données ou j'avais fait des modifications sans l'actualiser
+colSums(is.na(data_2000.6.df))
 
 fix(data_2019.6.df)
 
@@ -304,12 +1017,21 @@ final_clean_dataset <- complete(data_imputation, 5)
 
 
 
+
+
+
+
+
+
+
+
 any(is.na(final_clean_dataset))
 
 colSums(final_clean_dataset) #qd y a NA colSums return NA pour colonne avec NA
 
 colSums(is.na(final_clean_dataset))
 
+fix(final_clean_dataset)
 
 
 
@@ -515,7 +1237,7 @@ data_2019_with_good_ratio <- data_2019_avt_good_ratio%>%
          ratio_B_non_rep_sur_Tot_actif = BS_PURE_RETAINED_EARNINGS/BS_TOT_ASSET,
          ratio_Flux_de_TR_expl_sur_passif_cour = CF_CASH_FROM_OPER/BS_CUR_LIAB,
          ratio_Fonds_de_roulement = WORKING_CAPITAL/BS_TOT_ASSET)
-         #ratio_val_marchd_tot_sur_tot_actif =TOT_MKT_VAL/BS_TOT_ASSET) is deleted car TOT_MKT8VAL pas dans new database
+#ratio_val_marchd_tot_sur_tot_actif =TOT_MKT_VAL/BS_TOT_ASSET) is deleted car TOT_MKT8VAL pas dans new database
 
 colnames(data_2019_with_good_ratio)
 

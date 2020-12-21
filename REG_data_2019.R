@@ -19,6 +19,12 @@ rm(list=ls())
 
 
 
+#AZURE : TRY PUT DATABASE THERE POUR SEE (en csv)
+
+# et y'a way de faire summarize data déjà intégrer in faire search
+
+
+
 # Les libraries -----------------------------------------------------------
 
 library(foreign)
@@ -26,7 +32,7 @@ library(nnet)
 library(ggplot2)
 library(reshape2)
 
-
+# plusieurs colonnes, avec des 0 et 1 ==> one hot encoding ... 
 
 
 # importer data (fichier : ma_base_de_donnees_2019.csv) par read.c --------
@@ -88,7 +94,7 @@ is.factor(good_variables_1$Cote_credit)
 
 # statistiques Descriptives -----------------------------------------------
 
-#attach(good_variables_1)
+attach(good_variables_1)
 
 
 table(Cote_credit) #ça me compte le nombre de chaque élément de chaque facter
@@ -136,6 +142,30 @@ summary(good_variables_1)
 
 
 table(Cote_credit) #compter le nombre d'élément pour chaque facter
+
+
+
+
+
+
+
+# pour la CORRELATION can use aussi PACKAGE DataExplorer et faire plot_correlation
+
+library(DataExplorer)
+plot_correlation(x)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # done! : en faire une matrice de correlation good
@@ -226,6 +256,71 @@ good_variables_1$Cote_credit <- relevel(good_variables_1$Cote_credit, ref = "AAA
 #(1) modèle de départ qui nous permet de calculer p-value
 my_model_1 <- multinom(Cote_credit~., data = good_variables_1)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#it's goo j'ai les même chose : https://irudnyts.github.io/multinomial-regression/
+#______________________________________________________________________________________________________
+# TRY WITH MLOGIT 
+library(mlogit)
+
+attach(good_variables_1)
+
+long_data0 = mlogit.data(good_variables_1, choice ="Cote_credit" , shape = "wide")
+
+mlogit_model <- mlogit(Cote_credit~0|Marge_sur_EBIT, data = long_data0)
+summary(mlogit_model)
+
+#marche only si je ne mets pas good_variables en factor 
+
+#CHECK TRY (MULTINOM)
+my_model_check <- multinom(Cote_credit~Marge_sur_EBIT, data = good_variables_1)
+
+#______________________________________________________________________________________________________
+# TRY
+library(VGAM)
+fit_vgam <- vglm(Cote_credit ~ Marge_sur_EBIT, multinomial(refLevel = "AAA"), 
+                 data = good_variables_1)
+
+
+#______________________________________________________________________________________________________
+# TRY
+library(mnlogit)
+fit_mnlogit <- mnlogit(Cote_credit ~ 1 | Marge_sur_EBIT | 1, long_data0)
+
+
+
+summary(fit_vgam)
+summary(my_model_check)
+summary(mlogit_model)
+
+#______________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#suite
 
 #(2) après calcul p-value, on see que les 5 variables 
 #[a] Marge_sur_EBITDA, [b] Rendement_sur_cap_prop, [c]ratio_ben_avt_impot_sur_frais_int,
@@ -448,6 +543,8 @@ accuracy_pourcentage_1 <- sum(diag(cm_1))/sum(cm_1) #le modèle est précis à 65%
 
 accuracy_pourcentage_2 <- sum(diag(cm_2))/sum(cm_2) #le modèle est précis à 58%
 
+#je les ai calculé tous (accuracy, misclassificaation)
+# on peut aussi calculer recall & precision see doc LABIFUL machine learning labiful
 
 
 
