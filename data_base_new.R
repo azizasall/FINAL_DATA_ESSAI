@@ -1,11 +1,11 @@
 ################################################################################
 # DATA BASE POUR 
 # 2000, 
-# pick entre les 2, 
+# pick entre les 2,  
 # 2007, 
 # 2008, 
 # 2009, 
-# pick entre les 2 , 
+# pick entre les 2 , ==> 2018
 #2019
 
 
@@ -61,7 +61,7 @@ data_2019 <- data.1[2,]
 #fix(data_2000)
 
 
-#chech qu'il sont bon
+#chech qu'il sont bons
 View(data_2000)
 View(data_2007)
 View(data_2008)
@@ -288,6 +288,8 @@ data_2000.3.df <- data_2000.2.df_rat[rowSums(is.na(data_2000.2.df_rat))<36,]
 rowSums(is.na(data_2000.3.df))
 dim(data_2000.3.df)
 
+colSums(is.na(data_2000.3.df))
+
 fix(data_2000.3.df)
 
 
@@ -356,6 +358,7 @@ dim(variables_names_2)
 colnames(data_2000.3.df) <- variables_names_2
 fix(data_2000.3.df)
 
+
 head(variables_names_2)
 tail(variables_names_2)
 
@@ -398,7 +401,7 @@ data_2000.3.df_x <- data_2000.3.df
 dev.new()
 plot_missing(data_2000.3.df_2) # pour see le nb de cellule vide par colonne
 colSums(is.na(data_2000.3.df))  # pour voir le nombre
-dim(data_2000.3.df) # 256 -> 100 donc 60% -> 153 : car je vais delete all colonne avec plus de 60% NA
+dim(data_2000.3.df) # 256 -> 100 donc 65% (car sinon rating saute) -> 166 : car je vais delete all colonne avec plus de 60% NA
 # donc c'est 153 que je vais mettre dans next step ou l'on ne tient pas compte des colonne avec plus de
 # 153 celulles vides
 
@@ -453,6 +456,8 @@ dim(data_2019.3.df)# 407 -> 100 donc 60% -> 243
 
 
 
+# DELETE COLONNE WITH LOT OF NA -------------------------------------------
+
 
 #(2) constituer une new database qui ne tient compte que des colonnes
 #avec moins de 228 NA values (pour savoir le nombre : étape 1)
@@ -464,10 +469,10 @@ dim(data_2019.3.df)# 407 -> 100 donc 60% -> 243
 
 #je vais me baser pour chaque data base en fonction du nombre de Ratings
 
-
+# se base sur .3.df car .3.df_2 etait juste pour plot car can't afeter ajout name col
 
 # le nombre 153 représente 60% de la base de données 2000. Voir step en haut
-data_2000.4.df_x <- data_2000.3.df[ ,colSums(is.na(data_2000.3.df))<153] # Take all colonnes ou la somme du nombre de NA est inférieur à 153. donc si sur une colonne on fait la somme des NA et que c'est 154 ou plus on ne tient pas compte de cette colonne
+data_2000.4.df_x <- data_2000.3.df[ ,colSums(is.na(data_2000.3.df))<166] # Take all colonnes ou la somme du nombre de NA est inférieur à 153. donc si sur une colonne on fait la somme des NA et que c'est 154 ou plus on ne tient pas compte de cette colonne
 dim(data_2000.4.df_x)
 fix(data_2000.4.df_x)
 
@@ -541,6 +546,11 @@ plot_missing(data_2019.4.df_x)
 
 
 
+
+# comme on connait nombre de colonne qui restent après avoir delete ceux qui n'ont pas de data
+
+
+
 # Refaire le rowSums pour éléiminer les lignes avec plus de la moitié vide par data base
 # si la somme des NA est inférieure à 36 on garde
 # si la somme des NA est = à 36 ou supérieur à 36 on delete line # ce qui veut dire que si j'ai only one élément dans la ligne je ne vais pas delete la ligne car composé de 36 colonnes
@@ -599,18 +609,6 @@ dim(data_2019.4.df)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 x1 <- colnames(data_2000.4.df)
 x2 <- colnames(data_2007.4.df)
 x3 <- colnames(data_2008.4.df)
@@ -620,7 +618,8 @@ x6 <- colnames(data_2018.4.df)
 x7 <- colnames(data_2019.4.df)
 
 
-
+x7
+#
 
 
 
@@ -655,6 +654,7 @@ setdiff(x2,x1) # tous les éléments qu'on trouve dans x2 se trouve aussi dans x1
 data_2000.5.df <- data_2000.4.df[!duplicated(data_2000.4.df[c("EBITDA_MARGIN", "EBITDA_TO_REVENUE")]),]
 dim(data_2000.5.df)
 
+
 data_2007.5.df <- data_2007.4.df[!duplicated(data_2007.4.df[c("EBITDA_MARGIN", "EBITDA_TO_REVENUE")]),]
 dim(data_2007.5.df)
 
@@ -675,10 +675,169 @@ dim(data_2019.5.df)
 
 
 
-is.na(data_2019.5.df)
+
+
+
+
+#calculer le nombre de rating non vide dans ".5.df"
+
+
+# 2000 on a 38 ratings non vides sur 105  ==> donc 67 vides
+dim(data_2000.5.df)
+sum(as.numeric(!is.na(data_2000.5.df$RATINGS)))
+fix(data_2000.5.df)
+plot_missing(data_2000.5.df)
+
+
+# 2007 on a 91 ratings non vides sur 149 ==> donc 58 vides
+dim(data_2007.5.df)
+sum(as.numeric(!is.na(data_2007.5.df$RATINGS)))
+fix(data_2007.5.df)
+plot_missing(data_2007.5.df)
+
+
+# 2008 on a 99 rating non vides sur 160 ==> donc 61 vides
+dim(data_2008.5.df)
+sum(as.numeric(!is.na(data_2008.5.df$RATINGS)))
+fix(data_2008.5.df)
+plot_missing(data_2008.5.df)
+
+
+# 2009 on a 103 ratings non vides sur 164 ==> donc 61 vides
+dim(data_2009.5.df)
+sum(as.numeric(!is.na(data_2009.5.df$RATINGS)))
+fix(data_2009.5.df)
+plot_missing(data_2009.5.df)
+
+
+# 2016 on a 151 ratings non vides sur 163 ==> donc 12 vides
+dim(data_2016.5.df)
+sum(as.numeric(!is.na(data_2016.5.df$RATINGS)))
+fix(data_2016.5.df)
+plot_missing(data_2016.5.df)
+
+
+# 2018 on a 156 ratings non vides sur 161 ==> donc 5 vides
+dim(data_2018.5.df)
+sum(as.numeric(!is.na(data_2018.5.df$RATINGS)))
+fix(data_2018.5.df)
+plot_missing(data_2018.5.df)
+
+
+
+# 2019 on a 152 ratings non vides sur 156 ==> donc 4 vides
+dim(data_2019.5.df)
+sum(as.numeric(!is.na(data_2019.5.df$RATINGS)))
+fix(data_2019.5.df)
+plot_missing(data_2019.5.df)
+
+
+
+
 any(is.na(data_2019.5.df))
 colSums(is.na(data_2019.5.df))
 rowSums(is.na(data_2019.5.df))
+
+
+
+
+
+
+
+
+# enlevons pour 2007, 2008, 2009, 2016, 2018 & 2019 les lignes dont ratings vides
+
+
+# 2000
+dim(data_2000.5.df)
+
+data_2000.5.df_2 <- data_2000.5.df
+fix(data_2000.5.df_2)
+
+# 2007
+dim(data_2007.5.df)
+
+data_2007.5.df_2 <- data_2007.5.df[!is.na(data_2007.5.df$RATINGS),]
+dim(data_2007.5.df_2)
+fix(data_2007.5.df_2)
+
+plot_missing(data_2007.5.df_2)
+
+ 
+
+# 2008
+dim(data_2008.5.df)
+
+data_2008.5.df_2 <- data_2008.5.df[!is.na(data_2008.5.df$RATINGS),]
+dim(data_2008.5.df_2)
+fix(data_2008.5.df_2)
+
+plot_missing(data_2008.5.df_2)
+
+
+
+
+
+# 2009
+dim(data_2009.5.df)
+
+data_2009.5.df_2 <- data_2009.5.df[!is.na(data_2009.5.df$RATINGS),]
+dim(data_2009.5.df_2)
+fix(data_2009.5.df_2)
+
+plot_missing(data_2009.5.df_2)
+
+
+
+
+
+# 2016
+dim(data_2016.5.df)
+
+data_2016.5.df_2 <- data_2016.5.df[!is.na(data_2016.5.df$RATINGS),]
+dim(data_2016.5.df_2)
+fix(data_2016.5.df_2)
+
+plot_missing(data_2016.5.df_2)
+
+
+
+
+
+# 2018
+dim(data_2018.5.df)
+
+data_2018.5.df_2 <- data_2018.5.df[!is.na(data_2018.5.df$RATINGS),]
+dim(data_2018.5.df_2)
+fix(data_2018.5.df_2)
+
+plot_missing(data_2018.5.df_2)
+
+
+
+
+
+# 2019
+dim(data_2019.5.df)
+
+data_2019.5.df_2 <- data_2019.5.df[!is.na(data_2019.5.df$RATINGS),]
+dim(data_2019.5.df_2)
+fix(data_2019.5.df_2)
+
+plot_missing(data_2019.5.df_2)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -686,18 +845,63 @@ rowSums(is.na(data_2019.5.df))
 
 library(mice)
 
+summary(data_2000.5.df_2)
+
+
+
+
+# je unlist tout le monde
+
+
 #voir le type de mes données
+# 2000
+data_2000.5.df_2 <- as.data.frame(lapply(data_2000.5.df_2, unlist))
 
-summary(data_2000.5.df[,2:ncol(data_2000.5.df)])  #données sont des character donc changer en numérique
-summary(data_2007.5.df[,2:ncol(data_2007.5.df)])
-summary(data_2008.5.df[,2:ncol(data_2008.5.df)])
-summary(data_2009.5.df[,2:ncol(data_2009.5.df)])
-summary(data_2016.5.df[,2:ncol(data_2016.5.df)])
-summary(data_2018.5.df[,2:ncol(data_2018.5.df)])
-summary(data_2019.5.df[,2:ncol(data_2019.5.df)])
+summary(data_2000.5.df_2[,2:ncol(data_2000.5.df_2)])  #données sont des character donc changer en numérique
+
+data_2000.5.df_2$RATINGS
 
 
-str(data_2019.5.df)
+# 2007
+
+data_2007.5.df_2 <- as.data.frame(lapply(data_2007.5.df_2, unlist))
+summary(data_2007.5.df_2[,2:ncol(data_2007.5.df_2)])
+
+data_2007.5.df_2$RATINGS
+
+
+
+# 2008
+data_2008.5.df_2 <- as.data.frame(lapply(data_2008.5.df_2, unlist))
+summary(data_2008.5.df_2[,2:ncol(data_2008.5.df_2)])
+
+data_2008.5.df_2$RATINGS
+
+# 2009
+data_2009.5.df_2 <- as.data.frame(lapply(data_2009.5.df_2, unlist))
+summary(data_2009.5.df_2[,2:ncol(data_2009.5.df_2)])
+
+data_2009.5.df_2$RATINGS
+
+
+# 2016
+data_2016.5.df_2 <- as.data.frame(lapply(data_2016.5.df_2, unlist))
+summary(data_2016.5.df_2[,2:ncol(data_2016.5.df_2)])
+
+
+# 2018
+data_2018.5.df_2 <- as.data.frame(lapply(data_2018.5.df_2, unlist))
+summary(data_2018.5.df_2[,2:ncol(data_2018.5.df_2)])
+
+
+# 2019
+data_2019.5.df_2 <- as.data.frame(lapply(data_2019.5.df_2, unlist))
+summary(data_2019.5.df_2[,2:ncol(data_2019.5.df_2)])
+
+
+
+
+
 
 
 #changement type character en numeric
@@ -706,78 +910,114 @@ str(data_2019.5.df)
 #pour convertir les colonnes 1 by 1 en numeric
 #------------> yyz$b <- as.numeric(as.character(yyz$b))
 
-data_2019.5.df$EBITDA_MARGIN <- as.numeric(as.character(data_2019.5.df$EBITDA_MARGIN)) 
+# data_2019.5.df_2$EBITDA_MARGIN <- as.numeric(as.character(data_2019.5.df_2$EBITDA_MARGIN)) 
 
 #pour onvertir toutes les colonnes en une seule fois en numeric
 #------------> yyz[] <- lapply(yyz, function(x) as.numeric(as.character(x)))
 
-data_2000.5.df[,-1] <- lapply(data_2000.5.df[,-1], function(x) as.numeric(as.character(x)))
-summary(data_2000.5.df)
-dim(data_2000.5.df)
-
-data_2007.5.df[,-1] <- lapply(data_2007.5.df[,-1], function(x) as.numeric(as.character(x)))
-summary(data_2007.5.df)
-dim(data_2007.5.df)
-
-data_2008.5.df[,-1] <- lapply(data_2008.5.df[,-1], function(x) as.numeric(as.character(x)))
-summary(data_2008.5.df)
-dim(data_2008.5.df)
-
-data_2009.5.df[,-1] <- lapply(data_2009.5.df[,-1], function(x) as.numeric(as.character(x)))
-summary(data_2009.5.df)
-dim(data_2009.5.df)
-
-data_2016.5.df[,-1] <- lapply(data_2016.5.df[,-1], function(x) as.numeric(as.character(x)))
-summary(data_2016.5.df)
-dim(data_2016.5.df)
-
-data_2018.5.df[,-1] <- lapply(data_2018.5.df[,-1], function(x) as.numeric(as.character(x)))
-summary(data_2018.5.df)
-dim(data_2018.5.df)
-
-data_2019.5.df[,-1] <- lapply(data_2019.5.df[,-1], function(x) as.numeric(as.character(x)))
-summary(data_2019.5.df)
-dim(data_2019.5.df)
 
 
+
+
+
+
+data_2000.5.df_2[,-1] <- lapply(data_2000.5.df_2[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2000.5.df_2)
+dim(data_2000.5.df_2)
+
+
+
+
+
+data_2007.5.df_2[,-1] <- lapply(data_2007.5.df_2[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2007.5.df_2)
+dim(data_2007.5.df_2)
+
+
+
+
+data_2008.5.df_2[,-1] <- lapply(data_2008.5.df_2[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2008.5.df_2)
+dim(data_2008.5.df_2)
+
+
+
+data_2009.5.df_2[,-1] <- lapply(data_2009.5.df_2[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2009.5.df_2)
+dim(data_2009.5.df_2)
+
+
+
+data_2016.5.df_2[,-1] <- lapply(data_2016.5.df_2[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2016.5.df_2)
+dim(data_2016.5.df_2)
+
+
+
+data_2018.5.df_2[,-1] <- lapply(data_2018.5.df_2[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2018.5.df_2)
+dim(data_2018.5.df_2)
+
+
+
+
+
+data_2019.5.df_2[,-1] <- lapply(data_2019.5.df_2[,-1], function(x) as.numeric(as.character(x)))
+summary(data_2019.5.df_2)
+dim(data_2019.5.df_2)
+
+
+
+
+
+
+
+
+# quand y a liste ça va poser problème pour mettre factor
+# SOLUTION : 
+# (1) mettre unlist toute la base de donnée
+# (2) changer en numerique all à l'exception de variable qu'on veut mettre factor (ici rating)
+# (3) changer factor la variable qui nous interesse
 
 # convertir colonne RATINGS en factor
-is.factor(data_2019.5.df$RATINGS)
-
-data_2000.5.df$RATINGS <- as.factor(data_2000.5.df$RATINGS)
-data_2007.5.df$RATINGS <- as.factor(data_2007.5.df$RATINGS)
-data_2008.5.df$RATINGS <- as.factor(data_2008.5.df$RATINGS)
-data_2009.5.df$RATINGS <- as.factor(data_2009.5.df$RATINGS)
-data_2016.5.df$RATINGS <- as.factor(data_2016.5.df$RATINGS)
-data_2018.5.df$RATINGS <- as.factor(data_2018.5.df$RATINGS)
-data_2019.5.df$RATINGS <- as.factor(data_2019.5.df$RATINGS)
+is.list(data_2000.5.df_2$RATINGS)
 
 
 
-
-levels(data_2000.5.df$RATINGS)
-levels(data_2007.5.df$RATINGS)
-levels(data_2008.5.df$RATINGS)
-levels(data_2009.5.df$RATINGS)
-levels(data_2016.5.df$RATINGS)
-levels(data_2018.5.df$RATINGS)
-levels(data_2019.5.df$RATINGS)
-
+data_2000.5.df_2$RATINGS <- as.factor(data_2000.5.df_2$RATINGS)
+data_2007.5.df_2$RATINGS <- as.factor(data_2007.5.df_2$RATINGS)
+data_2008.5.df_2$RATINGS <- as.factor(data_2008.5.df_2$RATINGS)
+data_2009.5.df_2$RATINGS <- as.factor(data_2009.5.df_2$RATINGS)
+data_2016.5.df_2$RATINGS <- as.factor(data_2016.5.df_2$RATINGS)
+data_2018.5.df_2$RATINGS <- as.factor(data_2018.5.df_2$RATINGS)
+data_2019.5.df_2$RATINGS <- as.factor(data_2019.5.df_2$RATINGS)
 
 
-summary(data_2019.5.df)
-dim(data_2019.5.df)
+
+
+levels(data_2000.5.df_2$RATINGS)
+levels(data_2007.5.df_2$RATINGS)
+levels(data_2008.5.df_2$RATINGS)
+levels(data_2009.5.df_2$RATINGS)
+levels(data_2016.5.df_2$RATINGS)
+levels(data_2018.5.df_2$RATINGS)
+levels(data_2019.5.df_2$RATINGS)
+
+
+
+summary(data_2019.5.df_2)
+dim(data_2019.5.df_2)
 
 
 # y a t'il des NA sur EBITDA_MARGIN et ou se trouvent t'ils
-any(is.na(data_2019.5.df$EBITDA_MARGIN))
-which(is.na(data_2019.5.df$EBITDA_MARGIN))
+any(is.na(data_2019.5.df_2$EBITDA_MARGIN))
+which(is.na(data_2019.5.df_2$EBITDA_MARGIN))
 
 # exple remplacer par la moyenne toutes les rows vide par exple pour EBITDA_MARGIN
-#---> data_2019.5.df$EBITDA_MARGIN[which(is.na(data_2019.5.df$EBITDA_MARGIN))] <- mean(data_2019.5.df$EBITDA_MARGIN, na.rm = TRUE)
+#---> data_2019.5.df_2$EBITDA_MARGIN[which(is.na(data_2019.5.df_2$EBITDA_MARGIN))] <- mean(data_2019.5.df_2$EBITDA_MARGIN, na.rm = TRUE)
 
-#---> which(is.na(data_2019.5.df$EBITDA_MARGIN))
-#---> any(is.na(data_2019.5.df$EBITDA_MARGIN))
+#---> which(is.na(data_2019.5.df_2$EBITDA_MARGIN))
+#---> any(is.na(data_2019.5.df_2$EBITDA_MARGIN))
 
 
 
@@ -788,13 +1028,13 @@ which(is.na(data_2019.5.df$EBITDA_MARGIN))
 
 
 #créons un new dataset pour mice
-data_2000.6.df <- data_2000.5.df
-data_2007.6.df <- data_2007.5.df
-data_2008.6.df <- data_2008.5.df
-data_2009.6.df <- data_2009.5.df
-data_2016.6.df <- data_2016.5.df
-data_2018.6.df <- data_2018.5.df
-data_2019.6.df <- data_2019.5.df
+data_2000.6.df <- data_2000.5.df_2
+data_2007.6.df <- data_2007.5.df_2
+data_2008.6.df <- data_2008.5.df_2
+data_2009.6.df <- data_2009.5.df_2
+data_2016.6.df <- data_2016.5.df_2
+data_2018.6.df <- data_2018.5.df_2
+data_2019.6.df <- data_2019.5.df_2
 
 
 
@@ -806,7 +1046,6 @@ summary(data_2009.6.df)
 summary(data_2016.6.df)
 summary(data_2018.6.df)
 summary(data_2019.6.df)
-
 
 
 
@@ -847,31 +1086,40 @@ sort(data_2016.6.df$EBIT_TO_NET_SALES)
 sort(data_2018.6.df$EBIT_TO_NET_SALES)
 sort(data_2019.6.df$EBIT_TO_NET_SALES)
 
-
+# 2000
 #identifions le d'abord
-which.min(data_2000.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 13
-which.min(data_2000.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 13
+which.min(data_2000.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 63
+which.min(data_2000.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 63
 which.min(data_2000.6.df$EBITDA_TO_REVENUE)
 #supprimons la lignes
 data_2000.6.df <- data_2000.6.df[-63,] # pour checher si c'est enlevé, lorsque je refais le which.min pour savoir ou se trouve le min c'est à a ligne 95
 summary(data_2000.6.df)
 
 
+# 2007 NO PROBLEM VALEUR ABBERANTE
 
-which.min(data_2009.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 13
-which.min(data_2009.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 13
+# 2008 NO PROBLEM VALEUR ABBERANTE
+
+
+# 2009
+which.min(data_2009.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 54
+which.min(data_2009.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 54
 which.min(data_2009.6.df$EBITDA_TO_REVENUE)
 #supprimons la lignes
-data_2009.6.df <- data_2009.6.df[-96,] # pour checher si c'est enlevé, lorsque je refais le which.min pour savoir ou se trouve le min c'est à a ligne 95
+data_2009.6.df <- data_2009.6.df[-54,] # pour checher si c'est enlevé, lorsque je refais le which.min pour savoir ou se trouve le min c'est à a ligne 95
 
 
+
+# 2016
 which.min(data_2016.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 13
 which.min(data_2016.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 13
 which.min(data_2016.6.df$EBITDA_TO_REVENUE)
 #supprimons la lignes
-data_2016.6.df <- data_2016.6.df[-14,] # pour checher si c'est enlevé, lorsque je refais le which.min pour savoir ou se trouve le min c'est à a ligne 95
+data_2016.6.df <- data_2016.6.df[-13,] # pour checher si c'est enlevé, lorsque je refais le which.min pour savoir ou se trouve le min c'est à a ligne 95
 
 
+
+# 2018
 which.min(data_2018.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 13
 which.min(data_2018.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 13
 which.min(data_2018.6.df$EBITDA_TO_REVENUE)
@@ -879,6 +1127,7 @@ which.min(data_2018.6.df$EBITDA_TO_REVENUE)
 data_2018.6.df <- data_2018.6.df[-13,] # pour checher si c'est enlevé, lorsque je refais le which.min pour savoir ou se trouve le min c'est à a ligne 95
 
 
+# 2019
 which.min(data_2019.6.df$EBITDA_MARGIN) # le donnée se trouve à la ligne 13
 which.min(data_2019.6.df$EBIT_TO_NET_SALES) # le donnée se trouve à la ligne 13
 which.min(data_2019.6.df$EBITDA_TO_REVENUE)
@@ -889,7 +1138,7 @@ data_2019.6.df <- data_2019.6.df[-13,] # pour checher si c'est enlevé, lorsque j
 
 
 
-#enlevons EBITDA_TO_REVENUE car identique à EBITDA_TO_MARGIN (ici c'est la colonne qu'on enlève)
+#enlevons EBITDA_TO_MARGIN car identique à EBITDA_TO_REVENUE (ici c'est la colonne qu'on enlève)
 data_2000.6.df <- data_2000.6.df[-3]
 dim(data_2000.6.df)
 dim(data_2000.5.df)
@@ -928,10 +1177,12 @@ View(data_2018.6.df)
 
 
 
-data_2019.6.df <- data_2019.6.df[-3]
+data_2019.6.df <- data_2019.6.df[-2] # CAR NOT PTOFIT MARGIN COL DELETED ==> CHECK IT
 dim(data_2019.6.df)
 dim(data_2019.5.df)
 View(data_2019.6.df)
+
+
 
 
 
@@ -946,7 +1197,7 @@ n3 <- colnames(data_2008.6.df)
 n4 <- colnames(data_2009.6.df)
 n5 <- colnames(data_2016.6.df)
 n6 <- colnames(data_2018.6.df)
-n7 <- colnames(data_2019.6.df)
+n7 <- colnames(data_2019.6.df)   # 2019 sur data not yet profit margin
 
 
 
@@ -966,7 +1217,17 @@ fix(data_2019.6.df)
 # solution ne pas tenir compte de la colinéarité : remove.collinear = FALSE
 
 #identifier la liste des colonnes sans NA value pour ne pas en tenir compte dans imputation de mice
-which(colSums(is.na(data_2019.6.df))==0) # col 1,6, 8, 10, 13, 19
+which(colSums(is.na(data_2000.6.df))==0) # 2, 4, 7, 8, 9, 12, 18
+which(colSums(is.na(data_2007.6.df))==0) 
+which(colSums(is.na(data_2008.6.df))==0) 
+which(colSums(is.na(data_2009.6.df))==0) 
+which(colSums(is.na(data_2016.6.df))==0) 
+which(colSums(is.na(data_2018.6.df))==0) 
+which(colSums(is.na(data_2019.6.df))==0) 
+
+
+
+#pour (2019) col 1,6, 8, 10, 13, 19
 
 
 library(mice)
@@ -976,47 +1237,98 @@ library(mice)
 # [3] lorsqu'on fait le mice ne pas tenir compte des colonnes sans NA 
 # après ça quand je fais mice(), ça marche sans loggedEvents
 
-#data_imputation <- mice(data_2019.6.df[-1], m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
-data_imputation <- mice(data_2000.6.df[,], m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+
+
+# 2000  --> check log event pour all scenarios
+
+#data_imputation <- mice(data_2000.6.df[-1], m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+
+#which(colSums(is.na(data_2000.6.df))==0) 
+#colSums(is.na(data_2000.6.df))
+#data_imputation_3 <- mice(data_2000.6.df[,c(1,19)], m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+#dim(data_2000.6.df)
+
+data_imputation_2000 <- mice(data_2000.6.df, m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+data_imputation_2007 <- mice(data_2007.6.df, m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+data_imputation_2008 <- mice(data_2008.6.df, m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+data_imputation_2009 <- mice(data_2009.6.df, m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+data_imputation_2016 <- mice(data_2016.6.df, m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+data_imputation_2018 <- mice(data_2018.6.df, m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+data_imputation_2019 <- mice(data_2019.6.df, m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+
+
+plot_missing(data_2018.6.df)
 
 
 
 
 
 
-data_imputation <- mice(data_2019.6.df[,c(-1, -6, -8, -10, -13, -19)], m=5, method = "pmm", maxit = 5, remove.collinear = TRUE)
+
+
+#pas tenir compte (en bas)
+
 #si j'applique le mice du haut, il y aura toujours un loggedEvents car y a beaucoup de colonnes qui n'ont pas de NA donc mieux vaut ne pas en tenir compte dans le mice
 
 
 #avant de passer faisons l'xtraction de colonnes car après need them lors réintégration
 #à l'exception du 1 qui est = à ratings
-var_not_ds_mice <- data_2019.6.df[,c(6, 8, 10, 13, 19)]
 
-col_names_var_not_ds_mice <- colnames(var_not_ds_mice)
 
+#var_not_ds_mice <- data_2000.6.df[,c(2, 4, 7, 8, 9, 12, 18)]
+#col_names_var_not_ds_mice <- colnames(var_not_ds_mice)
 
 
 #je ne tiens pas compte des colonnes sans NA #on les enleve de l'imputation
 
+
+
 #s'il y en a
 #pour voir le nombre de loggedEven c--à-d les variables qui n'ont pas été traité par mice
-data_imputation$loggedEvents #ici c'est EBIT_TO_NET_SALES donc on le tient pas compte de l'imutation 
+data_imputation_2000$loggedEvents #ici c'est EBIT_TO_NET_SALES donc on le tient pas compte de l'imutation 
 #et comme il n'a que 3 NA on va le remplacer par sa moyenne
 #mais après avoir relancer depuis data_2019.5.df on voir qu'il n'y en a pas. ça apparaisait toujours car je le lancer à partir de la dernière base de données ou j'avais fait des modifications sans l'actualiser
-colSums(is.na(data_2000.6.df))
+data_imputation_2007$loggedEvents
+data_imputation_2008$loggedEvents
+data_imputation_2009$loggedEvents
+data_imputation_2016$loggedEvents
+data_imputation_2018$loggedEvents
+data_imputation_2019$loggedEvents
 
-fix(data_2019.6.df)
+
+
+
+
 
 #apres le run, data_imputation n'est pas un database mais ce qui a permis de faire imputation
+summary(data_2000.6.df$RETURN_COM_EQY)
 
-summary(data_2019.6.df$RETURN_COM_EQY)
-
-data_imputation$imp$EBITDA_MARGIN
-
-final_clean_dataset <- complete(data_imputation, 5)
+data_imputation_2000$imp$EBITDA_MARGIN
 
 
 
+final_clean_dataset_2000 <- complete(data_imputation_2000, 5)
+final_clean_dataset_2007 <- complete(data_imputation_2007, 5)
+final_clean_dataset_2008 <- complete(data_imputation_2008, 5)
+final_clean_dataset_2009 <- complete(data_imputation_2009, 5)
+final_clean_dataset_2016 <- complete(data_imputation_2016, 5)
+final_clean_dataset_2018 <- complete(data_imputation_2018, 5)
+final_clean_dataset_2019 <- complete(data_imputation_2019, 5)
+
+
+
+View(final_clean_dataset_2016)
+plot_missing(data_2019.6.df)
+plot_missing(final_clean_dataset_2019)
+
+
+any(is.na(final_clean_dataset_2000))
+any(is.na(final_clean_dataset_2007))
+any(is.na(final_clean_dataset_2008))
+any(is.na(final_clean_dataset_2009))
+any(is.na(final_clean_dataset_2016))
+any(is.na(final_clean_dataset_2018))
+any(is.na(final_clean_dataset_2019))
 
 
 
@@ -1024,24 +1336,14 @@ final_clean_dataset <- complete(data_imputation, 5)
 
 
 
+colSums(final_clean_dataset_2000[-1]) #qd y a NA colSums return NA pour colonne avec NA
+colSums(is.na(final_clean_dataset_2000))
 
-any(is.na(final_clean_dataset))
-
-colSums(final_clean_dataset) #qd y a NA colSums return NA pour colonne avec NA
-
-colSums(is.na(final_clean_dataset))
-
-fix(final_clean_dataset)
+dim(final_clean_dataset_2000)
+plot_missing(final_clean_dataset_2000)
 
 
 
-
-#^^^^^^^^^^^^à delete si je veux^^^^^^^^^^^^
-#_____Pour_see_/_à_after_mice_nbr_NA_avant_227_____
-#p_2 <- matrix(final_clean_dataset$TOT_MKT_VAL) #plus applicable car plus de TOT_MARKET_VALUE sur 2019 car delete car beaucoup de NA value
-#fix(p_2)
-
-#p_1
 
 
 
@@ -1050,35 +1352,66 @@ fix(final_clean_dataset)
 #ls remplaçant par la moyenne
 
 #identifions les
-summary(final_clean_dataset) 
-data_imputation$loggedEvents
+plot_missing(final_clean_dataset_2016)
+plot_missing(final_clean_dataset_2018)
+plot_missing(final_clean_dataset_2019)
+
+summary(final_clean_dataset_2016) 
+data_imputation_2016$loggedEvents
 
 
 
 #not need comparé à 2018 car ici le mice(à tout réglé) donc not need de remplacer ces 2 par la moyenne
 
-#final_clean_dataset$EBIT_TO_NET_SALES[which(is.na(final_clean_dataset$EBIT_TO_NET_SALES))] <- mean(final_clean_dataset$EBIT_TO_NET_SALES, na.rm = TRUE)
-#final_clean_dataset$EBITDA_TO_REVENUE[which(is.na(final_clean_dataset$EBITDA_TO_REVENUE))] <- mean(final_clean_dataset$EBITDA_TO_REVENUE, na.rm = TRUE)
+final_clean_dataset_2016$EBIT_TO_NET_SALES[which(is.na(final_clean_dataset_2016$EBIT_TO_NET_SALES))] <- mean(final_clean_dataset_2016$EBIT_TO_NET_SALES, na.rm = TRUE)
+final_clean_dataset_2018$EBIT_TO_NET_SALES[which(is.na(final_clean_dataset_2018$EBIT_TO_NET_SALES))] <- mean(final_clean_dataset_2018$EBIT_TO_NET_SALES, na.rm = TRUE)
+final_clean_dataset_2019$EBIT_TO_NET_SALES[which(is.na(final_clean_dataset_2019$EBIT_TO_NET_SALES))] <- mean(final_clean_dataset_2019$EBIT_TO_NET_SALES, na.rm = TRUE)
 
 
-any(is.na(final_clean_dataset)) 
-
-# Calculer pourcentage de data NA -----------------------------------------
-p <- function(x){sum(is.na(x))/length(x)*100}
-apply(final_clean_dataset, 2, p)
 
 
-dim(final_clean_dataset) # 16 variables car on dans le micee(), on avait pas tenue compte des 6 variables qui n'avait aucune NA value. Donc il faut les remettre dans final_clean_dataset
+any(is.na(final_clean_dataset_2000))
+any(is.na(final_clean_dataset_2007))
+any(is.na(final_clean_dataset_2008))
+any(is.na(final_clean_dataset_2009))
+any(is.na(final_clean_dataset_2016))
+any(is.na(final_clean_dataset_2018))
+any(is.na(final_clean_dataset_2019))
+
+
+
+
+
 dim(data_2019.5.df)      #23 variables
-dim(data_2019.6.df)      #22 variables
+dim(data_2019.6.df)      #22 variables : on a enleve EBITDA_TO_MARGIN car identique à EBITDA_TO_REVENUE
+dim(final_clean_dataset_2019)
+
+
+
+
+
 
 
 #ajoutons les colonnes qui n'avaient pas de NA value dans data_2019.6.df dans final_clean_dataset sans ajouter le 1er qui correspond au ratings car on va l'ajouter plus tard
 
+#final_clean_dataset.2 <- cbind(final_clean_dataset, data_2019.6.df[,c(6, 8, 10, 13, 19)])
 
-final_clean_dataset.2 <- cbind(final_clean_dataset, data_2019.6.df[,c(6, 8, 10, 13, 19)])
-dim(final_clean_dataset.2)
-fix(final_clean_dataset.2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# NOT RUN  (UNTIL NOT RUN EN BAS)
+
 
 #vérifions si toutes les variables sont présentes
 colnames(final_clean_dataset.2)==colnames(data_2019.6.df)
@@ -1097,7 +1430,6 @@ setequal(colnames(final_clean_dataset.2),colnames(data_2019.6.df))
 
 
 
-
 #ou 
 colSums(is.na(final_clean_dataset.2))
 
@@ -1108,8 +1440,41 @@ library(DataExplorer)
 plot_missing(final_clean_dataset.2)
 
 
-summary(final_clean_dataset.2)
-colnames(final_clean_dataset.2)
+
+
+
+
+
+# NOT RUN (FROM NOT RUN EN HAUT)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1119,15 +1484,64 @@ colnames(final_clean_dataset.2)
 #ratings = Variable catégorielle ordonnée
 
 #j'ai 19 nivveaux donc 19 éléments différents et chacun je l'ai 1 ou plusieurs fois
-my_RATINGS <- data_2019.6.df$RATINGS
-my_RATINGS <- matrix(my_RATINGS)
-dim(my_RATINGS)
+my_RATINGS_2000 <- final_clean_dataset_2000$RATINGS
+my_RATINGS_2000 <- matrix(my_RATINGS_2000)
+dim(my_RATINGS_2000)
+
+
+
+my_RATINGS_2007 <- final_clean_dataset_2007$RATINGS
+my_RATINGS_2007 <- matrix(my_RATINGS_2007)
+dim(my_RATINGS_2007)
+
+
+my_RATINGS_2008 <- final_clean_dataset_2008$RATINGS
+my_RATINGS_2008 <- matrix(my_RATINGS_2008)
+dim(my_RATINGS_2008)
+
+
+my_RATINGS_2009 <- final_clean_dataset_2009$RATINGS
+my_RATINGS_2009 <- matrix(my_RATINGS_2009)
+dim(my_RATINGS_2009)
+
+
+my_RATINGS_2016 <- final_clean_dataset_2016$RATINGS
+my_RATINGS_2016 <- matrix(my_RATINGS_2016)
+dim(my_RATINGS_2016)
+
+
+my_RATINGS_2018 <- final_clean_dataset_2018$RATINGS
+my_RATINGS_2018 <- matrix(my_RATINGS_2018)
+dim(my_RATINGS_2018)
+
+
+my_RATINGS_2019 <- final_clean_dataset_2019$RATINGS
+my_RATINGS_2019 <- matrix(my_RATINGS_2019)
+dim(my_RATINGS_2019)
+
 
 
 #juste pour checher mes level donc create new variable
-rate_check <- factor(my_RATINGS)
-levels(rate_check)
+rate_check_2000 <- factor(my_RATINGS_2000)
+levels(rate_check_2000)
 
+rate_check_2007 <- factor(my_RATINGS_2007)
+levels(rate_check_2007)
+
+rate_check_2008 <- factor(my_RATINGS_2008)
+levels(rate_check_2008)
+
+rate_check_2009 <- factor(my_RATINGS_2009)
+levels(rate_check_2009)
+
+rate_check_2016 <- factor(my_RATINGS_2016)
+levels(rate_check_2016)
+
+rate_check_2018 <- factor(my_RATINGS_2018)
+levels(rate_check_2018)
+
+rate_check_2019 <- factor(my_RATINGS_2019)
+levels(rate_check_2019)
 
 
 #avant de le convertir en factor on doit faire les conversion
@@ -1150,13 +1564,31 @@ grd_grp_rat <- c("AAA"="AAA", "AA+"="AA", "AA"="AA", "AA-"="AA",
                  "B+"="B","B"="B","B-"="B",
                  "CCC+"="CCC", "CCC"="CCC","CCC-"="CCC")
 
-my_rating_grd_grp <- grd_grp_rat[my_RATINGS]
+
+
+my_rating_grd_grp_2000 <- grd_grp_rat[my_RATINGS_2000]
+my_rating_grd_grp_2007 <- grd_grp_rat[my_RATINGS_2007]
+my_rating_grd_grp_2008 <- grd_grp_rat[my_RATINGS_2008]
+my_rating_grd_grp_2009 <- grd_grp_rat[my_RATINGS_2009]
+my_rating_grd_grp_2016 <- grd_grp_rat[my_RATINGS_2016]
+my_rating_grd_grp_2018 <- grd_grp_rat[my_RATINGS_2018]
+my_rating_grd_grp_2019 <- grd_grp_rat[my_RATINGS_2019]
+
+
+
 
 #pour voir si conversion bien fait / a my_RATINGS
-see <- matrix(my_rating_grd_grp)
-dim(see)
+see_2000 <- matrix(my_rating_grd_grp_2000)
+dim(see_2000)
 
-fix(see)
+fix(see_2000)
+
+see_2007 <- matrix(my_rating_grd_grp_2007)
+see_2008 <- matrix(my_rating_grd_grp_2008)
+see_2009 <- matrix(my_rating_grd_grp_2009)
+see_2016 <- matrix(my_rating_grd_grp_2016)
+see_2018 <- matrix(my_rating_grd_grp_2018)
+see_2019 <- matrix(my_rating_grd_grp_2019)
 
 
 
@@ -1169,20 +1601,61 @@ fix(see)
 grd_grp_num <- c("AAA"=1, "AA"=2,"A"=3,
                  "BBB"=4,"BB"=5,"B"=6, "CCC"=7)
 
-my_rating_grd_num <- grd_grp_num[my_rating_grd_grp]
+my_rating_grd_num_2000 <- grd_grp_num[my_rating_grd_grp_2000]
+my_rating_grd_num_2007 <- grd_grp_num[my_rating_grd_grp_2007]
+my_rating_grd_num_2008 <- grd_grp_num[my_rating_grd_grp_2008]
+my_rating_grd_num_2009 <- grd_grp_num[my_rating_grd_grp_2009]
+my_rating_grd_num_2016 <- grd_grp_num[my_rating_grd_grp_2016]
+my_rating_grd_num_2018 <- grd_grp_num[my_rating_grd_grp_2018]
+my_rating_grd_num_2019 <- grd_grp_num[my_rating_grd_grp_2019]
 
-as.factor(my_rating_grd_grp)
+
+
+
+as.factor(my_rating_grd_grp_2000)
 
 #pour pouvoir comparer si good après conversion
-see_2 <- matrix(my_rating_grd_num)
-dim(see_2)
+see_2_2000 <- matrix(my_rating_grd_num_2000)
+dim(see_2_2000)
 
+
+see_2_2007 <- matrix(my_rating_grd_num_2007)
+see_2_2008 <- matrix(my_rating_grd_num_2008)
+see_2_2009 <- matrix(my_rating_grd_num_2009)
+see_2_2016 <- matrix(my_rating_grd_num_2016)
+see_2_2018 <- matrix(my_rating_grd_num_2018)
+see_2_2019 <- matrix(my_rating_grd_num_2019)
 
 
 #juste pour faire good plot
 #on met factor en spécifiant l'ordre des levels (le niveau de chaque factor)
-see <- factor(see, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
-a <- cbind(see, final_clean_dataset.2) # car j'ai besoin que ça soit une base de données pour pouvoir le manipuler dans dplyr et dans ggplot
+see_2000 <- factor(see_2000, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+a_2000 <- cbind(see_2_2000, see_2000,final_clean_dataset_2000) # car j'ai besoin que ça soit une base de données pour pouvoir le manipuler dans dplyr et dans ggplot
+
+see_2007 <- factor(see_2007, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+a_2007 <- cbind(see_2_2007, see_2007,final_clean_dataset_2007)
+
+see_2008 <- factor(see_2008, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+a_2008 <- cbind(see_2_2008, see_2008,final_clean_dataset_2008)
+
+see_2009 <- factor(see_2009, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+a_2009 <- cbind(see_2_2009, see_2009,final_clean_dataset_2009)
+
+see_2016 <- factor(see_2016, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+a_2016 <- cbind(see_2_2016, see_2016,final_clean_dataset_2016)
+
+see_2018 <- factor(see_2018, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+a_2018 <- cbind(see_2_2018, see_2018,final_clean_dataset_2018)
+
+
+see_2019 <- factor(see_2019, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+a_2019 <- cbind(see_2_2019, see_2019,final_clean_dataset_2019)
+
+
+
+# not what I want to do
+plot_bar(see_2000)
+plot_bar(my_rating_grd_grp_2000)
 
 
 
@@ -1193,21 +1666,108 @@ a <- cbind(see, final_clean_dataset.2) # car j'ai besoin que ça soit une base de
 
 
 
+
+
+# ou DataExplorer
+
+
+
 library(dplyr)
-count_data <- a %>% 
-  count(see)
+count_data_2000 <- a_2000 %>% 
+  count(see_2000)
+
+
+
+count_data_2007 <- a_2007 %>% 
+  count(see_2007)
+
+
+count_data_2008 <- a_2008 %>% 
+  count(see_2008)
+
+
+
+count_data_2009 <- a_2009 %>% 
+  count(see_2009)
+
+
+count_data_2016 <- a_2016 %>% 
+  count(see_2016)
+
+
+
+count_data_2018 <- a_2018 %>% 
+  count(see_2018)
+
+
+
+count_data_2019 <- a_2019 %>% 
+  count(see_2019)
+
 
 
 #changer ordre bin
+library(ggplot2)
+
 
 dev.new() # permet de sortir le plot zoom de son cadre et si j'en écrit envore ça m'en sort un autre
-
-library(ggplot2)
-ggplot(count_data, aes(x=see, y=n))+
+ggplot(count_data_2000, aes(x=see_2000, y=n))+
   geom_bar(stat = "identity", fill="gray16")+
   geom_text(aes(label=n), vjust=-0.500)+
-  labs(x="Cote de crédit 2020", u="Nombre d'observation",
+  labs(x="Cote de crédit 2000", u="Nombre d'observation",
        title = "")
+
+
+
+
+
+ggplot(count_data_2007, aes(x=see_2007, y=n))+
+  geom_bar(stat = "identity", fill="gray16")+
+  geom_text(aes(label=n), vjust=-0.500)+
+  labs(x="Cote de crédit 2007", u="Nombre d'observation",
+       title = "")
+
+
+
+ggplot(count_data_2008, aes(x=see_2008, y=n))+
+  geom_bar(stat = "identity", fill="gray16")+
+  geom_text(aes(label=n), vjust=-0.500)+
+  labs(x="Cote de crédit 2008", u="Nombre d'observation",
+       title = "")
+
+
+ggplot(count_data_2009, aes(x=see_2009, y=n))+
+  geom_bar(stat = "identity", fill="gray16")+
+  geom_text(aes(label=n), vjust=-0.500)+
+  labs(x="Cote de crédit 2009", u="Nombre d'observation",
+       title = "")
+
+
+ggplot(count_data_2016, aes(x=see_2016, y=n))+
+  geom_bar(stat = "identity", fill="gray16")+
+  geom_text(aes(label=n), vjust=-0.500)+
+  labs(x="Cote de crédit 2016", u="Nombre d'observation",
+       title = "")
+
+
+
+ggplot(count_data_2018, aes(x=see_2018, y=n))+
+  geom_bar(stat = "identity", fill="gray16")+
+  geom_text(aes(label=n), vjust=-0.500)+
+  labs(x="Cote de crédit 2018", u="Nombre d'observation",
+       title = "")
+
+
+
+
+ggplot(count_data_2019, aes(x=see_2019, y=n))+
+  geom_bar(stat = "identity", fill="gray16")+
+  geom_text(aes(label=n), vjust=-0.500)+
+  labs(x="Cote de crédit 2019", u="Nombre d'observation",
+       title = "")
+
+
+
 
 
 
@@ -1217,34 +1777,233 @@ ggplot(count_data, aes(x=see, y=n))+
 
 # cbind()_ratings_numérik_et_final_data ------------------------------------
 
-data_2019_avt_good_ratio <-cbind(my_rating_grd_num, final_clean_dataset.2)
-my_rating_grd_num #ça le donne le level de chaque chiffre =rating car je les ai défini plus haut
-dim(final_clean_dataset.2)
-dim(data_2019_avt_good_ratio)
+data_2000_avt_good_ratio <-cbind(my_rating_grd_num_2000, my_rating_grd_grp_2000,final_clean_dataset_2000)
+my_rating_grd_num_2000 #ça le donne le level de chaque chiffre =rating car je les ai défini plus haut
+dim(final_clean_dataset_2000)
+dim(data_2000_avt_good_ratio)
 
 
-colnames(data_2019_avt_good_ratio)
+data_2007_avt_good_ratio <-cbind(my_rating_grd_num_2007, my_rating_grd_grp_2007,final_clean_dataset_2007)
+data_2008_avt_good_ratio <-cbind(my_rating_grd_num_2008, my_rating_grd_grp_2008,final_clean_dataset_2008)
+data_2009_avt_good_ratio <-cbind(my_rating_grd_num_2009, my_rating_grd_grp_2009,final_clean_dataset_2009)
+data_2016_avt_good_ratio <-cbind(my_rating_grd_num_2016, my_rating_grd_grp_2016,final_clean_dataset_2016)
+data_2018_avt_good_ratio <-cbind(my_rating_grd_num_2018, my_rating_grd_grp_2018,final_clean_dataset_2018)
+data_2019_avt_good_ratio <-cbind(my_rating_grd_num_2019, my_rating_grd_grp_2019,final_clean_dataset_2019)
+
+
+
+colnames(data_2000_avt_good_ratio)
+
+is.element("WORKING_CAPITAL" , colnames(data_2000_avt_good_ratio))
+is.element("TOT_MKT_VAL" , colnames(data_2000_avt_good_ratio))
+
+
+is.element("WORKING_CAPITAL" , colnames(data_2007_avt_good_ratio))
+is.element("TOT_MKT_VAL" , colnames(data_2007_avt_good_ratio))
+
+
+is.element("WORKING_CAPITAL" , colnames(data_2008_avt_good_ratio))
+is.element("TOT_MKT_VAL" , colnames(data_2008_avt_good_ratio))
+
+
+is.element("WORKING_CAPITAL" , colnames(data_2009_avt_good_ratio))
+is.element("TOT_MKT_VAL" , colnames(data_2009_avt_good_ratio))
+
+
+is.element("WORKING_CAPITAL" , colnames(data_2016_avt_good_ratio))
+is.element("TOT_MKT_VAL" , colnames(data_2016_avt_good_ratio))
+
+
+is.element("WORKING_CAPITAL" , colnames(data_2018_avt_good_ratio))
+is.element("TOT_MKT_VAL" , colnames(data_2018_avt_good_ratio))
+
 
 is.element("WORKING_CAPITAL" , colnames(data_2019_avt_good_ratio))
 is.element("TOT_MKT_VAL" , colnames(data_2019_avt_good_ratio))
 
+
+
+
+
 # constituer good ratio ---------------------------------------------------
 
 #je peux use tidyverse plutot commode
-library(dplyr)  # database : data_2019_avt_good_ratio
+library(dplyr)  # database : data_2000_avt_good_ratio
+
+# 2000
+data_2000_with_good_ratio <- data_2000_avt_good_ratio%>%
+  mutate(ratio_Flux_de_TR_expl_sur_passif_cour = CF_CASH_FROM_OPER/BS_CUR_LIAB,
+         ratio_Fonds_de_roulement_sur_tot_actif = WORKING_CAPITAL/BS_TOT_ASSET)
+
+#ratio_val_marchd_tot_sur_tot_actif =TOT_MKT_VAL/BS_TOT_ASSET) is deleted car TOT_MKT8VAL pas dans new database
+# ratio_tot_liab_sur_tot_actif=BS_TOTAL_LIABILITIES/BS_TOT_ASSET, (idem)
+#ratio_B_non_rep_sur_Tot_actif = BS_PURE_RETAINED_EARNINGS/BS_TOT_ASSET,
+
+is.element("TOT_MKT_VAL", colnames(data_2000_avt_good_ratio))
+is.element("BS_TOTAL_LIABILITIES", colnames(data_2000_avt_good_ratio))
+is.element("BS_PURE_RETAINED_EARNINGS", colnames(data_2000_avt_good_ratio))
+
+colnames(data_2000_with_good_ratio)
+
+dim(data_2000_avt_good_ratio)
+dim(data_2000_with_good_ratio)
+
+length(colnames(data_2000_with_good_ratio))
+
+
+
+# 2007
+data_2007_with_good_ratio <- data_2007_avt_good_ratio%>%
+  mutate(ratio_B_non_rep_sur_Tot_actif = BS_PURE_RETAINED_EARNINGS/BS_TOT_ASSET,
+         ratio_Flux_de_TR_expl_sur_passif_cour = CF_CASH_FROM_OPER/BS_CUR_LIAB,
+         ratio_Fonds_de_roulement_sur_tot_actif = WORKING_CAPITAL/BS_TOT_ASSET)
+
+#ratio_val_marchd_tot_sur_tot_actif =TOT_MKT_VAL/BS_TOT_ASSET) is deleted car TOT_MKT8VAL pas dans new database
+# ratio_tot_liab_sur_tot_actif=BS_TOTAL_LIABILITIES/BS_TOT_ASSET, (idem)
+
+
+colnames(data_2007_avt_good_ratio)
+
+is.element("TOT_MKT_VAL", colnames(data_2007_avt_good_ratio))
+is.element("BS_TOTAL_LIABILITIES", colnames(data_2007_avt_good_ratio))
+is.element("BS_PURE_RETAINED_EARNINGS", colnames(data_2007_avt_good_ratio))
+
+
+
+
+
+
+
+# 2008
+data_2008_with_good_ratio <- data_2008_avt_good_ratio%>%
+  mutate(ratio_B_non_rep_sur_Tot_actif = BS_PURE_RETAINED_EARNINGS/BS_TOT_ASSET,
+         ratio_Flux_de_TR_expl_sur_passif_cour = CF_CASH_FROM_OPER/BS_CUR_LIAB,
+         ratio_Fonds_de_roulement_sur_tot_actif = WORKING_CAPITAL/BS_TOT_ASSET)
+
+#ratio_val_marchd_tot_sur_tot_actif =TOT_MKT_VAL/BS_TOT_ASSET) is deleted car TOT_MKT8VAL pas dans new database
+# ratio_tot_liab_sur_tot_actif=BS_TOTAL_LIABILITIES/BS_TOT_ASSET, (idem)
+
+
+colnames(data_2008_avt_good_ratio)
+
+is.element("TOT_MKT_VAL", colnames(data_2008_avt_good_ratio))
+is.element("BS_TOTAL_LIABILITIES", colnames(data_2008_avt_good_ratio))
+is.element("BS_PURE_RETAINED_EARNINGS", colnames(data_2008_avt_good_ratio))
+
+
+
+
+# 2009
+data_2009_with_good_ratio <- data_2009_avt_good_ratio%>%
+  mutate(ratio_tot_liab_sur_tot_actif=BS_TOTAL_LIABILITIES/BS_TOT_ASSET,
+         ratio_B_non_rep_sur_Tot_actif = BS_PURE_RETAINED_EARNINGS/BS_TOT_ASSET,
+         ratio_Flux_de_TR_expl_sur_passif_cour = CF_CASH_FROM_OPER/BS_CUR_LIAB,
+         ratio_Fonds_de_roulement_sur_tot_actif = WORKING_CAPITAL/BS_TOT_ASSET)
+
+#ratio_val_marchd_tot_sur_tot_actif =TOT_MKT_VAL/BS_TOT_ASSET) is deleted car TOT_MKT8VAL pas dans new database
+
+colnames(data_2009_avt_good_ratio)
+
+is.element("TOT_MKT_VAL", colnames(data_2009_avt_good_ratio))
+is.element("BS_TOTAL_LIABILITIES", colnames(data_2009_avt_good_ratio))
+is.element("BS_PURE_RETAINED_EARNINGS", colnames(data_2009_avt_good_ratio))
+
+
+
+
+# 2016
+data_2016_with_good_ratio <- data_2016_avt_good_ratio%>%
+  mutate(ratio_tot_liab_sur_tot_actif=BS_TOTAL_LIABILITIES/BS_TOT_ASSET,
+         ratio_B_non_rep_sur_Tot_actif = BS_PURE_RETAINED_EARNINGS/BS_TOT_ASSET,
+         ratio_Flux_de_TR_expl_sur_passif_cour = CF_CASH_FROM_OPER/BS_CUR_LIAB,
+         ratio_Fonds_de_roulement_sur_tot_actif = WORKING_CAPITAL/BS_TOT_ASSET)
+
+#ratio_val_marchd_tot_sur_tot_actif =TOT_MKT_VAL/BS_TOT_ASSET) is deleted car TOT_MKT8VAL pas dans new database
+
+colnames(data_2016_avt_good_ratio)
+
+is.element("TOT_MKT_VAL", colnames(data_2016_avt_good_ratio))
+is.element("BS_TOTAL_LIABILITIES", colnames(data_2016_avt_good_ratio))
+is.element("BS_PURE_RETAINED_EARNINGS", colnames(data_2016_avt_good_ratio))
+
+
+
+
+
+# 2018
+data_2018_with_good_ratio <- data_2018_avt_good_ratio%>%
+  mutate(ratio_tot_liab_sur_tot_actif=BS_TOTAL_LIABILITIES/BS_TOT_ASSET,
+         ratio_B_non_rep_sur_Tot_actif = BS_PURE_RETAINED_EARNINGS/BS_TOT_ASSET,
+         ratio_Flux_de_TR_expl_sur_passif_cour = CF_CASH_FROM_OPER/BS_CUR_LIAB,
+         ratio_Fonds_de_roulement_sur_tot_actif = WORKING_CAPITAL/BS_TOT_ASSET)
+
+#ratio_val_marchd_tot_sur_tot_actif =TOT_MKT_VAL/BS_TOT_ASSET) is deleted car TOT_MKT8VAL pas dans new database
+# ratio_tot_liab_sur_tot_actif=BS_TOTAL_LIABILITIES/BS_TOT_ASSET, (idem)
+#ratio_B_non_rep_sur_Tot_actif = BS_PURE_RETAINED_EARNINGS/BS_TOT_ASSET,
+
+colnames(data_2018_avt_good_ratio)
+
+is.element("TOT_MKT_VAL", colnames(data_2018_avt_good_ratio))
+is.element("BS_TOTAL_LIABILITIES", colnames(data_2018_avt_good_ratio))
+is.element("BS_PURE_RETAINED_EARNINGS", colnames(data_2018_avt_good_ratio))
+
+
+
+
+
+# 2019
 data_2019_with_good_ratio <- data_2019_avt_good_ratio%>%
   mutate(ratio_tot_liab_sur_tot_actif=BS_TOTAL_LIABILITIES/BS_TOT_ASSET,
          ratio_B_non_rep_sur_Tot_actif = BS_PURE_RETAINED_EARNINGS/BS_TOT_ASSET,
          ratio_Flux_de_TR_expl_sur_passif_cour = CF_CASH_FROM_OPER/BS_CUR_LIAB,
-         ratio_Fonds_de_roulement = WORKING_CAPITAL/BS_TOT_ASSET)
+         ratio_Fonds_de_roulement_sur_tot_actif = WORKING_CAPITAL/BS_TOT_ASSET)
+
 #ratio_val_marchd_tot_sur_tot_actif =TOT_MKT_VAL/BS_TOT_ASSET) is deleted car TOT_MKT8VAL pas dans new database
 
-colnames(data_2019_with_good_ratio)
+colnames(data_2019_avt_good_ratio)
 
-dim(data_2019_avt_good_ratio)
-dim(data_2019_with_good_ratio)
+is.element("TOT_MKT_VAL", colnames(data_2019_avt_good_ratio))
+is.element("BS_TOTAL_LIABILITIES", colnames(data_2019_avt_good_ratio))
+is.element("BS_PURE_RETAINED_EARNINGS", colnames(data_2019_avt_good_ratio))
 
-length(colnames(data_2019_with_good_ratio))
+
+
+
+
+
+
+
+
+is.element("APPLIED_BETA", colnames(data_2000_avt_good_ratio))
+is.element("APPLIED_BETA", colnames(data_2007_avt_good_ratio))
+is.element("APPLIED_BETA", colnames(data_2008_avt_good_ratio))
+is.element("APPLIED_BETA", colnames(data_2009_avt_good_ratio))
+is.element("APPLIED_BETA", colnames(data_2016_avt_good_ratio))
+is.element("APPLIED_BETA", colnames(data_2018_avt_good_ratio))
+is.element("APPLIED_BETA", colnames(data_2019_avt_good_ratio))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1256,10 +2015,6 @@ length(colnames(data_2019_with_good_ratio))
 
 # Renommer all names en FR  -----------------------------------------------
 
-nom_col <- colnames(data_2019_with_good_ratio)
-length(nom_col)
-
-
 
 
 
@@ -1269,43 +2024,395 @@ length(nom_col)
 # j'enleve le dernier ratio not pris en compte : ratio_val_marchd_tot_sur_tot_actif
 
 # ceux que j'ai mi en dernier avant de put les ratios de dplyr sont stockés dans col_names_var_not_ds_mice
+
+#NOT RUN
 col_names_var_not_ds_mice #elles sont au nombre de 5 -> ci dessous par ordre
 #  "Dette_LT", "Total_actif",  "Trésorie d'exp",  "ratio_tot_dette_sur_tot_actif",  "Marge_d_explt",
 # now mettons les avant les 4 ratios constituées avec dplyr donc les 4 last ratios
 
-nom_col_good <- c("Cote_crédit", "Marge_sur_EBITDA",
-                  "Marge_sur_EBIT", "Rendement_sur_cap_prop",
-                  "Rendement_sur_actif", "Total_passif",
-                  "Bénéfice_non_rep",
-                  "Passif_courant", "ratio_ben_avt_impot_sur_frais_int", "ratio_actuel",
-                  "Ratio_de_liquid_réduite", "Ratio_de_liquidité", "Fonds_roulement",
-                  "Ratio_Fonds_de_roulmt_sur_ventes",
-                  "Beta_applique", "Croissance_rev_adjuste", "croissance_geom_des_actifs",
-                  "Dette_LT", "Total_actif",  "Trésorie d'exp",  "ratio_tot_dette_sur_tot_actif",  "Marge_d_explt",
-                  "ratio_tot_liab_sur_tot_actif", "ratio_B_non_rep_sur_Tot_actif", "ratio_Flux_de_TR_expl_sur_passif_cour",
-                  "ratio_Fonds_de_roulement")
 
 
 
-length(nom_col_good)
-length(nom_col_good)
+
+# 2000
+nom_col_2000 <- colnames(data_2000_with_good_ratio)
+nom_col_2000
+length(nom_col_2000)
+
+# changer Ordre 2000
+nom_col_good_2000 <- c("Cote_crédit_num", "Cote_crédit", "RATINGS", "Marge_bénéficiaire nette",
+                  "Marge_sur_EBITDA","Marge_sur_EBIT", "Rendement_sur_cap_prop","Rendement_sur_actif",
+                  "Dette_LT",
+                  "Total_actif","Flux_de_trésorie_d'expl","Passif_courant",
+                  "ratio_ben_avt_impot_sur_frais_int", "ratio_tot_dette_sur_tot_actif",
+                  "ratio_actuel","Ratio_de_liquid_réduite","Ratio_de_liquidité","Fonds_roulement",
+                  "Ratio_Fonds_de_roulmt_sur_ventes","Marge_opérationnelle","Beta_applique",
+                  "ratio_Flux_de_TR_expl_sur_passif_cour","ratio_Fonds_de_roulement_sur_tot_actif")
+                  
+                  
+                  
+length(nom_col_2000)
+length(nom_col_good_2000)
 
 #juste pour des fins de comparaisons
+matrice_comparaison_nom_var_1_2000 <- matrix(nom_col_2000, 23, 1)
+matrice_comparaison_nom_var_2_2000 <- matrix(nom_col_good_2000, 23, 1)
 
-matrice_comparaison_nom_var <- matrix(c(nom_col,nom_col_good), 26, 2)
+m_2000 <-  cbind(matrice_comparaison_nom_var_1_2000, matrice_comparaison_nom_var_2_2000)
+fix(m_2000)
 
-fix(matrice_comparaison_nom_var)#le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
+#le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
 
 #good car comparaison équitable dans leur positionnement
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 2007
+nom_col_2007 <- colnames(data_2007_with_good_ratio)
+nom_col_2007
+length(nom_col_2007)
+
+# changer Ordre 2007
+nom_col_good_2007 <-  c("Cote_crédit_num", "Cote_crédit", "RATINGS", "Marge_bénéficiaire nette",
+                        "Marge_sur_EBITDA","Marge_sur_EBIT", "Rendement_sur_cap_prop","Rendement_sur_actif",
+                        "Dette_LT",
+                        "Total_actif","Bénéfices_non_répartis","Flux_de_trésorie_d'expl","Passif_courant",
+                        "ratio_ben_avt_impot_sur_frais_int", "ratio_tot_dette_sur_tot_actif",
+                        "ratio_actuel","Ratio_de_liquid_réduite","Ratio_de_liquidité","Fonds_roulement",
+                        "Ratio_Fonds_de_roulmt_sur_ventes","Marge_opérationnelle","ratio_B_non_rep_sur_Tot_actif",
+                        "ratio_Flux_de_TR_expl_sur_passif_cour","ratio_Fonds_de_roulement_sur_tot_actif")
+
+  
+
+
+length(nom_col_2007)
+length(nom_col_good_2007)
+
+#juste pour des fins de comparaisons
+matrice_comparaison_nom_var_1_2007 <- matrix(nom_col_2007, 24, 1)
+matrice_comparaison_nom_var_2_2007 <- matrix(nom_col_good_2007, 24, 1)
+
+m_2007 <-  cbind(matrice_comparaison_nom_var_1_2007, matrice_comparaison_nom_var_2_2007)
+fix(m_2007)
+
+#le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
+
+#good car comparaison équitable dans leur positionnement
+
+
+
+
+
+
+
+
+
+# 2008
+nom_col_2008 <- colnames(data_2008_with_good_ratio)
+nom_col_2008
+length(nom_col_2008)
+
+# changer Ordre 2008
+nom_col_good_2008 <-c("Cote_crédit_num", "Cote_crédit", "RATINGS", "Marge_bénéficiaire nette",
+                      "Marge_sur_EBITDA","Marge_sur_EBIT", "Rendement_sur_cap_prop","Rendement_sur_actif",
+                      "Dette_LT",
+                      "Total_actif","Bénéfices_non_répartis","Flux_de_trésorie_d'expl","Passif_courant",
+                      "ratio_ben_avt_impot_sur_frais_int", "ratio_tot_dette_sur_tot_actif",
+                      "ratio_actuel","Ratio_de_liquid_réduite","Ratio_de_liquidité","Fonds_roulement",
+                      "Ratio_Fonds_de_roulmt_sur_ventes","Marge_opérationnelle","ratio_B_non_rep_sur_Tot_actif",
+                      "ratio_Flux_de_TR_expl_sur_passif_cour","ratio_Fonds_de_roulement_sur_tot_actif")
+
+  
+  
+
+
+length(nom_col_2008)
+length(nom_col_good_2008)
+
+#juste pour des fins de comparaisons
+matrice_comparaison_nom_var_1_2008 <- matrix(nom_col_2008, 24, 1)
+matrice_comparaison_nom_var_2_2008 <- matrix(nom_col_good_2008, 24, 1)
+
+m_2008 <-  cbind(matrice_comparaison_nom_var_1_2008, matrice_comparaison_nom_var_2_2008)
+fix(m_2008)
+
+#le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
+
+#good car comparaison équitable dans leur positionnement
+
+
+
+
+
+
+
+
+
+
+# 2009
+nom_col_2009 <- colnames(data_2009_with_good_ratio)
+nom_col_2009
+length(nom_col_2009)
+
+# changer Ordre 2009
+nom_col_good_2009 <- c("Cote_crédit_num", "Cote_crédit", "RATINGS", "Marge_bénéficiaire nette",
+                       "Marge_sur_EBITDA","Marge_sur_EBIT", "Rendement_sur_cap_prop","Rendement_sur_actif",
+                       "Dette_LT","Total_passif",
+                       "Total_actif","Bénéfices_non_répartis","Flux_de_trésorie_d'expl","Passif_courant",
+                       "ratio_ben_avt_impot_sur_frais_int", "ratio_tot_dette_sur_tot_actif",
+                       "ratio_actuel","Ratio_de_liquid_réduite","Ratio_de_liquidité","Fonds_roulement",
+                       "Ratio_Fonds_de_roulmt_sur_ventes", "Marge_opérationnelle",
+                       "ratio_tot_liab_sur_tot_actif", 
+                       "ratio_B_non_rep_sur_Tot_actif",
+                       "ratio_Flux_de_TR_expl_sur_passif_cour","ratio_Fonds_de_roulement_sur_tot_actif")
+
+
+  
+length(nom_col_2009)
+length(nom_col_good_2009)
+
+#juste pour des fins de comparaisons
+matrice_comparaison_nom_var_1_2009 <- matrix(nom_col_2009, 26, 1)
+matrice_comparaison_nom_var_2_2009 <- matrix(nom_col_good_2009, 26, 1)
+
+m_2009 <-  cbind(matrice_comparaison_nom_var_1_2009, matrice_comparaison_nom_var_2_2009)
+fix(m_2009)
+
+#le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
+
+#good car comparaison équitable dans leur positionnement
+
+
+
+
+
+
+
+
+
+# 2016
+nom_col_2016 <- colnames(data_2016_with_good_ratio)
+nom_col_2016
+length(nom_col_2016)
+
+# changer Ordre 2016
+nom_col_good_2016 <- c("Cote_crédit_num", "Cote_crédit", "RATINGS", "Marge_bénéficiaire nette",
+                  "Marge_sur_EBITDA","Marge_sur_EBIT", "Rendement_sur_cap_prop","Rendement_sur_actif",
+                  "Dette_LT","Total_passif",
+                  "Total_actif","Bénéfices_non_répartis","Flux_de_trésorie_d'expl","Passif_courant",
+                  "ratio_ben_avt_impot_sur_frais_int", "ratio_tot_dette_sur_tot_actif",
+                  "ratio_actuel","Ratio_de_liquid_réduite","Ratio_de_liquidité","Fonds_roulement",
+                  "Ratio_Fonds_de_roulmt_sur_ventes", "Marge_opérationnelle",
+                  "ratio_tot_liab_sur_tot_actif", 
+                  "ratio_B_non_rep_sur_Tot_actif",
+                  "ratio_Flux_de_TR_expl_sur_passif_cour","ratio_Fonds_de_roulement_sur_tot_actif")
+
+
+length(nom_col_2016)
+length(nom_col_good_2016)
+
+#juste pour des fins de comparaisons
+matrice_comparaison_nom_var_1_2016 <- matrix(nom_col_2016, 26, 1)
+matrice_comparaison_nom_var_2_2016 <- matrix(nom_col_good_2016, 26, 1)
+
+m_2016 <-  cbind(matrice_comparaison_nom_var_1_2016, matrice_comparaison_nom_var_2_2016)
+fix(m_2016)
+
+#le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
+
+#good car comparaison équitable dans leur positionnement
+
+
+
+
+
+
+
+
+
+
+# 2018
+nom_col_2018 <- colnames(data_2018_with_good_ratio)
+nom_col_2018
+length(nom_col_2018)
+
+# changer Ordre 2018
+nom_col_good_2018 <- c("Cote_crédit_num", "Cote_crédit", "RATINGS", "Marge_bénéficiaire nette",
+                       "Marge_sur_EBITDA","Marge_sur_EBIT", "Rendement_sur_cap_prop","Rendement_sur_actif",
+                       "Dette_LT","Total_passif",
+                       "Total_actif","Bénéfices_non_répartis","Flux_de_trésorie_d'expl","Passif_courant",
+                       "ratio_ben_avt_impot_sur_frais_int", "ratio_tot_dette_sur_tot_actif",
+                       "ratio_actuel","Ratio_de_liquid_réduite","Ratio_de_liquidité","Fonds_roulement",
+                       "Ratio_Fonds_de_roulmt_sur_ventes", "Marge_opérationnelle",
+                       "Beta_applique","Croissance_adj_des_Bén_ann","Croissance_tot_actif",
+                       "ratio_tot_liab_sur_tot_actif", 
+                       "ratio_B_non_rep_sur_Tot_actif",
+                       "ratio_Flux_de_TR_expl_sur_passif_cour","ratio_Fonds_de_roulement_sur_tot_actif")
+
+  
+  
+  
+  
+
+length(nom_col_2018)
+length(nom_col_good_2018)
+
+#juste pour des fins de comparaisons
+matrice_comparaison_nom_var_1_2018 <- matrix(nom_col_2018, 29, 1)
+matrice_comparaison_nom_var_2_2018 <- matrix(nom_col_good_2018, 29, 1)
+
+m_2018 <-  cbind(matrice_comparaison_nom_var_1_2018, matrice_comparaison_nom_var_2_2018)
+fix(m_2018)
+
+#le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
+
+#good car comparaison équitable dans leur positionnement
+
+
+
+
+
+
+
+
+
+
+
+
+# 2019
+nom_col_2019 <- colnames(data_2019_with_good_ratio)
+nom_col_2019
+length(nom_col_2019)
+
+# changer Ordre 2019
+nom_col_good_2019 <- c("Cote_crédit_num", "Cote_crédit", "RATINGS",
+                       "Marge_sur_EBITDA","Marge_sur_EBIT", "Rendement_sur_cap_prop","Rendement_sur_actif",
+                       "Dette_LT","Total_passif",
+                       "Total_actif","Bénéfices_non_répartis","Flux_de_trésorie_d'expl","Passif_courant",
+                       "ratio_ben_avt_impot_sur_frais_int", "ratio_tot_dette_sur_tot_actif",
+                       "ratio_actuel","Ratio_de_liquid_réduite","Ratio_de_liquidité","Fonds_roulement",
+                       "Ratio_Fonds_de_roulmt_sur_ventes", "Marge_opérationnelle",
+                       "Beta_applique","Croissance_adj_des_Bén_ann","Croissance_tot_actif",
+                       "ratio_tot_liab_sur_tot_actif", 
+                       "ratio_B_non_rep_sur_Tot_actif",
+                       "ratio_Flux_de_TR_expl_sur_passif_cour","ratio_Fonds_de_roulement_sur_tot_actif")
+
+
+length(nom_col_2019)
+length(nom_col_good_2019)
+
+#juste pour des fins de comparaisons
+matrice_comparaison_nom_var_1_2019 <- matrix(nom_col_2019, 28, 1)
+matrice_comparaison_nom_var_2_2019 <- matrix(nom_col_good_2019, 28, 1)
+
+m_2019 <-  cbind(matrice_comparaison_nom_var_1_2019, matrice_comparaison_nom_var_2_2019)
+fix(m_2019)
+
+#le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
+
+#good car comparaison équitable dans leur positionnement
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # renommer variables ------------------------------------------------------
 
 #pour ne pas avoir nom colonne les mêmes 
+data_2000_with_good_ratio.1 <- data_2000_with_good_ratio
+colnames(data_2000_with_good_ratio.1) <- nom_col_good_2000
+
+
+
+data_2007_with_good_ratio.1 <- data_2007_with_good_ratio
+colnames(data_2007_with_good_ratio.1) <- nom_col_good_2007
+
+
+data_2008_with_good_ratio.1 <- data_2008_with_good_ratio
+colnames(data_2008_with_good_ratio.1) <- nom_col_good_2008
+
+
+data_2009_with_good_ratio.1 <- data_2009_with_good_ratio
+colnames(data_2009_with_good_ratio.1) <- nom_col_good_2009
+
+
+data_2016_with_good_ratio.1 <- data_2016_with_good_ratio
+colnames(data_2016_with_good_ratio.1) <- nom_col_good_2016
+
+
+data_2018_with_good_ratio.1 <- data_2018_with_good_ratio
+colnames(data_2018_with_good_ratio.1) <- nom_col_good_2018
+
+
 data_2019_with_good_ratio.1 <- data_2019_with_good_ratio
+colnames(data_2019_with_good_ratio.1) <- nom_col_good_2019
+
+fix(data_2019_with_good_ratio.1)
 
 
-colnames(data_2019_with_good_ratio.1) <- nom_col_good
+
+
+
+
+
+# JE FAIS EXTRACTION DE ALL VARAIBLES ET APRES LORS REG JE VAIS SELECTIONNER CEUX QUI M'INTERESSENT
+
+#write.csv(data_2000_with_good_ratio.1, file = "ma_base_de_donnees_2000.csv")
+#write.csv(data_2007_with_good_ratio.1, file = "ma_base_de_donnees_2007.csv")
+#write.csv(data_2008_with_good_ratio.1, file = "ma_base_de_donnees_2008.csv")
+#write.csv(data_2009_with_good_ratio.1, file = "ma_base_de_donnees_2009.csv")
+#write.csv(data_2016_with_good_ratio.1, file = "ma_base_de_donnees_2016.csv")
+#write.csv(data_2018_with_good_ratio.1, file = "ma_base_de_donnees_2018.csv")
+#write.csv(data_2019_with_good_ratio.1, file = "ma_base_de_donnees_2019.csv")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1320,7 +2427,7 @@ bon_variables <- data_2019_with_good_ratio.1%>%
          Marge_sur_EBIT, Rendement_sur_cap_prop, Rendement_sur_actif,
          ratio_tot_liab_sur_tot_actif, ratio_B_non_rep_sur_Tot_actif,
          ratio_Flux_de_TR_expl_sur_passif_cour, ratio_ben_avt_impot_sur_frais_int,
-         ratio_tot_dette_sur_tot_actif, ratio_actuel, Ratio_de_liquid_réduite, ratio_Fonds_de_roulement,
+         ratio_tot_dette_sur_tot_actif, ratio_actuel, Ratio_de_liquid_réduite, ratio_Fonds_de_roulement_sur_tot_actif,
          Ratio_de_liquidité, Ratio_Fonds_de_roulmt_sur_ventes, Total_actif,
          Marge_d_explt, Beta_applique)
 
@@ -1337,6 +2444,37 @@ fix(bon_variables)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# REG DANS OTHER FICHIER
 
 
 # Pour faire extraction aussi avec rating en character
