@@ -1,0 +1,1057 @@
+# final folder à remettre au prof
+
+
+rm(list=ls())
+
+
+# Importer base de données ------------------------------------------------
+
+variables_2000_1 <- read.csv("base_de_donnees_2000.csv", 
+                           header = TRUE, sep = ",", quote = "\"",
+                           dec = ".", fill = TRUE, comment.char = "")
+
+
+variables_2007_1 <- read.csv("base_de_donnees_2007.csv", 
+                           header = TRUE, sep = ",", quote = "\"",
+                           dec = ".", fill = TRUE, comment.char = "")
+
+
+variables_2008_1 <- read.csv("base_de_donnees_2008.csv", 
+                           header = TRUE, sep = ",", quote = "\"",
+                           dec = ".", fill = TRUE, comment.char = "")
+
+
+variables_2009_1 <- read.csv("base_de_donnees_2009.csv", 
+                           header = TRUE, sep = ",", quote = "\"",
+                           dec = ".", fill = TRUE, comment.char = "")
+
+
+variables_2016_1 <- read.csv("base_de_donnees_2016.csv", 
+                           header = TRUE, sep = ",", quote = "\"",
+                           dec = ".", fill = TRUE, comment.char = "")
+
+
+variables_2018_1 <- read.csv("base_de_donnees_2018.csv", 
+                           header = TRUE, sep = ",", quote = "\"",
+                           dec = ".", fill = TRUE, comment.char = "")
+
+
+variables_2019_1 <- read.csv("base_de_donnees_2019.csv", 
+                           header = TRUE, sep = ",", quote = "\"",
+                           dec = ".", fill = TRUE, comment.char = "")
+
+
+
+
+
+
+# ENLEVONS LA PREMIERE COLONNE --------------------------------------------
+
+variables_2000 <- variables_2000_1[-1]
+variables_2007 <- variables_2007_1[-1]
+variables_2008 <- variables_2008_1[-1]
+variables_2009 <- variables_2009_1[-1]
+variables_2016 <- variables_2016_1[-1]
+variables_2018 <- variables_2018_1[-1]
+variables_2019 <- variables_2019_1[-1]
+
+
+
+
+# METTONS EN FACTOR LA VARIABLE COTE DE CREDIT ----------------------------
+
+variables_2000$Cote_crédit <- factor(variables_2000$Cote_crédit, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+is.factor(variables_2000$Cote_crédit)
+
+variables_2007$Cote_crédit <- factor(variables_2007$Cote_crédit, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+is.factor(variables_2007$Cote_crédit)
+
+variables_2008$Cote_crédit <- factor(variables_2008$Cote_crédit, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+is.factor(variables_2008$Cote_crédit)
+
+variables_2009$Cote_crédit <- factor(variables_2009$Cote_crédit, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+is.factor(variables_2009$Cote_crédit)
+
+variables_2016$Cote_crédit <- factor(variables_2016$Cote_crédit, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+is.factor(variables_2016$Cote_crédit)
+
+variables_2018$Cote_crédit <- factor(variables_2018$Cote_crédit, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+is.factor(variables_2018$Cote_crédit)
+
+variables_2019$Cote_crédit <- factor(variables_2019$Cote_crédit, levels = c("AAA", "AA", "A", "BBB", "BB", "B", "CCC"))
+is.factor(variables_2019$Cote_crédit)
+
+
+
+class(variables_2019$Cote_crédit)
+levels(variables_2000$Cote_crédit)
+
+
+
+
+
+# METTONS EN FACTOR firm_inv et firm_spec ---------------------------------
+
+ 
+
+variables_2000$binaire_cote_credit_2000 <- factor(variables_2000$binaire_cote_credit_2000, levels = c("firm_inv", "firm_spec"))
+variables_2007$binaire_cote_credit_2007 <- factor(variables_2007$binaire_cote_credit_2007, levels = c("firm_inv", "firm_spec"))
+variables_2008$binaire_cote_credit_2008 <- factor(variables_2008$binaire_cote_credit_2008, levels = c("firm_inv", "firm_spec"))
+variables_2009$binaire_cote_credit_2009 <- factor(variables_2009$binaire_cote_credit_2009, levels = c("firm_inv", "firm_spec"))
+variables_2016$binaire_cote_credit_2016 <- factor(variables_2016$binaire_cote_credit_2016, levels = c("firm_inv", "firm_spec"))
+variables_2018$binaire_cote_credit_2018 <- factor(variables_2018$binaire_cote_credit_2018, levels = c("firm_inv", "firm_spec"))
+variables_2019$binaire_cote_credit_2019 <- factor(variables_2019$binaire_cote_credit_2019, levels = c("firm_inv", "firm_spec"))
+
+
+
+
+# REPRESNTATION DIAGRAMME EN BARRE COTE DE CREDIT -------------------------
+
+library(ggplot2)
+
+library(dplyr)
+count_data_2000 <- variables_2000 %>% 
+  count(Cote_crédit)
+
+ggplot(count_data_2000, aes(x=Cote_crédit, y=n))+
+  geom_bar(stat = "identity", position = position_dodge(), alpha = 0.8, fill="gray16")+
+  geom_text(aes(label=n), fontface = "bold",vjust=-0.500, position = position_dodge(0.9),size = 6)+
+  labs(x="Cote de crédit 2000", u="Nombre d'observation",
+       title = "")
+
+
+
+
+
+
+library(dplyr)
+count_data_2007 <- variables_2007 %>% 
+  count(Cote_crédit)
+
+ggplot(count_data_2007, aes(x=Cote_crédit, y=n))+
+  geom_bar(stat = "identity", position = position_dodge(), alpha = 0.8, fill="gray16")+
+  geom_text(aes(label=n), fontface = "bold",vjust=-0.500, position = position_dodge(0.9),size = 6)+
+  labs(x="Cote de crédit 2007", u="Nombre d'observation",
+       title = "")
+
+
+
+
+
+library(dplyr)
+count_data_2008 <- variables_2008 %>% 
+  count(Cote_crédit)
+
+ggplot(count_data_2008, aes(x=Cote_crédit, y=n))+
+  geom_bar(stat = "identity", position = position_dodge(), alpha = 0.8, fill="gray16")+
+  geom_text(aes(label=n), fontface = "bold",vjust=-0.500, position = position_dodge(0.9),size = 6)+
+  labs(x="Cote de crédit 2008", u="Nombre d'observation",
+       title = "")
+
+
+
+
+
+library(dplyr)
+count_data_2009 <- variables_2009 %>% 
+  count(Cote_crédit)
+
+ggplot(count_data_2009, aes(x=Cote_crédit, y=n))+
+  geom_bar(stat = "identity", position = position_dodge(), alpha = 0.8, fill="gray16")+
+  geom_text(aes(label=n), fontface = "bold",vjust=-0.500, position = position_dodge(0.9),size = 6)+
+  labs(x="Cote de crédit 2009", u="Nombre d'observation",
+       title = "")
+
+
+
+
+library(dplyr)
+count_data_2016 <- variables_2016 %>% 
+  count(Cote_crédit)
+
+ggplot(count_data_2016, aes(x=Cote_crédit, y=n))+
+  geom_bar(stat = "identity", position = position_dodge(), alpha = 0.8, fill="gray16")+
+  geom_text(aes(label=n), fontface = "bold",vjust=-0.500, position = position_dodge(0.9),size = 6)+
+  labs(x="Cote de crédit 2016", u="Nombre d'observation",
+       title = "")
+
+
+
+
+library(dplyr)
+count_data_2018 <- variables_2018 %>% 
+  count(Cote_crédit)
+
+ggplot(count_data_2018, aes(x=Cote_crédit, y=n))+
+  geom_bar(stat = "identity", position = position_dodge(), alpha = 0.8, fill="gray16")+
+  geom_text(aes(label=n), fontface = "bold",vjust=-0.500, position = position_dodge(0.9),size = 6)+
+  labs(x="Cote de crédit 2018", u="Nombre d'observation",
+       title = "")
+
+
+
+
+library(dplyr)
+count_data_2019 <- variables_2019 %>% 
+  count(Cote_crédit)
+
+ggplot(count_data_2019, aes(x=Cote_crédit, y=n))+
+  geom_bar(stat = "identity", position = position_dodge(), alpha = 0.8, fill="gray16")+
+  geom_text(aes(label=n), fontface = "bold",vjust=0.00, position = position_dodge(0.9),size = 6)+
+  labs(x="Cote de crédit 2019", u="Nombre d'observation",
+       title = "")
+
+
+
+
+
+
+
+# STATISTIQUES DESCRIPTIVES ---------------------------------------------------
+
+
+# (1) CALCULONS LA MATRICE DE CORRELATION  ------------------------------------
+
+
+library(ggplot2)
+library(ggcorrplot)
+
+
+# corrélation 2019
+corr_2019 = round(cor(variables_2019[,c(-1,-2)]), 1)
+
+#dev.new()
+
+ggcorrplot(corr_2019, hc.order = TRUE,
+           type = "lower",
+           lab = TRUE,
+           lab_size = 3,
+           method = "circle",
+           colors = c("tomato2", "thistle", "springgreen3"),
+           ggtheme = theme_bw)
+
+
+
+
+# corrélation 2018
+corr_2018 = round(cor(variables_2018[,c(-1,-2)]), 1)
+
+
+#POUR TENIR COMPTE DE : marge bénéfciaie et beta appliqué car pas présent dans 2019
+ggcorrplot(corr_2018, hc.order = TRUE,
+           type = "lower",
+           lab = TRUE,
+           lab_size = 3,
+           method = "circle",
+           colors = c("tomato2", "thistle", "springgreen3"),
+           ggtheme = theme_bw)
+
+
+
+
+
+
+# (2) STATISTIQUES DESCRIPTIVES -------------------------------------------
+
+
+names(variables_2019)
+
+
+
+# Table T_x2 :
+
+table(variables_2019$Cote_crédit) #ça me compte le nombre de chaque élément de chaque facter
+#AAA j'en ai que 2 donc si je le fixe comme reférence only ça ne fera pas de sens
+#pour les prédictions donc dans multinomial logit reg fixer AAA, AA et A comme ref
+
+
+table(variables_2000$Cote_crédit)
+table(variables_2007$Cote_crédit)
+table(variables_2008$Cote_crédit)
+table(variables_2009$Cote_crédit)
+table(variables_2016$Cote_crédit)
+table(variables_2018$Cote_crédit)
+table(variables_2019$Cote_crédit)
+
+
+length(variables_2000$Cote_crédit)
+length(variables_2007$Cote_crédit)
+length(variables_2008$Cote_crédit)
+length(variables_2009$Cote_crédit)
+length(variables_2016$Cote_crédit)
+length(variables_2018$Cote_crédit)
+length(variables_2019$Cote_crédit)
+
+
+
+
+summary(variables_2000)
+summary(variables_2007)
+summary(variables_2008)
+summary(variables_2009)
+summary(variables_2016)
+summary(variables_2018)
+summary(variables_2019)
+
+
+
+
+#Construction Table Stat Descriptives pour une meilleur importation des résultats
+
+# 2019
+as.data.frame(variables_2019)
+matrixx <- matrix(0, ncol(variables_2019)-2, 6)
+
+rownames(matrixx) <- colnames(variables_2019[c(-1,-2)])
+colnames(matrixx) <- c("Moyenne", "Ecart_Type_en_%", "Min", "Max", "1er_quartile", "3eme_quartile")
+
+for(j in 1:nrow(matrixx)){ #19
+  matrixx[j,1] <- round(mean(as.numeric(unlist(variables_2019[,(j+2)]))), digits = 2)
+  matrixx[j,2] <- round(sqrt(var(variables_2019[ ,(j+2)])), digits = 1)
+  matrixx[j,3] <- round(min(variables_2019[ ,(j+2)]), digits = 2)
+  matrixx[j,4] <- round(max(variables_2019[ ,(j+2)]), digits = 2)
+  matrixx[j,5] <- round(quantile(variables_2019[ ,(j+2)], 0.25), digits = 2)
+  matrixx[j,6] <- round(quantile(variables_2019[ ,(j+2)], 0.75), digits = 2)
+}
+
+print(matrixx)
+
+# vérification calcul écart type   -> les autres peuvent être vérifiés avec summary
+apply(variables_2019[,c(-1,-2)], 2, sd)
+
+
+
+
+# 2018
+as.data.frame(variables_2018)
+matrixx <- matrix(0, ncol(variables_2018)-2, 6)
+
+rownames(matrixx) <- colnames(variables_2018[c(-1,-2)])
+colnames(matrixx) <- c("Moyenne", "Ecart_Type_en_%", "Min", "Max", "1er_quartile", "3eme_quartile")
+
+for(j in 1:nrow(matrixx)){ #19
+  matrixx[j,1] <- round(mean(as.numeric(unlist(variables_2018[,(j+2)]))), digits = 2)
+  matrixx[j,2] <- round(sqrt(var(variables_2018[ ,(j+2)])), digits = 1)
+  matrixx[j,3] <- round(min(variables_2018[ ,(j+2)]), digits = 2)
+  matrixx[j,4] <- round(max(variables_2018[ ,(j+2)]), digits = 2)
+  matrixx[j,5] <- round(quantile(variables_2018[ ,(j+2)], 0.25), digits = 2)
+  matrixx[j,6] <- round(quantile(variables_2018[ ,(j+2)], 0.75), digits = 2)
+}
+
+print(matrixx)
+
+# vérification calcul écart type   -> les autres peuvent être vérifiés avec summary
+apply(variables_2018[,c(-1,-2)], 2, sd)
+
+
+
+
+
+
+
+str(variables_2000)
+str(variables_2007)
+str(variables_2008)
+str(variables_2009)
+str(variables_2016)
+str(variables_2018)
+str(variables_2019)
+
+
+
+
+
+# (3) ANALYSE UNIVARIEE ---------------------------------------------------
+
+
+#2019 
+
+# Régression logit simple firme d'investissement en fonction firme spécualtive
+
+library(nnet)
+
+# Définissions firme spéculative comme level
+variables_2019$binaire_cote_credit_2019 <- relevel(variables_2019$binaire_cote_credit_2019, ref = "firm_inv")
+
+
+
+
+ 
+modele_uvni_2019_Marge_sur_EBITDA <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Marge_sur_EBITDA, data = variables_2019)
+
+library(afex)
+set_sum_contrasts()
+library(car)
+anova_1 <- Anova(modele_uvni_2019_Marge_sur_EBITDA,type="III")
+
+
+
+
+
+
+modele_uvni_2019_Marge_sur_EBIT <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Marge_sur_EBIT, data = variables_2019)
+anova_2 <- Anova(modele_uvni_2019_Marge_sur_EBIT,type="III")
+
+modele_uvni_2019_Rendement_sur_cap_prop <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Rendement_sur_cap_prop, data = variables_2019)
+anova_3 <- Anova(modele_uvni_2019_Rendement_sur_cap_prop,type="III")
+
+modele_uvni_2019_Rendement_sur_actif<- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Rendement_sur_actif, data = variables_2019)
+anova_4 <- Anova(modele_uvni_2019_Rendement_sur_actif,type="III")
+
+modele_uvni_2019_Croissance_adj_des_Bén_ann <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Croissance_adj_des_Bén_ann, data = variables_2019)
+anova_5 <- Anova(modele_uvni_2019_Croissance_adj_des_Bén_ann,type="III")
+
+modele_uvni_2019_Croissance_tot_actif <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Croissance_tot_actif, data = variables_2019)
+anova_6 <- Anova(modele_uvni_2019_Croissance_tot_actif,type="III")
+
+modele_uvni_2019_ratio_ben_avt_impot_sur_frais_int <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$ratio_ben_avt_impot_sur_frais_int, data = variables_2019)
+anova_7 <- Anova(modele_uvni_2019_ratio_ben_avt_impot_sur_frais_int,type="III")
+
+modele_uvni_2019_ratio_tot_dette_sur_tot_actif <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$ratio_tot_dette_sur_tot_actif, data = variables_2019)
+anova_8 <- Anova(modele_uvni_2019_ratio_tot_dette_sur_tot_actif,type="III")
+
+modele_uvni_2019_ratio_tot_liab_sur_tot_actif <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$ratio_tot_liab_sur_tot_actif, data = variables_2019)
+anova_9 <- Anova(modele_uvni_2019_ratio_tot_liab_sur_tot_actif,type="III")
+
+modele_uvni_2019_ratio_B_non_rep_sur_Tot_actif <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$ratio_B_non_rep_sur_Tot_actif, data = variables_2019)
+anova_10 <- Anova(modele_uvni_2019_ratio_B_non_rep_sur_Tot_actif,type="III")
+
+modele_uvni_2019_ratio_Flux_de_TR_expl_sur_passif_cour <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$ratio_Flux_de_TR_expl_sur_passif_cour, data = variables_2019)
+anova_11 <- Anova(modele_uvni_2019_ratio_Flux_de_TR_expl_sur_passif_cour,type="III")
+
+modele_uvni_2019_ratio_actuel <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$ratio_actuel, data = variables_2019)
+anova_12 <- Anova(modele_uvni_2019_ratio_actuel,type="III")
+
+modele_uvni_2019_Ratio_de_liquid_réduite <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Ratio_de_liquid_réduite, data = variables_2019)
+anova_13 <- Anova(modele_uvni_2019_Ratio_de_liquid_réduite,type="III")
+
+modele_uvni_2019_Ratio_de_liquidité <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Ratio_de_liquidité, data = variables_2019)
+anova_14 <- Anova(modele_uvni_2019_Ratio_de_liquidité,type="III")
+
+modele_uvni_2019_Ratio_Fonds_de_roulmt_sur_ventes <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Ratio_Fonds_de_roulmt_sur_ventes, data = variables_2019)
+anova_15 <- Anova(modele_uvni_2019_Ratio_Fonds_de_roulmt_sur_ventes,type="III")
+
+modele_uvni_2019_ratio_Fonds_de_roulement_sur_tot_actif <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$ratio_Fonds_de_roulement_sur_tot_actif, data = variables_2019)
+anova_16 <- Anova(modele_uvni_2019_ratio_Fonds_de_roulement_sur_tot_actif,type="III")
+
+modele_uvni_2019_Total_actif <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Total_actif, data = variables_2019)
+anova_17 <- Anova(modele_uvni_2019_Total_actif,type="III")
+
+modele_uvni_2019_Marge_opérationnelle <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Marge_opérationnelle, data = variables_2019)
+anova_18 <- Anova(modele_uvni_2019_Marge_opérationnelle,type="III")
+
+modele_uvni_2019_Beta_applique <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Beta_applique, data = variables_2019)
+anova_19 <- Anova(modele_uvni_2019_Beta_applique,type="III")
+
+
+
+
+
+
+
+
+# CALCUL DE LA MOYENNE ET DE L'ECART-TYPE PAR CATEGORIE ET PAR VARIABLE
+
+
+library(dplyr)
+
+variables_2019_firm_inv <- variables_2019 %>%
+  filter(binaire_cote_credit_2019=="firm_inv")
+
+
+variables_2019_firm_spec <- variables_2019 %>%
+  filter(binaire_cote_credit_2019=="firm_spec")
+
+
+
+# Table : visualisation résultats analyses univariées
+matrixx_2 <- matrix(0, ncol(variables_2019)-2, 6)
+
+rownames(matrixx_2) <- colnames(variables_2019[c(-1,-2)])
+colnames(matrixx_2) <- c("Moyenne_Firme_d_investissement", "Moyenne_Firme_spéculative", "Ecart_type_Firme_d_investissement", "Ecart_type_Firme_spéculative", "Wald_(_chi_2_)", "Pr_>_chi_2")
+
+for(j in 1:nrow(matrixx_2)){ #19
+  matrixx_2[j,1] <- round(mean(as.numeric(unlist(variables_2019_firm_inv[,(j+2)]))), digits = 2)
+  matrixx_2[j,2] <- round(mean(as.numeric(unlist(variables_2019_firm_spec[,(j+2)]))), digits = 2)
+  
+  matrixx_2[j,3] <- round(sqrt(var(variables_2019_firm_inv[ ,(j+2)])), digits = 1)
+  matrixx_2[j,4] <- round(sqrt(var(variables_2019_firm_spec[ ,(j+2)])), digits = 1)
+  
+}
+
+# VERIFIACTION POUR MOYENNE ET ECART-TYPE
+
+# MEAN
+mean_by_firm_inv <- colMeans(variables_2019_firm_inv[,c(-1, -2)])
+mean_by_firm_spec <- colMeans(variables_2019_firm_spec[,c(-1, -2)])
+
+# STD_DEV
+std_dv_by_firm_inv_1 <- apply(variables_2019_firm_inv[,c(-1, -2)], 2, sd)
+std_dv_by_firm_spec_1 <- apply(variables_2019_firm_spec[,c(-1, -2)], 2, sd)
+
+
+
+
+
+
+# Remplissons la colonne Chisquare de notre tableau
+
+matrixx_2[1,5] <- anova_1$`LR Chisq`
+matrixx_2[2,5] <- anova_2$`LR Chisq`
+matrixx_2[3,5] <- anova_3$`LR Chisq`
+matrixx_2[4,5] <- anova_4$`LR Chisq`
+matrixx_2[5,5] <- anova_5$`LR Chisq`
+matrixx_2[6,5] <- anova_6$`LR Chisq`
+matrixx_2[7,5] <- anova_7$`LR Chisq`
+matrixx_2[8,5] <- anova_8$`LR Chisq`
+matrixx_2[9,5] <- anova_9$`LR Chisq`
+matrixx_2[10,5] <- anova_10$`LR Chisq`
+matrixx_2[11,5] <- anova_11$`LR Chisq`
+matrixx_2[12,5] <- anova_12$`LR Chisq`
+matrixx_2[13,5] <- anova_13$`LR Chisq`
+matrixx_2[14,5] <- anova_14$`LR Chisq`
+matrixx_2[15,5] <- anova_15$`LR Chisq`
+matrixx_2[16,5] <- anova_16$`LR Chisq`
+matrixx_2[17,5] <- anova_17$`LR Chisq`
+matrixx_2[18,5] <- anova_18$`LR Chisq`
+matrixx_2[19,5] <- anova_19$`LR Chisq`
+
+
+
+# Remplissons la colonne Pr > chiSquare
+width = 3
+
+matrixx_2[1,6] <- round ( anova_1$`Pr(>Chisq)`, digits = 3)
+matrixx_2[2,6] <- anova_2$`Pr(>Chisq)`
+matrixx_2[3,6] <- anova_3$`Pr(>Chisq)`
+matrixx_2[4,6] <- anova_4$`Pr(>Chisq)`
+matrixx_2[5,6] <- anova_5$`Pr(>Chisq)`
+matrixx_2[6,6] <- anova_6$`Pr(>Chisq)`
+matrixx_2[7,6] <- anova_7$`Pr(>Chisq)`
+matrixx_2[8,6] <- anova_8$`Pr(>Chisq)`
+matrixx_2[9,6] <- anova_9$`Pr(>Chisq)`
+matrixx_2[10,6] <- anova_10$`Pr(>Chisq)`
+matrixx_2[11,6] <- anova_11$`Pr(>Chisq)`
+matrixx_2[12,6] <- anova_12$`Pr(>Chisq)`
+matrixx_2[13,6] <- anova_13$`Pr(>Chisq)`
+matrixx_2[14,6] <- anova_14$`Pr(>Chisq)`
+matrixx_2[15,6] <- anova_15$`Pr(>Chisq)`
+matrixx_2[16,6] <- anova_16$`Pr(>Chisq)`
+matrixx_2[17,6] <- anova_17$`Pr(>Chisq)`
+matrixx_2[18,6] <- anova_18$`Pr(>Chisq)`
+matrixx_2[19,6] <- anova_19$`Pr(>Chisq)`
+
+
+print(matrixx_2)
+
+
+
+
+# a continuer
+
+### représentation graphique univariée
+
+library(dplyr)
+cc_2019 <- variables_2019 %>%
+  group_by(Cote_crédit) %>%
+  summarise(Marge_sur_EBITDA_test = sum(Marge_sur_EBITDA), Marge_sur_EBIT_test = sum(Marge_sur_EBIT),
+            Rendement_sur_cap_prop_test = sum(Rendement_sur_cap_prop), Marge_opérationnelle_test = sum(Marge_opérationnelle))
+
+
+
+plot(cc_2019$Cote_crédit, cc_2019$Marge_sur_EBITDA_test, type = "l")
+plot(cc_2019$Cote_crédit, cc_2019$Marge_sur_EBIT_test, type = "l")
+plot(cc_2019$Cote_crédit, cc_2019$Rendement_sur_cap_prop_test, type = "l")
+plot(cc_2019$Cote_crédit, cc_2019$Marge_opérationnelle_test, type = "l")
+
+
+
+
+
+
+
+library(dplyr)
+cc_2018 <- variables_2018 %>%
+  group_by(Cote_crédit) %>%
+  summarise(Marge_sur_EBITDA_test = sum(Marge_sur_EBITDA))
+
+plot(cc_2018$Marge_sur_EBITDA_test, type = "l")
+
+
+
+
+
+
+# ANALYSE MULTIVARIEE -----------------------------------------------------
+library(nnet)
+
+# 1)	Modèle avec deux catégories de cote de crédit : firmes d'investissement et firmes spéculative
+
+
+
+
+# période d'expansion : 2000 et 2016
+#one shoot
+
+
+
+
+
+
+
+
+# période de récession : 2007, 2008, 2009, 2018 et 2019
+
+
+
+# 2019
+variables_2019$binaire_cote_credit_2019 <- relevel(variables_2019$binaire_cote_credit_2019, ref = "firm_inv")
+
+attach(variables_2019)
+
+#on choisit seulement celles qui sont significatives d'après notre analyse univariée
+
+# on choisit celles qui ont une p-value dans analyse univariée de 0.00
+# et ceux de la même catégorie s'il en reste plus d'un on check leur corrélation et si c'est forte on en choisit qu'un seul choisit
+modele_1_2019 <- multinom(variables_2019$binaire_cote_credit_2019~Marge_sur_EBITDA +
+                                                                  ratio_Fonds_de_roulement_sur_tot_actif +
+                                                                  ratio_B_non_rep_sur_Tot_actif +
+                                                                  Total_actif, data = variables_2019)
+
+confint(modele_1_2019) # permet d'avoir intervalle de confiance
+
+
+
+attach(variables_2018)
+modele_1_2018 <- multinom(variables_2018$binaire_cote_credit_2018~Marge_sur_EBITDA +
+                            ratio_Fonds_de_roulement_sur_tot_actif +
+                            ratio_B_non_rep_sur_Tot_actif +
+                            Total_actif, data = variables_2018)
+
+
+
+attach(variables_2009)
+modele_1_2009 <- multinom(variables_2009$binaire_cote_credit_2009~Marge_sur_EBITDA +
+                            ratio_Fonds_de_roulement_sur_tot_actif +
+                            ratio_B_non_rep_sur_Tot_actif +
+                            Total_actif, data = variables_2009)
+
+
+
+
+attach(variables_2008)
+modele_1_2008 <- multinom(variables_2008$binaire_cote_credit_2008~Marge_sur_EBITDA +
+                            ratio_Fonds_de_roulement_sur_tot_actif +
+                            ratio_B_non_rep_sur_Tot_actif +
+                            Total_actif, data = variables_2008)
+
+
+
+attach(variables_2007)
+modele_1_2007 <- multinom(variables_2007$binaire_cote_credit_2007~Marge_sur_EBITDA +
+                            ratio_Fonds_de_roulement_sur_tot_actif +
+                            ratio_B_non_rep_sur_Tot_actif +
+                            Total_actif, data = variables_2007)
+
+
+
+
+### Pour avoir :  coef, std Error, z value, Pr(>|z|)
+
+library(AER) # à utiliser pour les autres
+round(coeftest(modele_1_2019), digits = 3) 
+
+# ou 
+library(broom)
+tidy(modele_1_2019)
+
+# ou
+library(RVAideMemoire)
+test.multinom(modele_1_2019, Marge_sur_EBITDA) # mais il faut réécrire toutes les variables explicatives qu'on avait utilisé dans le modèle une par une
+
+
+# ou
+### Calcul de la p-value
+z_2019 <- summary(modele_1_2019)$coefficients/summary(modele_1_2019)$standard.errors # = wald test selon UCLA
+
+p_value_2019 <- (1 - pnorm(abs(z_2019), 0, 1)) * 2 # on multiplie par 2 car c'est un 2 tails test
+
+
+
+
+
+
+
+
+
+library(AER) 
+round(coeftest(modele_1_2018), digits = 3) 
+
+
+library(AER)
+round(coeftest(modele_1_2009), digits = 3) 
+
+
+library(AER) 
+round(coeftest(modele_1_2008), digits = 3) 
+
+
+library(AER)
+round(coeftest(modele_1_2007), digits = 3) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+# to delete phrase en bas
+# try to have presentation excel final avant de se questionner why choose only ces 4
+       
+
+# Element en haut output résultat
+
+### OIM = Only Intercept Model
+
+OIM_2019 <- multinom(binaire_cote_credit_2019 ~ 1, data = variables_2019)
+OIM_2018 <- multinom(binaire_cote_credit_2018 ~ 1, data = variables_2018)
+OIM_2009 <- multinom(binaire_cote_credit_2009 ~ 1, data = variables_2009)
+OIM_2008 <- multinom(binaire_cote_credit_2008 ~ 1, data = variables_2008)
+OIM_2007 <- multinom(binaire_cote_credit_2007 ~ 1, data = variables_2007)
+
+
+anova(OIM_2019, modele_1_2019) # ça me donne LR stat & Pr(Chi) # to delete INTERPRETION #from :https://bookdown.org/chua/ber642_advanced_regression/multinomial-logistic-regression.html
+anova(OIM_2018, modele_1_2018)
+anova(OIM_2009, modele_1_2009)
+anova(OIM_2008, modele_1_2008)
+anova(OIM_2007, modele_1_2007)
+
+
+
+# vérification Résultats anova = the same
+lrtest(OIM_2019, modele_1_2019)
+lrtest(OIM_2018, modele_1_2018)
+lrtest(OIM_2009, modele_1_2009)
+lrtest(OIM_2008, modele_1_2008)
+lrtest(OIM_2007, modele_1_2007)
+
+
+
+
+
+
+
+
+### Pseudo Rsquare : on prend celui de Nagelkerke
+library("DescTools")
+
+PseudoR2(modele_1_2019, which = c("CoxSnell","Nagelkerke","McFadden"))
+
+PseudoR2(modele_1_2018, which = c("CoxSnell","Nagelkerke","McFadden"))
+PseudoR2(modele_1_2009, which = c("CoxSnell","Nagelkerke","McFadden"))
+PseudoR2(modele_1_2008, which = c("CoxSnell","Nagelkerke","McFadden"))
+PseudoR2(modele_1_2007, which = c("CoxSnell","Nagelkerke","McFadden"))
+
+
+# vérifier Pseudo R-square : McFadden
+
+library(pscl)
+pR2(modele_1_2019)
+
+# Pseudo R-carré : McFadden
+L <-1-logLik(modele_1_2019)/logLik(OIM_2019)
+
+
+# Pseudo Rsquare McFadden
+nnet.mod.loglik <- nnet:::logLik.multinom(modele_1_2019) # from modèle 1 de base
+OIM_2019.loglik <- nnet:::logLik.multinom(OIM_2019) # from modèle en haut qu'on v1 de run
+(nnet.mod.mfr2 <- as.numeric(1 - nnet.mod.loglik/OIM_2019.loglik))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Calcul des mesures de la précision de la prédiction
+
+### on va extraire les coefficients du modèle et les mettre en exponentiels
+
+exp(coef(modele_1_2019)) # to delete : voir interprétation UCLA & bookdown.org & youtube
+exp(coef(modele_1_2018))
+exp(coef(modele_1_2009))
+exp(coef(modele_1_2008))
+exp(coef(modele_1_2007))
+
+
+
+
+
+
+
+###  les probabilités prédites pour chaque firme
+
+head(predict_proba_2019 <- fitted(modele_1_2019), 20) # pour le 1er il y avait 94% de chance que le modèle le prédit spec et donc 6% de chance que ça le prédit inv
+                                                      # mais ce raisonnement ne tient pas
+
+head(predict_proba_2018 <- fitted(modele_1_2018), 20)
+head(predict_proba_2009 <- fitted(modele_1_2009), 20)
+head(predict_proba_2008 <- fitted(modele_1_2008), 20)
+head(predict_proba_2007 <- fitted(modele_1_2007), 20)
+
+
+# ou the salme
+predict_proba_2019_test_1 <- modele_1_2019$fitted.values
+
+# ou the same
+predict_proba_2019_test_2 <- predict(modele_1_2019, variables_2019, type = "prob")
+
+
+
+
+# to delete :       juste pour comprendre l'interprétation des prédictions de proba car ici somme des proba n'est pas égale à 1
+### vérifions si somme des proba = 1
+mat_predict_proba_2019 <- matrix(predict_proba_2019)
+sum(mat_predict_proba_2019)
+
+### comparaison
+sum(as.numeric(predict_proba_2019==predict_proba_2019_test_1))
+sum(as.numeric(predict_proba_2019==predict_proba_2019_test_2))
+sum(as.numeric(predict_proba_2019_test_1==predict_proba_2019_test_2))
+
+
+
+
+
+
+
+
+### prédiction en termes de firme_inv et firme_spec par le modele
+
+predict_cote_credit_2019 <- predict(modele_1_2019, variables_2019)
+predict_cote_credit_2018 <- predict(modele_1_2018, variables_2018)
+predict_cote_credit_2009 <- predict(modele_1_2009, variables_2009)
+predict_cote_credit_2008 <- predict(modele_1_2008, variables_2008)
+predict_cote_credit_2007 <- predict(modele_1_2007, variables_2007)
+
+
+
+
+
+
+### mettre cote à cote prediction à coté vrai vriables
+
+head(data.frame(observed=variables_2019$binaire_cote_credit_2019, predicted=predict_cote_credit_2019), 20)
+head(data.frame(observed=variables_2018$binaire_cote_credit_2018, predicted=predict_cote_credit_2018), 20)
+head(data.frame(observed=variables_2009$binaire_cote_credit_2009, predicted=predict_cote_credit_2009), 20)
+head(data.frame(observed=variables_2008$binaire_cote_credit_2008, predicted=predict_cote_credit_2008), 20)
+head(data.frame(observed=variables_2007$binaire_cote_credit_2007, predicted=predict_cote_credit_2007), 20)
+
+
+
+
+
+
+### comparaison predictions qui sont tombées good par rapport au données de départ
+sum(as.numeric(predict_cote_credit_2019==variables_2019$binaire_cote_credit_2019)) # 115 éléments qui ont été bien prédit par le modèle conformément aux données de départ sur 151 données au total
+sum(as.numeric(predict_cote_credit_2018==variables_2018$binaire_cote_credit_2018))
+sum(as.numeric(predict_cote_credit_2009==variables_2009$binaire_cote_credit_2009))
+sum(as.numeric(predict_cote_credit_2008==variables_2008$binaire_cote_credit_2008))
+sum(as.numeric(predict_cote_credit_2007==variables_2007$binaire_cote_credit_2007))
+
+
+
+
+
+
+
+
+### matrice de confusion : erreur dans les prédictions
+mc_2019 <- table(predict(modele_1_2019), variables_2019$binaire_cote_credit_2019)  # to delete : voir interprétation dans other doc R reg
+mc_2018 <- table(predict(modele_1_2018), variables_2018$binaire_cote_credit_2018) 
+mc_2009 <- table(predict(modele_1_2009), variables_2009$binaire_cote_credit_2009) 
+mc_2008 <- table(predict(modele_1_2008), variables_2008$binaire_cote_credit_2008) 
+mc_2007 <- table(predict(modele_1_2007), variables_2007$binaire_cote_credit_2007) 
+
+
+
+
+
+
+# to delete        try to understand
+### en Pourcentage # [2] ---> c'est comme mon R^2 (R square)
+mc_pourcentage_2019 <- mc_2019 / colSums(mc_2019) # voir interprétation dans other doc R
+
+mc_pourcentage_2018 <- mc_2018 / colSums(mc_2018)
+mc_pourcentage_2009 <- mc_2009 / colSums(mc_2009)
+mc_pourcentage_2008 <- mc_2008 / colSums(mc_2008)
+mc_pourcentage_2007 <- mc_2007 / colSums(mc_2007)
+
+# to delete way calcul from mc_2019
+
+81 / (81+14) # = 0.8526316
+14 / (22+34) # = 0.25
+
+22 / (81+14) # =  0.2315789
+34 / (22+34) # =  0.6071429
+
+
+
+
+
+
+
+
+
+
+
+### MISCLASSIFICATION
+#### Pourcentage de mauvaise classification (misclassifaction)
+miscalsification_pourcentage_2019 <- 1- sum(diag(mc_2019))/sum(mc_2019) # from mc : (14 + 22) / 151
+# to delete : voir interpretation dans l'auttre doc R
+
+miscalsification_pourcentage_2018 <- 1- sum(diag(mc_2018))/sum(mc_2018)
+miscalsification_pourcentage_2009 <- 1- sum(diag(mc_2009))/sum(mc_2009)
+miscalsification_pourcentage_2019 <- 1- sum(diag(mc_2019))/sum(mc_2019)
+miscalsification_pourcentage_2019 <- 1- sum(diag(mc_2019))/sum(mc_2019)
+
+
+
+
+
+### ACCURACY DU MODEL
+### Pourcenttage de bonne classification : la somme de la diag qu'on divise par le nombre total d'observation 
+
+bonne_classifcation_pourcentage_2019 <- sum(diag(mc_2019))/sum(mc_2019)  # ou 1 - miscalsification_pourcentage_2019
+
+bonne_classifcation_pourcentage_2018 <- sum(diag(mc_2018))/sum(mc_2018)
+bonne_classifcation_pourcentage_2009 <- sum(diag(mc_2009))/sum(mc_2009)
+bonne_classifcation_pourcentage_2008 <- sum(diag(mc_2008))/sum(mc_2008)
+bonne_classifcation_pourcentage_2007 <- sum(diag(mc_2007))/sum(mc_2007)
+
+
+
+
+# vérification
+# MISCLASSIFICATION + ACCURACY DU MODEL
+miscalsification_pourcentage_2019+bonne_classifcation_pourcentage_2019
+miscalsification_pourcentage_2018+bonne_classifcation_pourcentage_2018
+miscalsification_pourcentage_2009+bonne_classifcation_pourcentage_2009
+miscalsification_pourcentage_2008+bonne_classifcation_pourcentage_2008
+miscalsification_pourcentage_2007+bonne_classifcation_pourcentage_2007
+
+
+#ou 
+# ça nous donne matrice de confision et statistique
+library(caret)
+confusionMatrix(table(predict(modele_1_2019), variables_2019$binaire_cote_credit_2019)) 
+# calcul pour chaque ratings sensitivity,.... 
+# calcul aussi Accuracy, CI, p-value
+
+
+confusionMatrix(table(predict(modele_1_2018), variables_2019$binaire_cote_credit_2018)) 
+confusionMatrix(table(predict(modele_1_2009), variables_2019$binaire_cote_credit_2009)) 
+confusionMatrix(table(predict(modele_1_2008), variables_2019$binaire_cote_credit_2008)) 
+confusionMatrix(table(predict(modele_1_2007), variables_2019$binaire_cote_credit_2007)) 
+
+
+
+
+
+### observation de départ en POURCENTAGE
+
+n <- table(variables_2019$binaire_cote_credit_2019) #nombre de firme pour chaque type de rating
+n/sum(n) # pourcentage de firme par type de rating # la plupart des firmes ont un rating de 4
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Tableau OUTPUT des pourcentage de bonne et mauvaise classifaction
+
+
+
+
+
+
+
+
+
+
+
+### Test the goodness of fit : TEST D'INDEPENDANCE APRES PREDICTION
+chisq.test(variables_2019$binaire_cote_credit_2019, predict(modele_1_2019))
+
+
+
+
+
+
+
+
+# try have to ratio de la volatilité via Bloomberg
+
+
+
+
+
+
+# to delete may be
+#----------->
+# TESTDE DURBIN WATSON D'AUTOCORRELATION
+require(lmtest)
+dwtest(multinom(as.integer(variables_2019$binaire_cote_credit_2019) ~ Marge_sur_EBITDA +
+                  ratio_Fonds_de_roulement_sur_tot_actif +
+                  ratio_B_non_rep_sur_Tot_actif +
+                  Total_actif, data = variables_2019))
+#----------->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# modele 2 :
+
+# to delete may be # va marche pour modele 2
+# see : https://stackoverflow.com/questions/33316898/r-tukey-posthoc-tests-for-nnet-multinom-multinomial-fit-to-test-for-overall-dif
+library(effects)
+plot(effect(modele_1_2019,term="Marge_sur_EBITDA"),ylab="",type="probability",style="stacked",colors=rainbow(7))
+

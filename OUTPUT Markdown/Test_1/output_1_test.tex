@@ -1,0 +1,1643 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={output},
+  pdfauthor={SALL},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{output}
+\author{SALL}
+\date{26/12/2020}
+
+\begin{document}
+\maketitle
+
+load data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{variables_}\DecValTok{2000}\NormalTok{ <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/aziza/Desktop/Session_3/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/ma_base_de_donnees_2000.csv"}\NormalTok{, }
+                           \DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{sep =} \StringTok{","}\NormalTok{, }\DataTypeTok{quote =} \StringTok{"}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}
+                           \DataTypeTok{dec =} \StringTok{"."}\NormalTok{, }\DataTypeTok{fill =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{comment.char =} \StringTok{""}\NormalTok{)}
+
+
+\NormalTok{variables_}\DecValTok{2007}\NormalTok{ <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/aziza/Desktop/Session_3/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/ma_base_de_donnees_2007.csv"}\NormalTok{, }
+                           \DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{sep =} \StringTok{","}\NormalTok{, }\DataTypeTok{quote =} \StringTok{"}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}
+                           \DataTypeTok{dec =} \StringTok{"."}\NormalTok{, }\DataTypeTok{fill =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{comment.char =} \StringTok{""}\NormalTok{)}
+
+
+\NormalTok{variables_}\DecValTok{2008}\NormalTok{ <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/aziza/Desktop/Session_3/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/ma_base_de_donnees_2008.csv"}\NormalTok{, }
+                           \DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{sep =} \StringTok{","}\NormalTok{, }\DataTypeTok{quote =} \StringTok{"}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}
+                           \DataTypeTok{dec =} \StringTok{"."}\NormalTok{, }\DataTypeTok{fill =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{comment.char =} \StringTok{""}\NormalTok{)}
+
+
+\NormalTok{variables_}\DecValTok{2009}\NormalTok{ <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/aziza/Desktop/Session_3/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/ma_base_de_donnees_2009.csv"}\NormalTok{, }
+                           \DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{sep =} \StringTok{","}\NormalTok{, }\DataTypeTok{quote =} \StringTok{"}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}
+                           \DataTypeTok{dec =} \StringTok{"."}\NormalTok{, }\DataTypeTok{fill =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{comment.char =} \StringTok{""}\NormalTok{)}
+
+
+\NormalTok{variables_}\DecValTok{2016}\NormalTok{ <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/aziza/Desktop/Session_3/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/ma_base_de_donnees_2016.csv"}\NormalTok{, }
+                           \DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{sep =} \StringTok{","}\NormalTok{, }\DataTypeTok{quote =} \StringTok{"}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}
+                           \DataTypeTok{dec =} \StringTok{"."}\NormalTok{, }\DataTypeTok{fill =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{comment.char =} \StringTok{""}\NormalTok{)}
+
+
+\NormalTok{variables_}\DecValTok{2018}\NormalTok{ <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/aziza/Desktop/Session_3/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/ma_base_de_donnees_2018.csv"}\NormalTok{, }
+                           \DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{sep =} \StringTok{","}\NormalTok{, }\DataTypeTok{quote =} \StringTok{"}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}
+                           \DataTypeTok{dec =} \StringTok{"."}\NormalTok{, }\DataTypeTok{fill =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{comment.char =} \StringTok{""}\NormalTok{)}
+
+
+\NormalTok{variables_}\DecValTok{2019}\NormalTok{ <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/aziza/Desktop/Session_3/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/ma_base_de_donnees_2019.csv"}\NormalTok{, }
+                           \DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{sep =} \StringTok{","}\NormalTok{, }\DataTypeTok{quote =} \StringTok{"}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}
+                           \DataTypeTok{dec =} \StringTok{"."}\NormalTok{, }\DataTypeTok{fill =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{comment.char =} \StringTok{""}\NormalTok{)}
+
+
+
+
+\CommentTok{#attach(variables_2019_1)}
+\CommentTok{########################################################################################}
+
+
+\CommentTok{#sans colonne 1, 2 & 4}
+\NormalTok{variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2000}\NormalTok{[}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\OperatorTok{-}\DecValTok{2}\NormalTok{,}\OperatorTok{-}\DecValTok{4}\NormalTok{)]}
+\NormalTok{variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2007}\NormalTok{[}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\OperatorTok{-}\DecValTok{2}\NormalTok{,}\OperatorTok{-}\DecValTok{4}\NormalTok{)]}
+\NormalTok{variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2008}\NormalTok{[}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\OperatorTok{-}\DecValTok{2}\NormalTok{,}\OperatorTok{-}\DecValTok{4}\NormalTok{)]}
+\NormalTok{variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2009}\NormalTok{[}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\OperatorTok{-}\DecValTok{2}\NormalTok{,}\OperatorTok{-}\DecValTok{4}\NormalTok{)]}
+\NormalTok{variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2016}\NormalTok{[}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\OperatorTok{-}\DecValTok{2}\NormalTok{,}\OperatorTok{-}\DecValTok{4}\NormalTok{)]}
+\NormalTok{variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2018}\NormalTok{[}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\OperatorTok{-}\DecValTok{2}\NormalTok{,}\OperatorTok{-}\DecValTok{4}\NormalTok{)]}
+\NormalTok{variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2019}\NormalTok{[}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{,}\OperatorTok{-}\DecValTok{2}\NormalTok{,}\OperatorTok{-}\DecValTok{4}\NormalTok{)]}
+
+
+
+
+
+
+
+
+
+\CommentTok{# AJOUTER INVESTMENT GRADE & SPECULATIVE GRADE ----------------------------}
+
+
+\CommentTok{# ajout colonnes avec Cote_crédit_binaire}
+
+
+\CommentTok{#catégories AAA, AA, A et BBB sont considérées comme les firmes favorables à l'investissement (firmes d'investissement) }
+\CommentTok{#et celles dans les catégories BB, B, CCC sont les firmes favorables à la spéculation (firmes de spéculation)}
+
+
+\NormalTok{binaire_cote_credit <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"AAA"}\NormalTok{=}\StringTok{"firm_inv"}\NormalTok{,}\StringTok{"AA"}\NormalTok{=}\StringTok{"firm_inv"}\NormalTok{, }\StringTok{"A"}\NormalTok{=}\StringTok{"firm_inv"}\NormalTok{, }\StringTok{"BBB"}\NormalTok{=}\StringTok{"firm_inv"}\NormalTok{,}
+                         \StringTok{"BB"}\NormalTok{=}\StringTok{"firm_spec"}\NormalTok{, }\StringTok{"B"}\NormalTok{=}\StringTok{"firm_spec"}\NormalTok{,}\StringTok{"CCC"}\NormalTok{=}\StringTok{"firm_spec"}\NormalTok{)}
+
+
+
+\NormalTok{binaire_cote_credit_}\DecValTok{2000}\NormalTok{ <-}\StringTok{ }\NormalTok{binaire_cote_credit[variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{1}\OperatorTok{$}\NormalTok{Cote_crédit]}
+\NormalTok{binaire_cote_credit_}\DecValTok{2007}\NormalTok{ <-}\StringTok{ }\NormalTok{binaire_cote_credit[variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{1}\OperatorTok{$}\NormalTok{Cote_crédit]}
+\NormalTok{binaire_cote_credit_}\DecValTok{2008}\NormalTok{ <-}\StringTok{ }\NormalTok{binaire_cote_credit[variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{1}\OperatorTok{$}\NormalTok{Cote_crédit]}
+\NormalTok{binaire_cote_credit_}\DecValTok{2009}\NormalTok{ <-}\StringTok{ }\NormalTok{binaire_cote_credit[variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{1}\OperatorTok{$}\NormalTok{Cote_crédit]}
+\NormalTok{binaire_cote_credit_}\DecValTok{2016}\NormalTok{ <-}\StringTok{ }\NormalTok{binaire_cote_credit[variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{1}\OperatorTok{$}\NormalTok{Cote_crédit]}
+\NormalTok{binaire_cote_credit_}\DecValTok{2018}\NormalTok{ <-}\StringTok{ }\NormalTok{binaire_cote_credit[variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{1}\OperatorTok{$}\NormalTok{Cote_crédit]}
+\NormalTok{binaire_cote_credit_}\DecValTok{2019}\NormalTok{ <-}\StringTok{ }\NormalTok{binaire_cote_credit[variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{1}\OperatorTok{$}\NormalTok{Cote_crédit]}
+
+
+
+
+
+
+
+
+\NormalTok{variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(binaire_cote_credit_}\DecValTok{2000}\NormalTok{, variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{1}\NormalTok{)}
+\NormalTok{variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(binaire_cote_credit_}\DecValTok{2007}\NormalTok{, variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{1}\NormalTok{)}
+\NormalTok{variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(binaire_cote_credit_}\DecValTok{2008}\NormalTok{, variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{1}\NormalTok{)}
+\NormalTok{variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(binaire_cote_credit_}\DecValTok{2009}\NormalTok{, variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{1}\NormalTok{)}
+\NormalTok{variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(binaire_cote_credit_}\DecValTok{2016}\NormalTok{, variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{1}\NormalTok{)}
+\NormalTok{variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(binaire_cote_credit_}\DecValTok{2018}\NormalTok{, variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{1}\NormalTok{)}
+\NormalTok{variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\NormalTok{ <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(binaire_cote_credit_}\DecValTok{2019}\NormalTok{, variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{1}\NormalTok{)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\CommentTok{# NOT RUN }
+
+\CommentTok{# TRANSFORMER CODE DE CREDIT NUMERIC EN CHARACTER -------------------------}
+
+\CommentTok{#si je voulais ne pas télécharger de new database avec ratings en character}
+\NormalTok{variables_}\DecValTok{2019}\OperatorTok{$}\NormalTok{Cote_crédit_num }\CommentTok{#on sélectionne lle good variable avec 1:7 (donc num)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] 6 4 5 3 6 4 4 3 3 7 5 6 4 5 5 4 4 3 6 4 2 4 4 4 6 4 3 4 3 4 3 4 4 5 4 6 5
+##  [38] 4 4 4 6 5 5 6 3 6 6 4 3 6 4 3 3 4 3 1 5 4 4 6 3 3 5 6 6 6 4 3 6 3 6 4 6 6
+##  [75] 2 4 4 4 5 4 4 4 3 2 2 6 5 4 6 6 2 6 5 6 4 5 4 4 4 6 4 3 3 5 4 4 5 5 2 4 4
+## [112] 5 4 5 4 5 5 2 4 3 7 5 6 4 5 4 4 4 3 2 3 5 4 4 4 2 2 2 2 2 2 5 4 4 6 4 3 3
+## [149] 5 6 3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#puis on le tranforme en factor avec les character par labels}
+\NormalTok{variables_}\DecValTok{2019}\OperatorTok{$}\NormalTok{Cote_crédit_num <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2019}\OperatorTok{$}\NormalTok{Cote_crédit_num,}
+                                     \DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{7}\NormalTok{), }
+                                     \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"AAA"}\NormalTok{, }\StringTok{"AA"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"BBB"}\NormalTok{, }\StringTok{"BB"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"CCC"}\NormalTok{))}
+\CommentTok{#ça le transforme direct en character}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\CommentTok{# Pour respecter l'ordre des Levels  ---------------------------------------}
+
+
+\CommentTok{#indiquons le levels de reférence # on l'enregistre dans out}
+\CommentTok{#pour moi investement grade donc 1, 2, 3, 4 et now AAA, AA, A, BBB, ...}
+
+\CommentTok{#not need de les transformer en 1, 2, ...,7 }
+\CommentTok{#donc laisser grand group rating}
+
+\CommentTok{# Cote_creditF le F pour FACTOR => donc on crée new variable et on l'ajoute dans variables_2019_1}
+\NormalTok{variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"AAA"}\NormalTok{, }\StringTok{"AA"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"BBB"}\NormalTok{, }\StringTok{"BB"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"CCC"}\NormalTok{))}
+\KeywordTok{is.factor}\NormalTok{(variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"AAA"}\NormalTok{, }\StringTok{"AA"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"BBB"}\NormalTok{, }\StringTok{"BB"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"CCC"}\NormalTok{))}
+\KeywordTok{is.factor}\NormalTok{(variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"AAA"}\NormalTok{, }\StringTok{"AA"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"BBB"}\NormalTok{, }\StringTok{"BB"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"CCC"}\NormalTok{))}
+\KeywordTok{is.factor}\NormalTok{(variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"AAA"}\NormalTok{, }\StringTok{"AA"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"BBB"}\NormalTok{, }\StringTok{"BB"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"CCC"}\NormalTok{))}
+\KeywordTok{is.factor}\NormalTok{(variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"AAA"}\NormalTok{, }\StringTok{"AA"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"BBB"}\NormalTok{, }\StringTok{"BB"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"CCC"}\NormalTok{))}
+\KeywordTok{is.factor}\NormalTok{(variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"AAA"}\NormalTok{, }\StringTok{"AA"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"BBB"}\NormalTok{, }\StringTok{"BB"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"CCC"}\NormalTok{))}
+\KeywordTok{is.factor}\NormalTok{(variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"AAA"}\NormalTok{, }\StringTok{"AA"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"BBB"}\NormalTok{, }\StringTok{"BB"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"CCC"}\NormalTok{))}
+\KeywordTok{is.factor}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "factor"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{levels}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "AAA" "AA"  "A"   "BBB" "BB"  "B"   "CCC"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# factor pour firm_inv et firm_spec }
+
+\NormalTok{variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2000}\NormalTok{ <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2000}\NormalTok{, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"firm_inv"}\NormalTok{, }\StringTok{"firm_spec"}\NormalTok{))}
+\NormalTok{variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2007}\NormalTok{ <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2007}\NormalTok{, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"firm_inv"}\NormalTok{, }\StringTok{"firm_spec"}\NormalTok{))}
+\NormalTok{variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2008}\NormalTok{ <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2008}\NormalTok{, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"firm_inv"}\NormalTok{, }\StringTok{"firm_spec"}\NormalTok{))}
+\NormalTok{variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2009}\NormalTok{ <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2009}\NormalTok{, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"firm_inv"}\NormalTok{, }\StringTok{"firm_spec"}\NormalTok{))}
+\NormalTok{variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2016}\NormalTok{ <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2016}\NormalTok{, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"firm_inv"}\NormalTok{, }\StringTok{"firm_spec"}\NormalTok{))}
+\NormalTok{variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2018}\NormalTok{ <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2018}\NormalTok{, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"firm_inv"}\NormalTok{, }\StringTok{"firm_spec"}\NormalTok{))}
+\NormalTok{variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2019}\NormalTok{ <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2019}\NormalTok{, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"firm_inv"}\NormalTok{, }\StringTok{"firm_spec"}\NormalTok{))}
+
+
+
+\KeywordTok{is.factor}\NormalTok{(variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# ANALYSE UNIVARIEE ???????????????, on use this one :}
+\CommentTok{# on le fait sur 2018 qui a toutes variables qui sont présente dans toutes les autres}
+
+
+
+
+\CommentTok{#NOM VARIABLES 2018 qui contient toutes les noms de variables qu'on peut retouver dans les autres aussi}
+
+\CommentTok{# donc c'est ça qu'on copie après on enlève dont qu'on ton a pas besoin}
+
+\KeywordTok{colnames}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "binaire_cote_credit_2019"              
+##  [2] "Cote_crédit"                           
+##  [3] "Marge_sur_EBITDA"                      
+##  [4] "Marge_sur_EBIT"                        
+##  [5] "Rendement_sur_cap_prop"                
+##  [6] "Rendement_sur_actif"                   
+##  [7] "Dette_LT"                              
+##  [8] "Total_passif"                          
+##  [9] "Total_actif"                           
+## [10] "Bénéfices_non_répartis"                
+## [11] "Flux_de_trésorie_d.expl"               
+## [12] "Passif_courant"                        
+## [13] "ratio_ben_avt_impot_sur_frais_int"     
+## [14] "ratio_tot_dette_sur_tot_actif"         
+## [15] "ratio_actuel"                          
+## [16] "Ratio_de_liquid_réduite"               
+## [17] "Ratio_de_liquidité"                    
+## [18] "Fonds_roulement"                       
+## [19] "Ratio_Fonds_de_roulmt_sur_ventes"      
+## [20] "Marge_opérationnelle"                  
+## [21] "Beta_applique"                         
+## [22] "Croissance_adj_des_Bén_ann"            
+## [23] "Croissance_tot_actif"                  
+## [24] "ratio_tot_liab_sur_tot_actif"          
+## [25] "ratio_B_non_rep_sur_Tot_actif"         
+## [26] "ratio_Flux_de_TR_expl_sur_passif_cour" 
+## [27] "ratio_Fonds_de_roulement_sur_tot_actif"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{attach}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following object is masked _by_ .GlobalEnv:
+## 
+##     binaire_cote_credit_2019
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(nnet)}
+
+\NormalTok{variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2019}\NormalTok{ <-}\StringTok{ }\KeywordTok{relevel}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2019}\NormalTok{, }\DataTypeTok{ref =} \StringTok{"firm_inv"}\NormalTok{)}
+
+\NormalTok{my_model_an_univ <-}\StringTok{ }\KeywordTok{multinom}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{binaire_cote_credit_}\DecValTok{2019} \OperatorTok{~}\StringTok{ }\NormalTok{Marge_sur_EBITDA, }\DataTypeTok{data =}\NormalTok{ variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # weights:  3 (2 variable)
+## initial  value 104.665224 
+## final  value 93.195181 
+## converged
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(my_model_an_univ)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+## multinom(formula = variables_2019_2$binaire_cote_credit_2019 ~ 
+##     Marge_sur_EBITDA, data = variables_2019_2)
+## 
+## Coefficients:
+##                       Values   Std. Err.
+## (Intercept)       0.27269363 0.284232782
+## Marge_sur_EBITDA -0.02800675 0.008392972
+## 
+## Residual Deviance: 186.3904 
+## AIC: 190.3904
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+
+
+\KeywordTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{count_data_}\DecValTok{2000}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2} \OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{(Cote_crédit)}
+
+\KeywordTok{ggplot}\NormalTok{(count_data_}\DecValTok{2000}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Cote_crédit, }\DataTypeTok{y=}\NormalTok{n))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat =} \StringTok{"identity"}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(), }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"gray16"}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label=}\NormalTok{n), }\DataTypeTok{fontface =} \StringTok{"bold"}\NormalTok{,}\DataTypeTok{vjust=}\OperatorTok{-}\FloatTok{0.500}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(}\FloatTok{0.9}\NormalTok{),}\DataTypeTok{size =} \DecValTok{6}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Cote de crédit 2000"}\NormalTok{, }\DataTypeTok{u=}\StringTok{"Nombre d'observation"}\NormalTok{,}
+       \DataTypeTok{title =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{output_1_test_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dplyr)}
+\NormalTok{count_data_}\DecValTok{2007}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{2} \OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{(Cote_crédit)}
+
+\KeywordTok{ggplot}\NormalTok{(count_data_}\DecValTok{2007}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Cote_crédit, }\DataTypeTok{y=}\NormalTok{n))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat =} \StringTok{"identity"}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(), }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"gray16"}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label=}\NormalTok{n), }\DataTypeTok{fontface =} \StringTok{"bold"}\NormalTok{,}\DataTypeTok{vjust=}\OperatorTok{-}\FloatTok{0.500}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(}\FloatTok{0.9}\NormalTok{),}\DataTypeTok{size =} \DecValTok{6}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Cote de crédit 2007"}\NormalTok{, }\DataTypeTok{u=}\StringTok{"Nombre d'observation"}\NormalTok{,}
+       \DataTypeTok{title =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{output_1_test_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dplyr)}
+\NormalTok{count_data_}\DecValTok{2008}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{2} \OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{(Cote_crédit)}
+
+\KeywordTok{ggplot}\NormalTok{(count_data_}\DecValTok{2008}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Cote_crédit, }\DataTypeTok{y=}\NormalTok{n))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat =} \StringTok{"identity"}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(), }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"gray16"}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label=}\NormalTok{n), }\DataTypeTok{fontface =} \StringTok{"bold"}\NormalTok{,}\DataTypeTok{vjust=}\OperatorTok{-}\FloatTok{0.500}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(}\FloatTok{0.9}\NormalTok{),}\DataTypeTok{size =} \DecValTok{6}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Cote de crédit 2008"}\NormalTok{, }\DataTypeTok{u=}\StringTok{"Nombre d'observation"}\NormalTok{,}
+       \DataTypeTok{title =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{output_1_test_files/figure-latex/unnamed-chunk-1-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dplyr)}
+\NormalTok{count_data_}\DecValTok{2009}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{2} \OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{(Cote_crédit)}
+
+\KeywordTok{ggplot}\NormalTok{(count_data_}\DecValTok{2009}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Cote_crédit, }\DataTypeTok{y=}\NormalTok{n))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat =} \StringTok{"identity"}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(), }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"gray16"}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label=}\NormalTok{n), }\DataTypeTok{fontface =} \StringTok{"bold"}\NormalTok{,}\DataTypeTok{vjust=}\OperatorTok{-}\FloatTok{0.500}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(}\FloatTok{0.9}\NormalTok{),}\DataTypeTok{size =} \DecValTok{6}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Cote de crédit 2009"}\NormalTok{, }\DataTypeTok{u=}\StringTok{"Nombre d'observation"}\NormalTok{,}
+       \DataTypeTok{title =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{output_1_test_files/figure-latex/unnamed-chunk-1-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dplyr)}
+\NormalTok{count_data_}\DecValTok{2016}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{2} \OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{(Cote_crédit)}
+
+\KeywordTok{ggplot}\NormalTok{(count_data_}\DecValTok{2016}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Cote_crédit, }\DataTypeTok{y=}\NormalTok{n))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat =} \StringTok{"identity"}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(), }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"gray16"}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label=}\NormalTok{n), }\DataTypeTok{fontface =} \StringTok{"bold"}\NormalTok{,}\DataTypeTok{vjust=}\OperatorTok{-}\FloatTok{0.500}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(}\FloatTok{0.9}\NormalTok{),}\DataTypeTok{size =} \DecValTok{6}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Cote de crédit 2016"}\NormalTok{, }\DataTypeTok{u=}\StringTok{"Nombre d'observation"}\NormalTok{,}
+       \DataTypeTok{title =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{output_1_test_files/figure-latex/unnamed-chunk-1-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dplyr)}
+\NormalTok{count_data_}\DecValTok{2018}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{2} \OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{(Cote_crédit)}
+
+\KeywordTok{ggplot}\NormalTok{(count_data_}\DecValTok{2018}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Cote_crédit, }\DataTypeTok{y=}\NormalTok{n))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat =} \StringTok{"identity"}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(), }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"gray16"}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label=}\NormalTok{n), }\DataTypeTok{fontface =} \StringTok{"bold"}\NormalTok{,}\DataTypeTok{vjust=}\OperatorTok{-}\FloatTok{0.500}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(}\FloatTok{0.9}\NormalTok{),}\DataTypeTok{size =} \DecValTok{6}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Cote de crédit 2018"}\NormalTok{, }\DataTypeTok{u=}\StringTok{"Nombre d'observation"}\NormalTok{,}
+       \DataTypeTok{title =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{output_1_test_files/figure-latex/unnamed-chunk-1-6.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dplyr)}
+\NormalTok{count_data_}\DecValTok{2019}\NormalTok{ <-}\StringTok{ }\NormalTok{variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2} \OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{(Cote_crédit)}
+
+\KeywordTok{ggplot}\NormalTok{(count_data_}\DecValTok{2019}\NormalTok{, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Cote_crédit, }\DataTypeTok{y=}\NormalTok{n))}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat =} \StringTok{"identity"}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(), }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"gray16"}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label=}\NormalTok{n), }\DataTypeTok{fontface =} \StringTok{"bold"}\NormalTok{,}\DataTypeTok{vjust=}\FloatTok{0.00}\NormalTok{, }\DataTypeTok{position =} \KeywordTok{position_dodge}\NormalTok{(}\FloatTok{0.9}\NormalTok{),}\DataTypeTok{size =} \DecValTok{6}\NormalTok{)}\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Cote de crédit 2019"}\NormalTok{, }\DataTypeTok{u=}\StringTok{"Nombre d'observation"}\NormalTok{,}
+       \DataTypeTok{title =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{output_1_test_files/figure-latex/unnamed-chunk-1-7.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# statistiques Descriptives -----------------------------------------------}
+
+
+
+\KeywordTok{names}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "binaire_cote_credit_2019"              
+##  [2] "Cote_crédit"                           
+##  [3] "Marge_sur_EBITDA"                      
+##  [4] "Marge_sur_EBIT"                        
+##  [5] "Rendement_sur_cap_prop"                
+##  [6] "Rendement_sur_actif"                   
+##  [7] "Dette_LT"                              
+##  [8] "Total_passif"                          
+##  [9] "Total_actif"                           
+## [10] "Bénéfices_non_répartis"                
+## [11] "Flux_de_trésorie_d.expl"               
+## [12] "Passif_courant"                        
+## [13] "ratio_ben_avt_impot_sur_frais_int"     
+## [14] "ratio_tot_dette_sur_tot_actif"         
+## [15] "ratio_actuel"                          
+## [16] "Ratio_de_liquid_réduite"               
+## [17] "Ratio_de_liquidité"                    
+## [18] "Fonds_roulement"                       
+## [19] "Ratio_Fonds_de_roulmt_sur_ventes"      
+## [20] "Marge_opérationnelle"                  
+## [21] "Beta_applique"                         
+## [22] "Croissance_adj_des_Bén_ann"            
+## [23] "Croissance_tot_actif"                  
+## [24] "ratio_tot_liab_sur_tot_actif"          
+## [25] "ratio_B_non_rep_sur_Tot_actif"         
+## [26] "ratio_Flux_de_TR_expl_sur_passif_cour" 
+## [27] "ratio_Fonds_de_roulement_sur_tot_actif"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit) }\CommentTok{#ça me compte le nombre de chaque élément de chaque facter}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## AAA  AA   A BBB  BB   B CCC 
+##   1  14  25  55  26  28   2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#AAA j'en ai que 2 donc si je le fixe comme reférence only ça ne fera pas de sens}
+\CommentTok{#pour les prédiction donc dans multinomial logit reg fixer AAA, AA et A comme ref}
+
+
+\KeywordTok{table}\NormalTok{(variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## AAA  AA   A BBB  BB   B CCC 
+##   0   5  21  64  14   0   0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## AAA  AA   A BBB  BB   B CCC 
+##   2   1  17  45  13  13   0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## AAA  AA   A BBB  BB   B CCC 
+##   2   4  23  44  16  10   0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## AAA  AA   A BBB  BB   B CCC 
+##   2   6  21  44  21   4   4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## AAA  AA   A BBB  BB   B CCC 
+##   2  13  28  53  31  21   2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## AAA  AA   A BBB  BB   B CCC 
+##   1  13  27  57  27  30   0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## AAA  AA   A BBB  BB   B CCC 
+##   1  14  25  55  26  28   2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{length}\NormalTok{(variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 104
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{length}\NormalTok{(variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 91
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{length}\NormalTok{(variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 99
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{length}\NormalTok{(variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 102
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{length}\NormalTok{(variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 150
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{length}\NormalTok{(variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 155
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{length}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\OperatorTok{$}\NormalTok{Cote_crédit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 151
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  binaire_cote_credit_2000 Cote_crédit Marge_bénéficiaire.nette Marge_sur_EBITDA
+##  firm_inv :90             AAA: 0      Min.   :-74.435          Min.   :-59.41  
+##  firm_spec:14             AA : 5      1st Qu.:  2.550          1st Qu.: 11.03  
+##                           A  :21      Median :  7.143          Median : 24.51  
+##                           BBB:64      Mean   :  7.852          Mean   : 26.17  
+##                           BB :14      3rd Qu.: 14.236          3rd Qu.: 38.91  
+##                           B  : 0      Max.   : 43.823          Max.   : 82.24  
+##                           CCC: 0                                               
+##  Marge_sur_EBIT    Rendement_sur_cap_prop Rendement_sur_actif    Dette_LT      
+##  Min.   :-69.003   Min.   :-45.770        Min.   :-22.129     Min.   :    0.0  
+##  1st Qu.:  6.383   1st Qu.:  6.579        1st Qu.:  2.740     1st Qu.:  169.5  
+##  Median : 12.032   Median : 10.656        Median :  4.818     Median :  505.6  
+##  Mean   : 14.964   Mean   : 11.570        Mean   :  4.800     Mean   : 1116.5  
+##  3rd Qu.: 20.339   3rd Qu.: 15.284        3rd Qu.:  7.091     3rd Qu.: 1013.5  
+##  Max.   : 64.485   Max.   : 73.743        Max.   : 19.179     Max.   :14044.0  
+##                                                                                
+##   Total_actif       Flux_de_trésorie_d.expl Passif_courant    
+##  Min.   :   68.87   Min.   :-139.2          Min.   :    5.03  
+##  1st Qu.:  697.60   1st Qu.:  37.7          1st Qu.:  101.41  
+##  Median : 1885.48   Median : 145.9          Median :  298.83  
+##  Mean   : 4322.31   Mean   : 416.3          Mean   :  992.17  
+##  3rd Qu.: 5193.35   3rd Qu.: 458.2          3rd Qu.:  845.96  
+##  Max.   :51383.00   Max.   :3312.0          Max.   :11514.00  
+##                                                               
+##  ratio_ben_avt_impot_sur_frais_int ratio_tot_dette_sur_tot_actif
+##  Min.   :-702.160                  Min.   : 0.00                
+##  1st Qu.:   2.029                  1st Qu.:17.96                
+##  Median :   4.190                  Median :30.52                
+##  Mean   :   4.972                  Mean   :29.52                
+##  3rd Qu.:   9.044                  3rd Qu.:38.87                
+##  Max.   : 426.000                  Max.   :87.28                
+##                                                                 
+##   ratio_actuel     Ratio_de_liquid_réduite Ratio_de_liquidité
+##  Min.   : 0.2696   Min.   : 0.1656         Min.   : 0.00000  
+##  1st Qu.: 0.9031   1st Qu.: 0.4729         1st Qu.: 0.03243  
+##  Median : 1.2558   Median : 0.8550         Median : 0.20795  
+##  Mean   : 1.7980   Mean   : 1.2317         Mean   : 0.65050  
+##  3rd Qu.: 1.8974   3rd Qu.: 1.2078         3rd Qu.: 0.60350  
+##  Max.   :24.9828   Max.   :23.9958         Max.   :22.54620  
+##                                                              
+##  Fonds_roulement    Ratio_Fonds_de_roulmt_sur_ventes Marge_opérationnelle
+##  Min.   :-4889.70   Min.   :-0.79570                 Min.   :-69.003     
+##  1st Qu.:  -53.99   1st Qu.:-0.03395                 1st Qu.:  6.383     
+##  Median :   34.80   Median : 0.08685                 Median : 12.032     
+##  Mean   :   53.70   Mean   : 0.18565                 Mean   : 14.964     
+##  3rd Qu.:  226.47   3rd Qu.: 0.21018                 3rd Qu.: 20.339     
+##  Max.   : 2548.40   Max.   : 5.63000                 Max.   : 64.485     
+##                                                                          
+##  Beta_applique     ratio_Flux_de_TR_expl_sur_passif_cour
+##  Min.   :-0.5193   Min.   :-1.7362                      
+##  1st Qu.: 0.3718   1st Qu.: 0.2440                      
+##  Median : 0.5943   Median : 0.4902                      
+##  Mean   : 0.6292   Mean   : 0.6860                      
+##  3rd Qu.: 0.8219   3rd Qu.: 1.0139                      
+##  Max.   : 1.9251   Max.   : 2.6595                      
+##                                                         
+##  ratio_Fonds_de_roulement_sur_tot_actif
+##  Min.   :-0.27095                      
+##  1st Qu.:-0.02399                      
+##  Median : 0.04858                      
+##  Mean   : 0.08359                      
+##  3rd Qu.: 0.14226                      
+##  Max.   : 0.63651                      
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  binaire_cote_credit_2007 Cote_crédit Marge_bénéficiaire.nette Marge_sur_EBITDA
+##  firm_inv :65             AAA: 2      Min.   : -6.989          Min.   : 2.934  
+##  firm_spec:26             AA : 1      1st Qu.:  2.481          1st Qu.: 9.825  
+##                           A  :17      Median :  6.721          Median :22.058  
+##                           BBB:45      Mean   : 11.679          Mean   :26.409  
+##                           BB :13      3rd Qu.: 16.334          3rd Qu.:40.233  
+##                           B  :13      Max.   :173.461          Max.   :72.164  
+##                           CCC: 0                                               
+##  Marge_sur_EBIT   Rendement_sur_cap_prop Rendement_sur_actif    Dette_LT      
+##  Min.   :-4.985   Min.   :-25.426        Min.   :-9.590      Min.   :    0.0  
+##  1st Qu.: 5.345   1st Qu.:  7.327        1st Qu.: 2.452      1st Qu.:  525.1  
+##  Median :14.258   Median : 12.018        Median : 4.179      Median : 1416.0  
+##  Mean   :17.107   Mean   : 12.415        Mean   : 4.993      Mean   : 2119.3  
+##  3rd Qu.:25.449   3rd Qu.: 17.912        3rd Qu.: 6.773      3rd Qu.: 3317.7  
+##  Max.   :62.896   Max.   : 49.651        Max.   :20.275      Max.   :10940.0  
+##                                                                               
+##   Total_actif      Bénéfices_non_répartis Flux_de_trésorie_d.expl
+##  Min.   :  421.5   Min.   :-2528.70       Min.   :-241.9         
+##  1st Qu.: 2533.2   1st Qu.:   80.06       1st Qu.: 191.4         
+##  Median : 5173.7   Median :  816.00       Median : 440.7         
+##  Mean   : 8562.6   Mean   : 1597.04       Mean   : 920.5         
+##  3rd Qu.:12907.1   3rd Qu.: 1811.39       3rd Qu.:1020.0         
+##  Max.   :38230.0   Max.   :11090.00       Max.   :5819.0         
+##                                                                  
+##  Passif_courant     ratio_ben_avt_impot_sur_frais_int
+##  Min.   :   21.96   Min.   : -5.585                  
+##  1st Qu.:  322.07   1st Qu.:  2.154                  
+##  Median :  922.00   Median :  4.123                  
+##  Mean   : 1605.72   Mean   : 18.804                  
+##  3rd Qu.: 2188.75   3rd Qu.:  7.494                  
+##  Max.   :11829.00   Max.   :402.143                  
+##                                                      
+##  ratio_tot_dette_sur_tot_actif  ratio_actuel    Ratio_de_liquid_réduite
+##  Min.   :  0.00                Min.   :0.0801   Min.   :0.0700         
+##  1st Qu.: 19.38                1st Qu.:0.8555   1st Qu.:0.4827         
+##  Median : 30.29                Median :1.2259   Median :0.7014         
+##  Mean   : 31.02                Mean   :1.5939   Mean   :1.0479         
+##  3rd Qu.: 42.08                3rd Qu.:1.8736   3rd Qu.:1.1620         
+##  Max.   :102.28                Max.   :8.8029   Max.   :8.7666         
+##                                                                        
+##  Ratio_de_liquidité Fonds_roulement   Ratio_Fonds_de_roulmt_sur_ventes
+##  Min.   :0.0000     Min.   :-1998.5   Min.   :-1.07130                
+##  1st Qu.:0.0451     1st Qu.: -170.7   1st Qu.:-0.04700                
+##  Median :0.2046     Median :  111.1   Median : 0.04350                
+##  Mean   :0.5448     Mean   :  343.5   Mean   : 0.07295                
+##  3rd Qu.:0.5544     3rd Qu.:  653.9   3rd Qu.: 0.15865                
+##  Max.   :8.1923     Max.   : 6439.0   Max.   : 1.58510                
+##                                                                       
+##  Marge_opérationnelle ratio_B_non_rep_sur_Tot_actif
+##  Min.   :-4.985       Min.   :-0.79757             
+##  1st Qu.: 5.345       1st Qu.: 0.03421             
+##  Median :14.258       Median : 0.17489             
+##  Mean   :17.107       Mean   : 0.17869             
+##  3rd Qu.:25.449       3rd Qu.: 0.29890             
+##  Max.   :62.896       Max.   : 3.76315             
+##                                                    
+##  ratio_Flux_de_TR_expl_sur_passif_cour ratio_Fonds_de_roulement_sur_tot_actif
+##  Min.   :-0.4884                       Min.   :-0.42379                      
+##  1st Qu.: 0.2673                       1st Qu.:-0.01908                      
+##  Median : 0.5857                       Median : 0.02920                      
+##  Mean   : 0.7514                       Mean   : 0.06767                      
+##  3rd Qu.: 1.1514                       3rd Qu.: 0.13399                      
+##  Max.   : 3.2556                       Max.   : 0.62554                      
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  binaire_cote_credit_2008 Cote_crédit Marge_bénéficiaire.nette Marge_sur_EBITDA
+##  firm_inv :73             AAA: 2      Min.   :-129.825         Min.   :-6.363  
+##  firm_spec:26             AA : 4      1st Qu.:   1.448         1st Qu.:10.244  
+##                           A  :23      Median :   6.788         Median :20.395  
+##                           BBB:44      Mean   :   8.792         Mean   :26.793  
+##                           BB :16      3rd Qu.:  14.978         3rd Qu.:40.731  
+##                           B  :10      Max.   : 173.461         Max.   :70.722  
+##                           CCC: 0                                               
+##  Marge_sur_EBIT    Rendement_sur_cap_prop Rendement_sur_actif    Dette_LT      
+##  Min.   :-13.574   Min.   :-63.963        Min.   :-17.453     Min.   :    0.0  
+##  1st Qu.:  5.696   1st Qu.:  4.124        1st Qu.:  1.800     1st Qu.:  703.5  
+##  Median : 12.072   Median : 11.301        Median :  4.115     Median : 1622.1  
+##  Mean   : 17.198   Mean   :  9.208        Mean   :  3.780     Mean   : 2559.5  
+##  3rd Qu.: 27.599   3rd Qu.: 17.939        3rd Qu.:  6.431     3rd Qu.: 3765.0  
+##  Max.   : 62.896   Max.   : 49.651        Max.   : 20.275     Max.   :15368.0  
+##                                                                                
+##   Total_actif      Bénéfices_non_répartis Flux_de_trésorie_d.expl
+##  Min.   :  432.2   Min.   :-2974.70       Min.   :-102.0         
+##  1st Qu.: 2691.7   1st Qu.:   27.04       1st Qu.: 172.5         
+##  Median : 5269.4   Median :  780.72       Median : 365.8         
+##  Mean   : 9490.1   Mean   : 1777.81       Mean   : 974.9         
+##  3rd Qu.:13219.5   3rd Qu.: 2210.00       3rd Qu.:1049.0         
+##  Max.   :42650.0   Max.   :15344.00       Max.   :6767.0         
+##                                                                  
+##  Passif_courant     ratio_ben_avt_impot_sur_frais_int
+##  Min.   :   14.27   Min.   :-10.139                  
+##  1st Qu.:  327.19   1st Qu.:  1.879                  
+##  Median :  880.10   Median :  3.673                  
+##  Mean   : 1774.56   Mean   : 16.897                  
+##  3rd Qu.: 2723.31   3rd Qu.:  7.224                  
+##  Max.   :13267.00   Max.   :526.125                  
+##                                                      
+##  ratio_tot_dette_sur_tot_actif  ratio_actuel    Ratio_de_liquid_réduite
+##  Min.   :  0.00                Min.   :0.0801   Min.   :0.0700         
+##  1st Qu.: 22.08                1st Qu.:0.7815   1st Qu.:0.4466         
+##  Median : 32.11                Median :1.0714   Median :0.6088         
+##  Mean   : 34.62                Mean   :1.3635   Mean   :0.8431         
+##  3rd Qu.: 45.68                3rd Qu.:1.7315   3rd Qu.:0.9682         
+##  Max.   :102.89                Max.   :8.8029   Max.   :8.7666         
+##                                                                        
+##  Ratio_de_liquidité Fonds_roulement     Ratio_Fonds_de_roulmt_sur_ventes
+##  Min.   :0.00000    Min.   :-5179.000   Min.   :-1.07130                
+##  1st Qu.:0.04465    1st Qu.: -240.923   1st Qu.:-0.08375                
+##  Median :0.13740    Median :    5.459   Median : 0.00810                
+##  Mean   :0.38768    Mean   :   85.875   Mean   : 0.02977                
+##  3rd Qu.:0.42790    3rd Qu.:  474.313   3rd Qu.: 0.15365                
+##  Max.   :8.19230    Max.   : 3655.700   Max.   : 1.58510                
+##                                                                         
+##  Marge_opérationnelle ratio_B_non_rep_sur_Tot_actif
+##  Min.   :-13.574      Min.   :-1.69694             
+##  1st Qu.:  5.696      1st Qu.: 0.01242             
+##  Median : 12.072      Median : 0.14874             
+##  Mean   : 17.198      Mean   : 0.12103             
+##  3rd Qu.: 27.599      3rd Qu.: 0.26536             
+##  Max.   : 62.896      Max.   : 1.67642             
+##                                                    
+##  ratio_Flux_de_TR_expl_sur_passif_cour ratio_Fonds_de_roulement_sur_tot_actif
+##  Min.   :-0.1110                       Min.   :-0.582827                     
+##  1st Qu.: 0.2551                       1st Qu.:-0.031916                     
+##  Median : 0.4450                       Median : 0.002831                     
+##  Mean   : 0.6929                       Mean   : 0.037443                     
+##  3rd Qu.: 1.0117                       3rd Qu.: 0.105855                     
+##  Max.   : 3.6254                       Max.   : 0.625538                     
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  binaire_cote_credit_2009 Cote_crédit Marge_bénéficiaire.nette
+##  firm_inv :73             AAA: 2      Min.   :-52.532         
+##  firm_spec:29             AA : 6      1st Qu.:  1.710         
+##                           A  :21      Median :  7.007         
+##                           BBB:44      Mean   :  9.988         
+##                           BB :21      3rd Qu.: 16.019         
+##                           B  : 4      Max.   : 88.351         
+##                           CCC: 4                              
+##  Marge_sur_EBITDA  Marge_sur_EBIT    Rendement_sur_cap_prop Rendement_sur_actif
+##  Min.   :-32.215   Min.   :-45.403   Min.   :-62.376        Min.   :-19.032    
+##  1st Qu.:  8.248   1st Qu.:  3.689   1st Qu.:  4.694        1st Qu.:  1.466    
+##  Median : 20.201   Median : 13.339   Median : 11.431        Median :  3.754    
+##  Mean   : 26.340   Mean   : 16.269   Mean   :  9.416        Mean   :  3.315    
+##  3rd Qu.: 44.269   3rd Qu.: 28.574   3rd Qu.: 16.297        3rd Qu.:  5.957    
+##  Max.   : 74.799   Max.   : 63.189   Max.   : 44.542        Max.   : 15.265    
+##                                                                                
+##     Dette_LT        Total_passif      Total_actif      Bénéfices_non_répartis
+##  Min.   :    0.0   Min.   :  298.1   Min.   :  426.6   Min.   :-4983.00      
+##  1st Qu.:  591.6   1st Qu.: 1630.3   1st Qu.: 2730.4   1st Qu.:   29.71      
+##  Median : 1699.4   Median : 3611.5   Median : 5604.0   Median :  711.35      
+##  Mean   : 2672.0   Mean   : 6100.4   Mean   :10253.3   Mean   : 1757.08      
+##  3rd Qu.: 3942.3   3rd Qu.: 8273.8   3rd Qu.:13222.5   3rd Qu.: 2093.50      
+##  Max.   :17975.0   Max.   :35635.0   Max.   :69746.0   Max.   :16696.00      
+##                                                                              
+##  Flux_de_trésorie_d.expl Passif_courant     ratio_ben_avt_impot_sur_frais_int
+##  Min.   :-2322.0         Min.   :   13.79   Min.   : -64.807                 
+##  1st Qu.:  146.5         1st Qu.:  327.52   1st Qu.:   1.584                 
+##  Median :  362.5         Median :  803.45   Median :   3.356                 
+##  Mean   :  952.3         Mean   : 1690.25   Mean   :  19.243                 
+##  3rd Qu.: 1245.5         3rd Qu.: 2378.16   3rd Qu.:   5.527                 
+##  Max.   : 5812.0         Max.   :12624.00   Max.   :1389.667                 
+##                                                                              
+##  ratio_tot_dette_sur_tot_actif  ratio_actuel    Ratio_de_liquid_réduite
+##  Min.   :  0.00                Min.   :0.0962   Min.   :0.0874         
+##  1st Qu.: 20.43                1st Qu.:0.7782   1st Qu.:0.4679         
+##  Median : 33.12                Median :1.1345   Median :0.7318         
+##  Mean   : 33.43                Mean   :1.3587   Mean   :0.8871         
+##  3rd Qu.: 43.21                3rd Qu.:1.6186   3rd Qu.:1.0978         
+##  Max.   :102.78                Max.   :5.6600   Max.   :5.6309         
+##                                                                        
+##  Ratio_de_liquidité Fonds_roulement    Ratio_Fonds_de_roulmt_sur_ventes
+##  Min.   :0.0000     Min.   :-2301.00   Min.   :-1.582300               
+##  1st Qu.:0.0611     1st Qu.: -203.47   1st Qu.:-0.096700               
+##  Median :0.2098     Median :   78.55   Median : 0.008000               
+##  Mean   :0.4309     Mean   :  269.93   Mean   : 0.009612               
+##  3rd Qu.:0.5768     3rd Qu.:  474.75   3rd Qu.: 0.121350               
+##  Max.   :5.2028     Max.   : 5267.00   Max.   : 1.351000               
+##                                                                        
+##  Marge_opérationnelle ratio_tot_liab_sur_tot_actif
+##  Min.   :-45.403      Min.   :0.2237              
+##  1st Qu.:  3.689      1st Qu.:0.5080              
+##  Median : 13.339      Median :0.6047              
+##  Mean   : 16.269      Mean   :0.6784              
+##  3rd Qu.: 28.574      3rd Qu.:0.7064              
+##  Max.   : 63.189      Max.   :3.5583              
+##                                                   
+##  ratio_B_non_rep_sur_Tot_actif ratio_Flux_de_TR_expl_sur_passif_cour
+##  Min.   :-0.766814             Min.   :-1.3096                      
+##  1st Qu.: 0.009481             1st Qu.: 0.2559                      
+##  Median : 0.142547             Median : 0.5857                      
+##  Mean   : 0.139234             Mean   : 0.6954                      
+##  3rd Qu.: 0.274831             3rd Qu.: 0.9763                      
+##  Max.   : 1.825449             Max.   : 4.5148                      
+##                                                                     
+##  ratio_Fonds_de_roulement_sur_tot_actif
+##  Min.   :-0.38830                      
+##  1st Qu.:-0.03358                      
+##  Median : 0.01715                      
+##  Mean   : 0.04723                      
+##  3rd Qu.: 0.11143                      
+##  Max.   : 0.62562                      
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  binaire_cote_credit_2016 Cote_crédit Marge_bénéficiaire.nette
+##  firm_inv :96             AAA: 2      Min.   :-539.1182       
+##  firm_spec:54             AA :13      1st Qu.:  -0.5230       
+##                           A  :28      Median :   5.2290       
+##                           BBB:53      Mean   :  -0.5412       
+##                           BB :31      3rd Qu.:  10.9281       
+##                           B  :21      Max.   :  70.8621       
+##                           CCC: 2                              
+##  Marge_sur_EBITDA  Marge_sur_EBIT     Rendement_sur_cap_prop
+##  Min.   :-466.31   Min.   :-501.462   Min.   :-130.743      
+##  1st Qu.:  12.44   1st Qu.:   4.708   1st Qu.:  -0.215      
+##  Median :  25.87   Median :  10.929   Median :   6.567      
+##  Mean   :  24.13   Mean   :   9.107   Mean   :   6.263      
+##  3rd Qu.:  39.81   3rd Qu.:  20.553   3rd Qu.:  14.935      
+##  Max.   :  92.99   Max.   :  70.738   Max.   : 142.208      
+##                                                             
+##  Rendement_sur_actif    Dette_LT        Total_passif      Total_actif      
+##  Min.   :-32.7511    Min.   :    0.0   Min.   :  191.1   Min.   :   161.4  
+##  1st Qu.: -0.1456    1st Qu.:  363.6   1st Qu.: 1525.5   1st Qu.:  2050.7  
+##  Median :  2.0107    Median : 1607.3   Median : 3668.0   Median :  5818.7  
+##  Mean   :  1.4315    Mean   : 3648.1   Mean   : 8054.4   Mean   : 13804.5  
+##  3rd Qu.:  4.8170    3rd Qu.: 4520.2   3rd Qu.:10201.6   3rd Qu.: 15108.8  
+##  Max.   : 14.7654    Max.   :42243.0   Max.   :64406.0   Max.   :287940.0  
+##                                                                            
+##  Bénéfices_non_répartis Flux_de_trésorie_d.expl Passif_courant     
+##  Min.   :-13074.0       Min.   :-3028.0         Min.   :    9.096  
+##  1st Qu.:  -121.5       1st Qu.:  110.3         1st Qu.:  244.192  
+##  Median :   190.0       Median :  359.8         Median :  611.966  
+##  Mean   :  1199.7       Mean   :  805.4         Mean   : 1641.912  
+##  3rd Qu.:  1535.8       3rd Qu.: 1008.4         3rd Qu.: 1709.000  
+##  Max.   : 25352.0       Max.   : 6643.0         Max.   :10108.000  
+##                                                                    
+##  ratio_ben_avt_impot_sur_frais_int ratio_tot_dette_sur_tot_actif
+##  Min.   :-12.563                   Min.   :  0.076              
+##  1st Qu.:  1.084                   1st Qu.: 24.109              
+##  Median :  2.527                   Median : 35.441              
+##  Mean   :  4.500                   Mean   : 38.282              
+##  3rd Qu.:  4.562                   3rd Qu.: 48.262              
+##  Max.   : 77.812                   Max.   :126.170              
+##                                                                 
+##   ratio_actuel     Ratio_de_liquid_réduite Ratio_de_liquidité
+##  Min.   : 0.1341   Min.   : 0.0000         Min.   : 0.0000   
+##  1st Qu.: 0.8633   1st Qu.: 0.3819         1st Qu.: 0.0858   
+##  Median : 1.1979   Median : 0.7581         Median : 0.2435   
+##  Mean   : 1.5142   Mean   : 0.9541         Mean   : 0.5766   
+##  3rd Qu.: 1.6894   3rd Qu.: 1.1343         3rd Qu.: 0.7070   
+##  Max.   :12.0410   Max.   :10.2292         Max.   :10.1074   
+##                                                              
+##  Fonds_roulement    Ratio_Fonds_de_roulmt_sur_ventes Marge_opérationnelle
+##  Min.   :-5253.00   Min.   :-2.13050                 Min.   :-501.462    
+##  1st Qu.:  -50.76   1st Qu.:-0.05580                 1st Qu.:   4.557    
+##  Median :   96.26   Median : 0.05850                 Median :  11.566    
+##  Mean   :  264.00   Mean   : 0.09748                 Mean   :   9.710    
+##  3rd Qu.:  387.35   3rd Qu.: 0.17733                 3rd Qu.:  20.968    
+##  Max.   : 4151.00   Max.   : 2.40570                 Max.   :  87.131    
+##                                                                          
+##  ratio_tot_liab_sur_tot_actif ratio_B_non_rep_sur_Tot_actif
+##  Min.   :0.2115               Min.   :-5.66304             
+##  1st Qu.:0.5370               1st Qu.:-0.04571             
+##  Median :0.6342               Median : 0.05009             
+##  Mean   :0.8443               Mean   : 0.03008             
+##  3rd Qu.:0.7715               3rd Qu.: 0.20145             
+##  Max.   :8.6508               Max.   : 4.40363             
+##                                                            
+##  ratio_Flux_de_TR_expl_sur_passif_cour ratio_Fonds_de_roulement_sur_tot_actif
+##  Min.   :-3.5410                       Min.   :-0.25167                      
+##  1st Qu.: 0.3503                       1st Qu.:-0.01293                      
+##  Median : 0.5360                       Median : 0.02375                      
+##  Mean   : 0.8573                       Mean   : 0.04580                      
+##  3rd Qu.: 0.8436                       3rd Qu.: 0.08341                      
+##  Max.   :34.3488                       Max.   : 0.61866                      
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  binaire_cote_credit_2018 Cote_crédit Marge_bénéficiaire.nette
+##  firm_inv :98             AAA: 1      Min.   :-205.2109       
+##  firm_spec:57             AA :13      1st Qu.:   0.4298       
+##                           A  :27      Median :   7.1916       
+##                           BBB:57      Mean   :   6.1081       
+##                           BB :27      3rd Qu.:  13.6642       
+##                           B  :30      Max.   : 273.2479       
+##                           CCC: 0                              
+##  Marge_sur_EBITDA  Marge_sur_EBIT     Rendement_sur_cap_prop
+##  Min.   :-133.23   Min.   :-173.135   Min.   :-130.7433     
+##  1st Qu.:  12.43   1st Qu.:   5.362   1st Qu.:   0.3958     
+##  Median :  23.98   Median :  12.379   Median :   8.1910     
+##  Mean   :  27.36   Mean   :  12.556   Mean   :   3.9695     
+##  3rd Qu.:  42.74   3rd Qu.:  23.427   3rd Qu.:  15.1047     
+##  Max.   :  92.72   Max.   :  69.571   Max.   :  59.8695     
+##                                                             
+##  Rendement_sur_actif    Dette_LT        Total_passif      Total_actif     
+##  Min.   :-40.1009    Min.   :    0.0   Min.   :  305.2   Min.   :  161.4  
+##  1st Qu.:  0.1518    1st Qu.:  458.4   1st Qu.: 1281.8   1st Qu.: 2019.1  
+##  Median :  2.8095    Median : 1821.0   Median : 3587.0   Median : 6205.0  
+##  Mean   :  2.4328    Mean   : 3589.5   Mean   : 8125.2   Mean   :12603.0  
+##  3rd Qu.:  5.2457    3rd Qu.: 4407.1   3rd Qu.:11610.0   3rd Qu.:15597.6  
+##  Max.   : 70.6576    Max.   :44017.0   Max.   :67927.0   Max.   :98920.0  
+##                                                                           
+##  Bénéfices_non_répartis Flux_de_trésorie_d.expl Passif_courant     
+##  Min.   :-13453.0       Min.   : -864.1         Min.   :    8.562  
+##  1st Qu.:  -126.8       1st Qu.:  106.4         1st Qu.:  273.176  
+##  Median :   197.0       Median :  404.7         Median :  681.373  
+##  Mean   :  1135.6       Mean   :  983.0         Mean   : 1855.001  
+##  3rd Qu.:  1714.5       3rd Qu.: 1082.8         3rd Qu.: 1954.993  
+##  Max.   : 24560.0       Max.   :10580.0         Max.   :12946.000  
+##                                                                    
+##  ratio_ben_avt_impot_sur_frais_int ratio_tot_dette_sur_tot_actif
+##  Min.   :-110.975                  Min.   :  0.00               
+##  1st Qu.:   1.494                  1st Qu.: 23.62               
+##  Median :   2.781                  Median : 35.45               
+##  Mean   :   4.863                  Mean   : 37.63               
+##  3rd Qu.:   5.458                  3rd Qu.: 47.43               
+##  Max.   : 101.500                  Max.   :109.80               
+##                                                                 
+##   ratio_actuel    Ratio_de_liquid_réduite Ratio_de_liquidité Fonds_roulement   
+##  Min.   :0.0851   Min.   :0.0000          Min.   :0.0000     Min.   :-7811.00  
+##  1st Qu.:0.7805   1st Qu.:0.3805          1st Qu.:0.0552     1st Qu.:  -88.00  
+##  Median :1.1390   Median :0.6701          Median :0.2009     Median :   47.00  
+##  Mean   :1.3831   Mean   :0.8460          Mean   :0.4754     Mean   :   98.99  
+##  3rd Qu.:1.6906   3rd Qu.:0.9999          3rd Qu.:0.5513     3rd Qu.:  354.07  
+##  Max.   :5.6849   Max.   :5.5617          Max.   :4.6825     Max.   : 3803.90  
+##                                                                                
+##  Ratio_Fonds_de_roulmt_sur_ventes Marge_opérationnelle Beta_applique   
+##  Min.   :-3.05430                 Min.   :-173.135     Min.   :0.1036  
+##  1st Qu.:-0.04150                 1st Qu.:   5.362     1st Qu.:0.7401  
+##  Median : 0.03780                 Median :  12.379     Median :1.0000  
+##  Mean   : 0.04022                 Mean   :  13.393     Mean   :1.0274  
+##  3rd Qu.: 0.15305                 3rd Qu.:  23.784     3rd Qu.:1.2441  
+##  Max.   : 1.22640                 Max.   :  87.596     Max.   :2.1463  
+##                                                                        
+##  Croissance_adj_des_Bén_ann Croissance_tot_actif ratio_tot_liab_sur_tot_actif
+##  Min.   :-78.135            Min.   :-24.423      Min.   :0.2587              
+##  1st Qu.: -3.822            1st Qu.: -2.301      1st Qu.:0.5382              
+##  Median :  5.674            Median :  6.047      Median :0.6432              
+##  Mean   : 10.875            Mean   :  5.290      Mean   :0.8322              
+##  3rd Qu.: 23.671            3rd Qu.: 11.592      3rd Qu.:0.7903              
+##  Max.   :173.570            Max.   : 60.715      Max.   :6.9719              
+##                                                                              
+##  ratio_B_non_rep_sur_Tot_actif ratio_Flux_de_TR_expl_sur_passif_cour
+##  Min.   :-15.17808             Min.   :-0.5116                      
+##  1st Qu.: -0.06096             1st Qu.: 0.2916                      
+##  Median :  0.06216             Median : 0.6005                      
+##  Mean   : -0.07512             Mean   : 0.7536                      
+##  3rd Qu.:  0.20095             3rd Qu.: 1.0177                      
+##  Max.   :  2.04128             Max.   : 4.3769                      
+##                                                                     
+##  ratio_Fonds_de_roulement_sur_tot_actif
+##  Min.   :-0.45114                      
+##  1st Qu.:-0.01793                      
+##  Median : 0.01970                      
+##  Mean   : 0.03919                      
+##  3rd Qu.: 0.08801                      
+##  Max.   : 0.53332                      
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  binaire_cote_credit_2019 Cote_crédit Marge_sur_EBITDA Marge_sur_EBIT   
+##  firm_inv :95             AAA: 1      Min.   :-28.50   Min.   :-40.839  
+##  firm_spec:56             AA :14      1st Qu.: 12.24   1st Qu.:  5.105  
+##                           A  :25      Median : 25.94   Median : 11.655  
+##                           BBB:55      Mean   : 30.64   Mean   : 15.150  
+##                           BB :26      3rd Qu.: 48.02   3rd Qu.: 25.880  
+##                           B  :28      Max.   : 90.58   Max.   : 69.672  
+##                           CCC: 2                                        
+##  Rendement_sur_cap_prop Rendement_sur_actif    Dette_LT        Total_passif    
+##  Min.   :-185.1165      Min.   :-30.6379    Min.   :    0.0   Min.   :  223.6  
+##  1st Qu.:   0.8908      1st Qu.:  0.5061    1st Qu.:  565.5   1st Qu.: 1416.3  
+##  Median :   7.8584      Median :  2.6742    Median : 2013.0   Median : 4067.0  
+##  Mean   :   2.9971      Mean   :  2.0403    Mean   : 4243.8   Mean   : 9054.9  
+##  3rd Qu.:  15.6062      3rd Qu.:  5.0544    3rd Qu.: 5132.5   3rd Qu.:10575.5  
+##  Max.   :  89.5780      Max.   : 24.6134    Max.   :43370.0   Max.   :66882.0  
+##                                                                                
+##   Total_actif      Bénéfices_non_répartis Flux_de_trésorie_d.expl
+##  Min.   :  161.4   Min.   :-10887.0       Min.   : -767.5        
+##  1st Qu.: 2194.0   1st Qu.:  -227.2       1st Qu.:  105.2        
+##  Median : 6758.1   Median :   183.5       Median :  423.0        
+##  Mean   :14224.2   Mean   :  1168.7       Mean   : 1081.0        
+##  3rd Qu.:15825.5   3rd Qu.:  1769.4       3rd Qu.:  962.0        
+##  Max.   :99279.0   Max.   : 25424.0       Max.   :10421.0        
+##                                                                  
+##  Passif_courant      ratio_ben_avt_impot_sur_frais_int
+##  Min.   :    9.353   Min.   :-41.741                  
+##  1st Qu.:  274.714   1st Qu.:  1.317                  
+##  Median :  739.000   Median :  2.706                  
+##  Mean   : 2027.180   Mean   :  4.228                  
+##  3rd Qu.: 2325.576   3rd Qu.:  4.288                  
+##  Max.   :15315.000   Max.   :101.500                  
+##                                                       
+##  ratio_tot_dette_sur_tot_actif  ratio_actuel    Ratio_de_liquid_réduite
+##  Min.   :  0.00                Min.   :0.1350   Min.   :0.0000         
+##  1st Qu.: 23.97                1st Qu.:0.7973   1st Qu.:0.3923         
+##  Median : 37.79                Median :1.2078   Median :0.6133         
+##  Mean   : 38.71                Mean   :1.4755   Mean   :0.8956         
+##  3rd Qu.: 48.54                3rd Qu.:1.8837   3rd Qu.:1.1850         
+##  Max.   :113.00                Max.   :7.0401   Max.   :6.7676         
+##                                                                        
+##  Ratio_de_liquidité Fonds_roulement    Ratio_Fonds_de_roulmt_sur_ventes
+##  Min.   :0.0000     Min.   :-5248.00   Min.   :-0.99120                
+##  1st Qu.:0.0568     1st Qu.: -166.41   1st Qu.:-0.06235                
+##  Median :0.1860     Median :   75.24   Median : 0.03920                
+##  Mean   :0.5191     Mean   :  108.51   Mean   : 0.04520                
+##  3rd Qu.:0.7219     3rd Qu.:  380.57   3rd Qu.: 0.15995                
+##  Max.   :6.3703     Max.   : 4511.00   Max.   : 1.27020                
+##                                                                        
+##  Marge_opérationnelle Beta_applique    Croissance_adj_des_Bén_ann
+##  Min.   :-40.839      Min.   :0.0733   Min.   :-97.660           
+##  1st Qu.:  5.105      1st Qu.:0.7372   1st Qu.:-12.821           
+##  Median : 11.655      Median :1.0000   Median :  3.459           
+##  Mean   : 15.796      Mean   :1.0291   Mean   :  7.606           
+##  3rd Qu.: 26.483      3rd Qu.:1.1317   3rd Qu.: 23.320           
+##  Max.   : 83.921      Max.   :2.3266   Max.   :149.604           
+##                                                                  
+##  Croissance_tot_actif ratio_tot_liab_sur_tot_actif
+##  Min.   :-28.502      Min.   :0.1035              
+##  1st Qu.:  1.296      1st Qu.:0.5314              
+##  Median :  5.892      Median :0.6497              
+##  Mean   :  6.514      Mean   :0.7672              
+##  3rd Qu.: 11.294      3rd Qu.:0.7741              
+##  Max.   : 43.383      Max.   :5.0270              
+##                                                   
+##  ratio_B_non_rep_sur_Tot_actif ratio_Flux_de_TR_expl_sur_passif_cour
+##  Min.   :-20.22914             Min.   :-0.4002                      
+##  1st Qu.: -0.08136             1st Qu.: 0.3025                      
+##  Median :  0.04210             Median : 0.6234                      
+##  Mean   : -0.12112             Mean   : 0.7403                      
+##  3rd Qu.:  0.19228             3rd Qu.: 1.0106                      
+##  Max.   :  0.73721             Max.   : 3.5758                      
+##                                                                     
+##  ratio_Fonds_de_roulement_sur_tot_actif
+##  Min.   :-0.45114                      
+##  1st Qu.:-0.02019                      
+##  Median : 0.02354                      
+##  Mean   : 0.04494                      
+##  3rd Qu.: 0.10336                      
+##  Max.   : 0.51369                      
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(variables_}\DecValTok{2000}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    104 obs. of  22 variables:
+##  $ binaire_cote_credit_2000              : Factor w/ 2 levels "firm_inv","firm_spec": 1 1 1 1 1 2 1 1 1 1 ...
+##  $ Cote_crédit                           : Factor w/ 7 levels "AAA","AA","A",..: 4 4 4 4 4 5 3 4 3 3 ...
+##  $ Marge_bénéficiaire.nette              : num  9.37 14.2 30.38 7.61 3.4 ...
+##  $ Marge_sur_EBITDA                      : num  18.8 38.6 67.1 15.4 11 ...
+##  $ Marge_sur_EBIT                        : num  13.28 15.84 47.46 10.59 6.94 ...
+##  $ Rendement_sur_cap_prop                : num  34.39 4.49 7.4 15.54 8.78 ...
+##  $ Rendement_sur_actif                   : num  10.78 2.79 4.83 6.49 3.43 ...
+##  $ Dette_LT                              : num  715 170.7 73.1 251.5 216.9 ...
+##  $ Total_actif                           : num  2661 686 329 1109 571 ...
+##  $ Flux_de_trésorie_d.expl               : num  440 51.2 22.5 147.7 21.5 ...
+##  $ Passif_courant                        : num  532 38.9 15.9 301.3 92.5 ...
+##  $ ratio_ben_avt_impot_sur_frais_int     : num  5.46 2.04 2.33 4.33 2.88 ...
+##  $ ratio_tot_dette_sur_tot_actif         : num  29.1 25.1 22.6 32.4 38 ...
+##  $ ratio_actuel                          : num  2.474 1.369 1.127 0.646 1.278 ...
+##  $ Ratio_de_liquid_réduite               : num  1.528 1.275 1.083 0.541 1.104 ...
+##  $ Ratio_de_liquidité                    : num  0.7989 0.7323 0.6013 0.0089 0 ...
+##  $ Fonds_roulement                       : num  784 14.35 2.02 -106.51 25.73 ...
+##  $ Ratio_Fonds_de_roulmt_sur_ventes      : num  0.2116 0.0828 0.0212 -0.0563 0.0345 ...
+##  $ Marge_opérationnelle                  : num  13.28 15.84 47.46 10.59 6.94 ...
+##  $ Beta_applique                         : num  0.822 0.241 1.045 0.312 0.372 ...
+##  $ ratio_Flux_de_TR_expl_sur_passif_cour : num  0.827 1.317 1.415 0.49 0.233 ...
+##  $ ratio_Fonds_de_roulement_sur_tot_actif: num  0.29463 0.02093 0.00616 -0.09608 0.04503 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(variables_}\DecValTok{2007}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    91 obs. of  23 variables:
+##  $ binaire_cote_credit_2007              : Factor w/ 2 levels "firm_inv","firm_spec": 1 2 2 1 1 1 1 1 2 2 ...
+##  $ Cote_crédit                           : Factor w/ 7 levels "AAA","AA","A",..: 4 6 6 4 4 3 3 3 6 5 ...
+##  $ Marge_bénéficiaire.nette              : num  6.637 -0.306 4.048 7.471 8.404 ...
+##  $ Marge_sur_EBITDA                      : num  13.68 10 9.93 17.89 12.71 ...
+##  $ Marge_sur_EBIT                        : num  10.57 2.58 4.67 11.31 9.34 ...
+##  $ Rendement_sur_cap_prop                : num  14.59 -2.17 19.98 9.41 19.53 ...
+##  $ Rendement_sur_actif                   : num  6.288 -0.321 3.64 3.763 9.534 ...
+##  $ Dette_LT                              : num  2118 4028 4006 893 216 ...
+##  $ Total_actif                           : num  12892 10153 11820 2753 1173 ...
+##  $ Bénéfices_non_répartis                : num  3150 -2334 322 -9.05 78.19 ...
+##  $ Flux_de_trésorie_d.expl               : num  634 933 537 193.3 53.8 ...
+##  $ Passif_courant                        : num  4533 3124 2939 324 275 ...
+##  $ ratio_ben_avt_impot_sur_frais_int     : num  9.55 0.7 2.04 3.14 9.58 ...
+##  $ ratio_tot_dette_sur_tot_actif         : num  21.4 45.3 37.4 32.9 18.8 ...
+##  $ ratio_actuel                          : num  1.564 1.071 0.837 0.941 1.06 ...
+##  $ Ratio_de_liquid_réduite               : num  0.529 0.907 0.677 0.701 0.744 ...
+##  $ Ratio_de_liquidité                    : num  0.1407 0.7017 0.4216 0.0065 0.0454 ...
+##  $ Fonds_roulement                       : num  2555 223 -478 -19.2 16.3 ...
+##  $ Ratio_Fonds_de_roulmt_sur_ventes      : num  0.2371 -0.0059 -0.0061 -0.2024 0.0077 ...
+##  $ Marge_opérationnelle                  : num  10.57 2.58 4.67 11.31 9.34 ...
+##  $ ratio_B_non_rep_sur_Tot_actif         : num  0.24434 -0.22988 0.02724 -0.00329 0.06668 ...
+##  $ ratio_Flux_de_TR_expl_sur_passif_cour : num  0.14 0.299 0.183 0.596 0.196 ...
+##  $ ratio_Fonds_de_roulement_sur_tot_actif: num  0.19818 0.02196 -0.04044 -0.00699 0.01394 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(variables_}\DecValTok{2008}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    99 obs. of  23 variables:
+##  $ binaire_cote_credit_2008              : Factor w/ 2 levels "firm_inv","firm_spec": 1 2 2 1 1 1 1 1 2 2 ...
+##  $ Cote_crédit                           : Factor w/ 7 levels "AAA","AA","A",..: 4 6 6 4 4 3 3 3 5 5 ...
+##  $ Marge_bénéficiaire.nette              : num  6.637 -0.306 -9.249 7.471 9.058 ...
+##  $ Marge_sur_EBITDA                      : num  13.68 10 5.91 17.89 13.59 ...
+##  $ Marge_sur_EBIT                        : num  10.574 2.577 -0.352 11.306 9.878 ...
+##  $ Rendement_sur_cap_prop                : num  14.59 -2.17 -63.96 9.41 21.21 ...
+##  $ Rendement_sur_actif                   : num  6.288 -0.321 -8.842 3.763 9.899 ...
+##  $ Dette_LT                              : num  2118 4028 4691 893 576 ...
+##  $ Total_actif                           : num  12892 10153 11364 2753 2132 ...
+##  $ Bénéfices_non_répartis                : num  3150 -2334 -703 -9.05 94.39 ...
+##  $ Flux_de_trésorie_d.expl               : num  634 933 -102 193 205 ...
+##  $ Passif_courant                        : num  4533 3124 3856 324 323 ...
+##  $ ratio_ben_avt_impot_sur_frais_int     : num  9.546 0.7 -0.138 3.137 6.511 ...
+##  $ ratio_tot_dette_sur_tot_actif         : num  21.4 45.3 47.1 32.9 27.3 ...
+##  $ ratio_actuel                          : num  1.564 1.071 0.623 0.941 1.126 ...
+##  $ Ratio_de_liquid_réduite               : num  0.529 0.907 0.443 0.701 0.738 ...
+##  $ Ratio_de_liquidité                    : num  0.1407 0.7017 0.2606 0.0065 0.0566 ...
+##  $ Fonds_roulement                       : num  2555 223 -1453 -19.2 40.7 ...
+##  $ Ratio_Fonds_de_roulmt_sur_ventes      : num  0.2371 -0.0059 -0.0871 -0.2024 0.0158 ...
+##  $ Marge_opérationnelle                  : num  10.574 2.577 -0.352 11.306 9.878 ...
+##  $ ratio_B_non_rep_sur_Tot_actif         : num  0.24434 -0.22988 -0.06186 -0.00329 0.04427 ...
+##  $ ratio_Flux_de_TR_expl_sur_passif_cour : num  0.1399 0.2987 -0.0265 0.5964 0.6348 ...
+##  $ ratio_Fonds_de_roulement_sur_tot_actif: num  0.19818 0.02196 -0.12786 -0.00699 0.01911 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(variables_}\DecValTok{2009}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    102 obs. of  25 variables:
+##  $ binaire_cote_credit_2009              : Factor w/ 2 levels "firm_inv","firm_spec": 1 2 2 1 1 1 1 1 2 1 ...
+##  $ Cote_crédit                           : Factor w/ 7 levels "AAA","AA","A",..: 4 7 7 4 4 3 3 3 5 4 ...
+##  $ Marge_bénéficiaire.nette              : num  8.862 -2.196 -0.246 7.247 11.175 ...
+##  $ Marge_sur_EBITDA                      : num  17.49 7.81 3.53 14.02 19.35 ...
+##  $ Marge_sur_EBIT                        : num  15.03 1.54 -3.24 7.79 13.49 ...
+##  $ Rendement_sur_cap_prop                : num  23.62 -2.17 -2.17 7.6 14.09 ...
+##  $ Rendement_sur_actif                   : num  10.533 -2.578 -0.22 2.94 5.936 ...
+##  $ Dette_LT                              : num  2098 3906 4054 1214 408 ...
+##  $ Total_passif                          : num  6712 12791 8759 2195 1580 ...
+##  $ Total_actif                           : num  13140 9633 10406 3556 2629 ...
+##  $ Bénéfices_non_répartis                : num  4420 -4983 -727 -38.6 34.8 ...
+##  $ Flux_de_trésorie_d.expl               : num  1299 576 -167 185 184 ...
+##  $ Passif_courant                        : num  3427 2305 3002 558 861 ...
+##  $ ratio_ben_avt_impot_sur_frais_int     : num  14.531 0.566 -0.856 1.892 5.37 ...
+##  $ ratio_tot_dette_sur_tot_actif         : num  18 36.1 43.5 37.6 38.6 ...
+##  $ ratio_actuel                          : num  2.083 1.443 0.883 0.63 0.385 ...
+##  $ Ratio_de_liquid_réduite               : num  0.972 1.22 0.702 0.426 0.263 ...
+##  $ Ratio_de_liquidité                    : num  0.3928 0.9106 0.4687 0.0052 0.0267 ...
+##  $ Fonds_roulement                       : num  3710 1022 -351 -206 -529 ...
+##  $ Ratio_Fonds_de_roulmt_sur_ventes      : num  0.2025 0.0536 -0.0926 -0.0881 -0.1932 ...
+##  $ Marge_opérationnelle                  : num  15.03 1.54 -3.24 7.79 13.49 ...
+##  $ ratio_tot_liab_sur_tot_actif          : num  0.511 1.328 0.842 0.617 0.601 ...
+##  $ ratio_B_non_rep_sur_Tot_actif         : num  0.3364 -0.5173 -0.0699 -0.0109 0.0133 ...
+##  $ ratio_Flux_de_TR_expl_sur_passif_cour : num  0.379 0.2499 -0.0556 0.3323 0.2139 ...
+##  $ ratio_Fonds_de_roulement_sur_tot_actif: num  0.2823 0.1061 -0.0337 -0.058 -0.2013 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(variables_}\DecValTok{2016}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    150 obs. of  25 variables:
+##  $ binaire_cote_credit_2016              : Factor w/ 2 levels "firm_inv","firm_spec": 2 1 2 1 1 1 1 1 2 2 ...
+##  $ Cote_crédit                           : Factor w/ 7 levels "AAA","AA","A",..: 6 4 5 3 4 4 3 3 7 5 ...
+##  $ Marge_bénéficiaire.nette              : num  -161.206 4.399 5.968 0.462 11.945 ...
+##  $ Marge_sur_EBITDA                      : num  -92.8 12.4 14.9 12.5 39.3 ...
+##  $ Marge_sur_EBIT                        : num  -115.46 8.7 9.16 6.27 21.39 ...
+##  $ Rendement_sur_cap_prop                : num  -4.466 9.727 142.208 0.614 7.026 ...
+##  $ Rendement_sur_actif                   : num  -29.213 3.551 6.204 0.258 1.978 ...
+##  $ Dette_LT                              : num  3469 4398 5911 7437 3169 ...
+##  $ Total_passif                          : num  4109 10789 13895 18028 4263 ...
+##  $ Total_actif                           : num  3732 16963 15114 31948 6133 ...
+##  $ Bénéfices_non_répartis                : num  -1361 5634 336 3331 -413 ...
+##  $ Flux_de_trésorie_d.expl               : num  158 1637 2421 1812 217 ...
+##  $ Passif_courant                        : num  423 5452 4424 7591 406 ...
+##  $ ratio_ben_avt_impot_sur_frais_int     : num  -3.83 4.21 4.26 4.1 1.78 ...
+##  $ ratio_tot_dette_sur_tot_actif         : num  95 30.1 43.8 29.9 51.8 ...
+##  $ ratio_actuel                          : num  1.688 1.258 0.983 1.201 0.9 ...
+##  $ Ratio_de_liquid_réduite               : num  1.372 0.425 0.833 0.477 0.549 ...
+##  $ Ratio_de_liquidité                    : num  0.9406 0.0756 0.6734 0.0904 0.202 ...
+##  $ Fonds_roulement                       : num  291 1409 -77 1523 -40.7 ...
+##  $ Ratio_Fonds_de_roulmt_sur_ventes      : num  0.1616 0.1188 0.0075 0.0887 -0.0104 ...
+##  $ Marge_opérationnelle                  : num  -115.46 8.7 9.16 6.27 21.39 ...
+##  $ ratio_tot_liab_sur_tot_actif          : num  1.101 0.636 0.919 0.564 0.695 ...
+##  $ ratio_B_non_rep_sur_Tot_actif         : num  -0.3647 0.3321 0.0222 0.1043 -0.0674 ...
+##  $ ratio_Flux_de_TR_expl_sur_passif_cour : num  0.372 0.3 0.547 0.239 0.534 ...
+##  $ ratio_Fonds_de_roulement_sur_tot_actif: num  0.07797 0.08306 -0.00509 0.04767 -0.00663 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(variables_}\DecValTok{2018}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    155 obs. of  28 variables:
+##  $ binaire_cote_credit_2018              : Factor w/ 2 levels "firm_inv","firm_spec": 2 1 2 1 2 1 1 1 1 2 ...
+##  $ Cote_crédit                           : Factor w/ 7 levels "AAA","AA","A",..: 6 4 5 3 6 4 4 3 3 6 ...
+##  $ Marge_bénéficiaire.nette              : num  273.248 18.196 0.205 0.635 -43.092 ...
+##  $ Marge_sur_EBITDA                      : num  16.54 10.22 17.85 12.58 -9.76 ...
+##  $ Marge_sur_EBIT                        : num  -30.41 2.11 8.31 7.26 -17.43 ...
+##  $ Rendement_sur_cap_prop                : num  -4.47 23.39 1.1 1.22 -24.56 ...
+##  $ Rendement_sur_actif                   : num  70.658 11.264 0.187 0.43 -29.405 ...
+##  $ Dette_LT                              : num  1328 7591 8873 5265 2 ...
+##  $ Total_passif                          : num  1634 21077 18606 15611 755 ...
+##  $ Total_actif                           : num  1831 45502 21883 26638 1228 ...
+##  $ Bénéfices_non_répartis                : num  -1484 7745 2404 3048 1347 ...
+##  $ Flux_de_trésorie_d.expl               : num  8.97 2052 3470 1562 -19 ...
+##  $ Passif_courant                        : num  201 8335 5676 5845 948 ...
+##  $ ratio_ben_avt_impot_sur_frais_int     : num  -0.753 0.769 2.812 4.217 2.259 ...
+##  $ ratio_tot_dette_sur_tot_actif         : num  73.7 20.3 45.3 24.1 12.3 ...
+##  $ ratio_actuel                          : num  2.21 1.399 1.11 1.101 0.416 ...
+##  $ Ratio_de_liquid_réduite               : num  1.689 0.679 0.97 0.426 0.152 ...
+##  $ Ratio_de_liquidité                    : num  1.117 0.278 0.829 0.031 0 ...
+##  $ Fonds_roulement                       : num  243 3327 625 593 -554 ...
+##  $ Ratio_Fonds_de_roulmt_sur_ventes      : num  -3.0543 0.117 0.0256 0.0184 -0.2012 ...
+##  $ Marge_opérationnelle                  : num  -30.41 2.11 8.31 7.26 -17.43 ...
+##  $ Beta_applique                         : num  1.06 1.3 1.11 1.29 1.49 ...
+##  $ Croissance_adj_des_Bén_ann            : num  -19.1 132.1 34.7 -25.1 12.7 ...
+##  $ Croissance_tot_actif                  : num  60.7 23.3 18.2 18.2 11.1 ...
+##  $ ratio_tot_liab_sur_tot_actif          : num  0.893 0.463 0.85 0.586 0.615 ...
+##  $ ratio_B_non_rep_sur_Tot_actif         : num  -0.811 0.17 0.11 0.114 1.097 ...
+##  $ ratio_Flux_de_TR_expl_sur_passif_cour : num  0.0447 0.2462 0.6113 0.2672 -0.02 ...
+##  $ ratio_Fonds_de_roulement_sur_tot_actif: num  0.1328 0.0731 0.0286 0.0223 -0.4511 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(variables_}\DecValTok{2019}\NormalTok{_}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    151 obs. of  27 variables:
+##  $ binaire_cote_credit_2019              : Factor w/ 2 levels "firm_inv","firm_spec": 2 1 2 1 2 1 1 1 1 2 ...
+##  $ Cote_crédit                           : Factor w/ 7 levels "AAA","AA","A",..: 6 4 5 3 6 4 4 3 3 7 ...
+##  $ Marge_sur_EBITDA                      : num  13.09 18.28 19.01 16.73 -9.76 ...
+##  $ Marge_sur_EBIT                        : num  -27.55 9.3 8.62 12.32 -17.43 ...
+##  $ Rendement_sur_cap_prop                : num  -185.1 4.2 38.5 17.4 -24.6 ...
+##  $ Rendement_sur_actif                   : num  -11.45 2.15 5.95 6.43 -29.41 ...
+##  $ Dette_LT                              : num  1312 9412 8024 5476 2 ...
+##  $ Total_passif                          : num  1578 23930 23359 16512 6173 ...
+##  $ Total_actif                           : num  1593 46799 27759 28939 1228 ...
+##  $ Bénéfices_non_répartis                : num  -1682 7101 3507 4281 584 ...
+##  $ Flux_de_trésorie_d.expl               : num  72 3665 5712 3049 -19 ...
+##  $ Passif_courant                        : num  202 9129 7775 5979 948 ...
+##  $ ratio_ben_avt_impot_sur_frais_int     : num  -1.36 3.36 3.44 10.26 2.36 ...
+##  $ ratio_tot_dette_sur_tot_actif         : num  83.8 23.7 33.3 20.7 12.3 ...
+##  $ ratio_actuel                          : num  2.326 1.168 0.967 1.284 0.416 ...
+##  $ Ratio_de_liquid_réduite               : num  1.837 0.462 0.876 0.525 0.152 ...
+##  $ Ratio_de_liquidité                    : num  1.2927 0.0735 0.7574 0.0383 0 ...
+##  $ Fonds_roulement                       : num  268 1536 -259 1698 -554 ...
+##  $ Ratio_Fonds_de_roulmt_sur_ventes      : num  0.5026 0.1214 0.0096 0.0485 -0.2012 ...
+##  $ Marge_opérationnelle                  : num  -27.55 9.3 8.62 12.32 -17.43 ...
+##  $ Beta_applique                         : num  1.21 1 1.07 1.1 2.32 ...
+##  $ Croissance_adj_des_Bén_ann            : num  -17.6 -2.76 13.17 40.64 -97.66 ...
+##  $ Croissance_tot_actif                  : num  21.86 22.29 21.12 -19.08 4.92 ...
+##  $ ratio_tot_liab_sur_tot_actif          : num  0.991 0.511 0.841 0.571 5.027 ...
+##  $ ratio_B_non_rep_sur_Tot_actif         : num  -1.056 0.152 0.126 0.148 0.476 ...
+##  $ ratio_Flux_de_TR_expl_sur_passif_cour : num  0.357 0.401 0.735 0.51 -0.02 ...
+##  $ ratio_Fonds_de_roulement_sur_tot_actif: num  0.1681 0.03282 -0.00933 0.05868 -0.45114 ...
+\end{verbatim}
+
+\end{document}

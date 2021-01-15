@@ -2330,6 +2330,36 @@ fix(m_2019)
 
 
 
+# 2018 en à 29 donc le plus (donc on le compare par rapport tout les autres)
+
+setdiff(nom_col_good_2018, nom_col_good_2000) # on trouve 6 éléments dans 2018 qu'on ne trouve pas dans 2000
+setdiff(nom_col_good_2000, nom_col_good_2018) # 0 = tout ce qu'on trouve dans 2000 on le trouve dans 2018
+
+setdiff(nom_col_good_2018, nom_col_good_2007)
+setdiff(nom_col_good_2007, nom_col_good_2018)
+
+setdiff(nom_col_good_2018, nom_col_good_2008)
+setdiff(nom_col_good_2008, nom_col_good_2018)
+
+setdiff(nom_col_good_2018, nom_col_good_2009)
+setdiff(nom_col_good_2009, nom_col_good_2018)
+
+setdiff(nom_col_good_2018, nom_col_good_2016)
+setdiff(nom_col_good_2016, nom_col_good_2018)
+
+setdiff(nom_col_good_2018, nom_col_good_2018)
+setdiff(nom_col_good_2018, nom_col_good_2018)
+
+setdiff(nom_col_good_2018, nom_col_good_2019)
+setdiff(nom_col_good_2019, nom_col_good_2018)
+
+
+
+
+
+
+setdiff(nom_col_good_2019, nom_col_good_2018) 
+
 
 
 
