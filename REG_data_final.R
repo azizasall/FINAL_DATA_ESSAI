@@ -594,6 +594,12 @@ modele_uvni_2019_Beta_applique <- multinom(variables_2019$binaire_cote_credit_20
 anova_19 <- Anova(modele_uvni_2019_Beta_applique,type="III")
 
 
+# to delete
+#rm(list = ls())
+
+
+
+
 
 
 
@@ -736,11 +742,15 @@ plot(cc_2018$Marge_sur_EBITDA_test, type = "l")
 
 
 
-
 # ANALYSE MULTIVARIEE -----------------------------------------------------
 library(nnet)
 
-# 1)	Modèle avec deux catégories de cote de crédit : firmes d'investissement et firmes spéculative
+
+
+# MODELE 1 ----------------------------------------------------------------
+
+
+# 1)	Modèle 1 avec deux catégories de cote de crédit : firmes d'investissement et firmes spéculative
 
 
 
@@ -1057,6 +1067,14 @@ p_value_2019 <- (1 - pnorm(abs(z_2019), 0, 1)) * 2 # on multiplie par 2 car c'es
 
 
 
+#rm(list = ls())
+
+# to delete
+
+glance(modele_1_2019) # marche pr lm
+
+
+
 
 
 
@@ -1354,10 +1372,37 @@ round(prediction_table_2007 * 100, digits = 2)
 
 
 
+
+
+
+
+# ---->
+# ---->
+# ---->
+# ---->
+# ---->
+# ---->
+# ---->
+# ---->
+# ---->
+# ---->
+# ---->
+# ---->
+# ---->
+
+
+
+# to delete
+#rm(list = ls())
+
+
+
 # to delete phrase en bas
 # try to have presentation excel final avant de se questionner why choose only ces 4
 
-# Tableau OUTPUT des pourcentage de bonne et mauvaise classifaction
+
+# to delete
+# Tableau OUTPUT des pourcentages de bonne et mauvaise classifaction
 
 
 
@@ -1368,21 +1413,13 @@ round(prediction_table_2007 * 100, digits = 2)
 
 
 
-
+# to delete
 ### Test the goodness of fit : TEST D'INDEPENDANCE APRES PREDICTION
 chisq.test(variables_2019$binaire_cote_credit_2019, predict(modele_1_2019))
 
 
-
-
-
-
-
-
+# to delete
 # try have to ratio de la volatilité via Bloomberg
-
-
-
 
 
 
@@ -1422,4 +1459,658 @@ dwtest(multinom(as.integer(variables_2019$binaire_cote_credit_2019) ~ Marge_sur_
 # see : https://stackoverflow.com/questions/33316898/r-tukey-posthoc-tests-for-nnet-multinom-multinomial-fit-to-test-for-overall-dif
 library(effects)
 plot(effect(modele_1_2019,term="Marge_sur_EBITDA"),ylab="",type="probability",style="stacked",colors=rainbow(7))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# MODELE 2 ----------------------------------------------------------------
+
+
+# 1)	Modèle 2 avec trois catégories de cote de crédit : firmes d'investissement contre  BB et B_&_CCC
+
+
+
+# construction de mmes variables : donc je sépare la catégorie des firmes spéculatives en deux
+# donc on crée seulement le bloc B_&_CCC
+
+View(variables_2019)
+
+
+
+
+
+
+
+
+
+#---------> période d'expansion : 2000 et 2016
+
+
+variables_2016$binaire_cote_credit_2016 <- relevel(variables_2016$binaire_cote_credit_2016, ref = "firm_inv")
+variables_2000$binaire_cote_credit_2000 <- relevel(variables_2000$binaire_cote_credit_2000, ref = "firm_inv")
+
+#on choisit seulement celles qui sont significatives d'après notre analyse univariée
+
+# on choisit celles qui ont une p-value dans analyse univariée de 0.00
+# et ceux de la même catégorie s'il en reste plus d'un on vérifie leur corrélation et si c'est forte on en choisit qu'un seul choisit
+attach(variables_2016)
+modele_1_2016 <- multinom(variables_2016$binaire_cote_credit_2016 ~ Marge_sur_EBITDA +
+                            ratio_ben_avt_impot_sur_frais_int + 
+                            ratio_Fonds_de_roulement_sur_tot_actif +
+                            Total_actif + volatilite_annuelle,
+                          data = variables_2016)
+
+confint(modele_1_2016) # permet d'avoir intervalle de confiance
+
+table(variables_2016$binaire_cote_credit_2016)
+
+
+
+
+
+#suite
+attach(variables_2000) 
+modele_1_2000 <- multinom(variables_2000$binaire_cote_credit_2000 ~ Marge_sur_EBITDA +
+                            ratio_ben_avt_impot_sur_frais_int + 
+                            ratio_Fonds_de_roulement_sur_tot_actif +
+                            Total_actif + volatilite_annuelle,
+                          data = variables_2000) # mais j'ai ratio_ben_avt_impot_sur_frais_int
+
+
+
+### Pour avoir :  coef, std Error, z value, Pr(>|z|)
+library(AER) # à utiliser pour les autres
+round(coeftest(modele_1_2016), digits = 3) 
+round(coeftest(modele_1_2000), digits = 3) 
+
+# ou 
+library(broom)
+tidy(modele_1_2016)
+
+# ou
+library(RVAideMemoire)
+test.multinom(modele_1_2016, Marge_sur_EBITDA) # mais il faut réécrire toutes les variables explicatives qu'on avait utilisé dans le modèle une par une
+
+# ou
+### Calcul de la p-value
+z_2016 <- summary(modele_1_2016)$coefficients/summary(modele_1_2016)$standard.errors # = wald test selon UCLA
+
+p_value_2016 <- (1 - pnorm(abs(z_2016), 0, 1)) * 2 # on multiplie par 2 car c'est un 2 tails test
+
+
+library(AER) 
+round(coeftest(modele_1_2000), digits = 3) 
+
+
+
+### OIM = Only Intercept Model
+OIM_2016 <- multinom(binaire_cote_credit_2016 ~ 1, data = variables_2016)
+OIM_2000 <- multinom(binaire_cote_credit_2000 ~ 1, data = variables_2000)
+
+anova(OIM_2016, modele_1_2016) # ça me donne LR stat & Pr(Chi) # to delete INTERPRETION #from :https://bookdown.org/chua/ber642_advanced_regression/multinomial-logistic-regression.html
+anova(OIM_2000, modele_1_2000)
+
+# vérification Résultats anova = the same
+lrtest(OIM_2016, modele_1_2016)
+lrtest(OIM_2000, modele_1_2000)
+
+### Pseudo Rsquare : on prend celui de Nagelkerke
+library("DescTools")
+
+PseudoR2(modele_1_2016, which = c("CoxSnell","Nagelkerke","McFadden"))
+PseudoR2(modele_1_2000, which = c("CoxSnell","Nagelkerke","McFadden"))
+
+# vérifier Pseudo R-square : McFadden
+library(pscl)
+pR2(modele_1_2016)
+
+# Pseudo R-carré : McFadden
+L <-1-logLik(modele_1_2016)/logLik(OIM_2016)
+
+# Pseudo Rsquare McFadden
+nnet.mod.loglik <- nnet:::logLik.multinom(modele_1_2016) # from modèle 1 de base
+OIM_2016.loglik <- nnet:::logLik.multinom(OIM_2016) # from modèle en haut qu'on v1 de run
+(nnet.mod.mfr2 <- as.numeric(1 - nnet.mod.loglik/OIM_2016.loglik))
+
+
+# Calcul des mesures de la précision de la prédiction
+### on va extraire les coefficients du modèle et les mettre en exponentiels
+
+# Pour le risque relatif
+exp(coef(modele_1_2016)) # to delete : voir interprétation UCLA & bookdown.org & youtube
+exp(coef(modele_1_2000))
+
+###  les probabilités prédites pour chaque firme
+head(predict_proba_2016 <- fitted(modele_1_2016), 20) # pour le 1er il y avait 94% de chance que le modèle le prédit spec et donc 6% de chance que ça le prédit inv
+# mais ce raisonnement ne tient pas
+head(predict_proba_2000 <- fitted(modele_1_2000), 20)
+
+# ou vérfication
+predict_proba_2016_test_1 <- modele_1_2016$fitted.values
+
+# ou vérification
+predict_proba_2016_test_2 <- predict(modele_1_2016, variables_2016, type = "prob")
+
+# to delete :       juste pour comprendre l'interprétation des prédictions de proba car ici somme des proba n'est pas égale à 1
+### vérifions si somme des proba = 1
+mat_predict_proba_2016 <- matrix(predict_proba_2016)
+sum(mat_predict_proba_2016)
+
+### comparaison
+sum(as.numeric(predict_proba_2016==predict_proba_2016_test_1))
+sum(as.numeric(predict_proba_2016==predict_proba_2016_test_2))
+sum(as.numeric(predict_proba_2016_test_1==predict_proba_2016_test_2))
+
+### prédiction en termes de firme_inv et firme_spec par le modele
+predict_cote_credit_2016 <- predict(modele_1_2016, variables_2016)
+predict_cote_credit_2000 <- predict(modele_1_2000, variables_2000)
+
+### mettre cote à cote prediction à coté vrai vriables
+head(data.frame(observed=variables_2016$binaire_cote_credit_2016, predicted=predict_cote_credit_2016), 20)
+head(data.frame(observed=variables_2000$binaire_cote_credit_2000, predicted=predict_cote_credit_2000), 20)
+
+### comparaison predictions qui sont tombées good par rapport au données de départ
+sum(as.numeric(predict_cote_credit_2016==variables_2016$binaire_cote_credit_2016)) # 115 éléments qui ont été bien prédit par le modèle conformément aux données de départ sur 151 données au total
+sum(as.numeric(predict_cote_credit_2000==variables_2000$binaire_cote_credit_2000))
+
+### matrice de confusion : erreur dans les prédictions
+mc_2016 <- table(predict(modele_1_2016), variables_2016$binaire_cote_credit_2016)  # to delete : voir interprétation dans other doc R reg
+mc_2000 <- table(predict(modele_1_2000), variables_2000$binaire_cote_credit_2000) 
+
+# to delete        try to understand
+### en Pourcentage # [2] ---> c'est comme mon R^2 (R square)
+mc_pourcentage_2016 <- mc_2016 / colSums(mc_2016) # voir interprétation dans other doc R
+mc_pourcentage_2000 <- mc_2000 / colSums(mc_2000)
+
+# to delete way calcul from mc_2016
+81 / (81+14) # = 0.8526316
+14 / (22+34) # = 0.25
+
+22 / (81+14) # =  0.2315789
+34 / (22+34) # =  0.6071429
+
+
+### MISCLASSIFICATION pour présentation output
+#### Pourcentage de mauvaise classification (misclassifaction)
+miscalsification_pourcentage_2016 <- 1- sum(diag(mc_2016))/sum(mc_2016) # from mc : (14 + 22) / 151
+# to delete : voir interpretation dans l'auttre doc R
+
+miscalsification_pourcentage_2000 <- 1- sum(diag(mc_2000))/sum(mc_2000)
+
+### ACCURACY DU MODEL pour présentation output
+### Pourcenttage de bonne classification : la somme de la diag qu'on divise par le nombre total d'observation 
+bonne_classifcation_pourcentage_2016 <- sum(diag(mc_2016))/sum(mc_2016)  # ou 1 - miscalsification_pourcentage_2016
+bonne_classifcation_pourcentage_2000 <- sum(diag(mc_2000))/sum(mc_2000)
+
+# vérification
+# MISCLASSIFICATION + ACCURACY DU MODEL
+miscalsification_pourcentage_2016+bonne_classifcation_pourcentage_2016
+miscalsification_pourcentage_2000+bonne_classifcation_pourcentage_2000
+
+#ou vérification
+# ça nous donne matrice de confision et statistique
+library(caret)
+confusionMatrix(table(predict(modele_1_2016), variables_2016$binaire_cote_credit_2016)) 
+confusionMatrix(table(predict(modele_1_2000), variables_2000$binaire_cote_credit_2000)) 
+
+# calcul pour chaque ratings sensitivity,.... 
+# calcul aussi Accuracy, CI, p-value
+
+confusionMatrix(table(predict(modele_1_2000), variables_2000$binaire_cote_credit_2000)) 
+
+### to delete : observation de départ en POURCENTAGE
+n <- table(variables_2016$binaire_cote_credit_2016) #nombre de firme pour chaque type de rating
+n/sum(n) # pourcentage de firme par type de rating # la plupart des firmes ont un rating de 4
+
+
+
+### Table précision prédiction : période d'expansion : 2000 et 2016
+
+# 2016
+
+prediction_table_2016 <- matrix(0,3, 2)
+colnames(prediction_table_2016) <- c("Prediction_correcte_2016", "Prediction_incorrecte")
+rownames(prediction_table_2016) <- c("Firmes_investissement", "Firmes_speculative", "Precision_Globale_de_la_Prediction")
+
+prediction_table_2016[1,1] <- mc_pourcentage_2016[1,1]
+prediction_table_2016[2,1] <- mc_pourcentage_2016[2,2]
+prediction_table_2016[3,1] <- bonne_classifcation_pourcentage_2016
+
+prediction_table_2016[1,2] <- mc_pourcentage_2016[2,1]
+prediction_table_2016[2,2] <- mc_pourcentage_2016[1,2]
+prediction_table_2016[3,2] <- bonne_classifcation_pourcentage_2016
+
+round(prediction_table_2016 * 100, digits = 2)
+
+
+
+
+
+
+
+
+
+# 2000
+
+prediction_table_2000 <- matrix(0,3, 2)
+colnames(prediction_table_2000) <- c("Prediction_correcte_2000", "Prediction_incorrecte")
+rownames(prediction_table_2000) <- c("Firmes_investissement", "Firmes_speculative", "Precision_Globale_de_la_Prediction")
+
+prediction_table_2000[1,1] <- mc_pourcentage_2000[1,1]
+prediction_table_2000[2,1] <- mc_pourcentage_2000[2,2]
+prediction_table_2000[3,1] <- bonne_classifcation_pourcentage_2000
+
+prediction_table_2000[1,2] <- mc_pourcentage_2000[2,1]
+prediction_table_2000[2,2] <- mc_pourcentage_2000[1,2]
+prediction_table_2000[3,2] <- bonne_classifcation_pourcentage_2000
+
+round(prediction_table_2000 * 100, digits = 2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#---------> période de récession : 2007, 2008, 2009, 2018 et 2019
+
+
+variables_2019$binaire_cote_credit_2019 <- relevel(variables_2019$binaire_cote_credit_2019, ref = "firm_inv")
+variables_2018$binaire_cote_credit_2018 <- relevel(variables_2018$binaire_cote_credit_2018, ref = "firm_inv")
+variables_2009$binaire_cote_credit_2009 <- relevel(variables_2009$binaire_cote_credit_2009, ref = "firm_inv")
+variables_2008$binaire_cote_credit_2008 <- relevel(variables_2008$binaire_cote_credit_2008, ref = "firm_inv")
+variables_2007$binaire_cote_credit_2007 <- relevel(variables_2007$binaire_cote_credit_2007, ref = "firm_inv")
+
+#on choisit seulement celles qui sont significatives d'après notre analyse univariée
+
+# on choisit celles qui ont une p-value dans analyse univariée de 0.00
+# et ceux de la même catégorie s'il en reste plus d'un on check leur corrélation et si c'est forte on en choisit qu'un seul choisit
+attach(variables_2019)
+modele_1_2019 <- multinom(variables_2019$binaire_cote_credit_2019 ~ Marge_sur_EBITDA + 
+                            ratio_ben_avt_impot_sur_frais_int + 
+                            ratio_Fonds_de_roulement_sur_tot_actif +
+                            Total_actif + volatilite_annuelle,
+                          data = variables_2019)
+
+
+
+
+table(variables_2019$binaire_cote_credit_2019)
+confint(modele_1_2019) # permet d'avoir intervalle de confiance
+
+attach(variables_2018)
+modele_1_2018 <- multinom(variables_2018$binaire_cote_credit_2018 ~ Marge_sur_EBITDA +
+                            ratio_ben_avt_impot_sur_frais_int + 
+                            ratio_Fonds_de_roulement_sur_tot_actif +
+                            Total_actif + volatilite_annuelle,
+                          data = variables_2018)
+
+attach(variables_2009)
+modele_1_2009 <- multinom(variables_2009$binaire_cote_credit_2009 ~ Marge_sur_EBITDA +
+                            ratio_ben_avt_impot_sur_frais_int + 
+                            ratio_Fonds_de_roulement_sur_tot_actif +
+                            Total_actif + volatilite_annuelle,
+                          data = variables_2009)
+
+attach(variables_2008)
+modele_1_2008 <- multinom(variables_2008$binaire_cote_credit_2008 ~ Marge_sur_EBITDA +
+                            ratio_ben_avt_impot_sur_frais_int + 
+                            ratio_Fonds_de_roulement_sur_tot_actif +
+                            Total_actif + volatilite_annuelle,
+                          data = variables_2008)
+
+attach(variables_2007)
+modele_1_2007 <- multinom(variables_2007$binaire_cote_credit_2007 ~ Marge_sur_EBITDA +
+                            ratio_ben_avt_impot_sur_frais_int + 
+                            ratio_Fonds_de_roulement_sur_tot_actif +
+                            Total_actif + volatilite_annuelle,
+                          data = variables_2007)
+
+### Pour avoir :  coef, std Error, z value, Pr(>|z|)
+library(AER) # à utiliser pour les autres
+round(coeftest(modele_1_2019), digits = 3) 
+
+# ou 
+library(broom)
+tidy(modele_1_2019)
+
+# ou
+library(RVAideMemoire)
+test.multinom(modele_1_2019, Marge_sur_EBITDA) # mais il faut réécrire toutes les variables explicatives qu'on avait utilisé dans le modèle une par une
+
+# ou
+### Calcul de la p-value
+z_2019 <- summary(modele_1_2019)$coefficients/summary(modele_1_2019)$standard.errors # = wald test selon UCLA
+
+p_value_2019 <- (1 - pnorm(abs(z_2019), 0, 1)) * 2 # on multiplie par 2 car c'est un 2 tails test
+
+
+
+#rm(list = ls())
+
+# to delete
+
+glance(modele_1_2019) # marche pr lm
+
+
+
+
+
+
+library(AER) 
+round(coeftest(modele_1_2018), digits = 3) 
+
+library(AER)
+round(coeftest(modele_1_2009), digits = 3) 
+
+library(AER) 
+round(coeftest(modele_1_2008), digits = 3) 
+
+library(AER)
+round(coeftest(modele_1_2007), digits = 3) 
+
+
+### OIM = Only Intercept Model
+OIM_2019 <- multinom(binaire_cote_credit_2019 ~ 1, data = variables_2019)
+OIM_2018 <- multinom(binaire_cote_credit_2018 ~ 1, data = variables_2018)
+OIM_2009 <- multinom(binaire_cote_credit_2009 ~ 1, data = variables_2009)
+OIM_2008 <- multinom(binaire_cote_credit_2008 ~ 1, data = variables_2008)
+OIM_2007 <- multinom(binaire_cote_credit_2007 ~ 1, data = variables_2007)
+
+anova(OIM_2019, modele_1_2019) # ça me donne LR stat & Pr(Chi) # to delete INTERPRETION #from :https://bookdown.org/chua/ber642_advanced_regression/multinomial-logistic-regression.html
+anova(OIM_2018, modele_1_2018)
+anova(OIM_2009, modele_1_2009)
+anova(OIM_2008, modele_1_2008)
+anova(OIM_2007, modele_1_2007)
+
+# vérification Résultats anova = the same
+lrtest(OIM_2019, modele_1_2019)
+lrtest(OIM_2018, modele_1_2018)
+lrtest(OIM_2009, modele_1_2009)
+lrtest(OIM_2008, modele_1_2008)
+lrtest(OIM_2007, modele_1_2007)
+
+### Pseudo Rsquare : on prend celui de Nagelkerke
+library("DescTools")
+
+PseudoR2(modele_1_2019, which = c("CoxSnell","Nagelkerke","McFadden"))
+PseudoR2(modele_1_2018, which = c("CoxSnell","Nagelkerke","McFadden"))
+PseudoR2(modele_1_2009, which = c("CoxSnell","Nagelkerke","McFadden"))
+PseudoR2(modele_1_2008, which = c("CoxSnell","Nagelkerke","McFadden"))
+PseudoR2(modele_1_2007, which = c("CoxSnell","Nagelkerke","McFadden"))
+
+# vérifier Pseudo R-square : McFadden
+library(pscl)
+pR2(modele_1_2019)
+
+# Pseudo R-carré : McFadden
+L <-1-logLik(modele_1_2019)/logLik(OIM_2019)
+
+# Pseudo Rsquare McFadden
+nnet.mod.loglik <- nnet:::logLik.multinom(modele_1_2019) # from modèle 1 de base
+OIM_2019.loglik <- nnet:::logLik.multinom(OIM_2019) # from modèle en haut qu'on v1 de run
+(nnet.mod.mfr2 <- as.numeric(1 - nnet.mod.loglik/OIM_2019.loglik))
+
+
+
+
+
+# Calcul des mesures de la précision de la prédiction
+### on va extraire les coefficients du modèle et les mettre en exponentiels
+
+# Pour le risque relatif
+exp(coef(modele_1_2019)) # to delete : voir interprétation UCLA & bookdown.org & youtube
+exp(coef(modele_1_2018))
+exp(coef(modele_1_2009))
+exp(coef(modele_1_2008))
+exp(coef(modele_1_2007))
+
+###  les probabilités prédites pour chaque firme
+head(predict_proba_2019 <- fitted(modele_1_2019), 20) # pour le 1er il y avait 94% de chance que le modèle le prédit spec et donc 6% de chance que ça le prédit inv
+# mais ce raisonnement ne tient pas
+head(predict_proba_2018 <- fitted(modele_1_2018), 20)
+head(predict_proba_2009 <- fitted(modele_1_2009), 20)
+head(predict_proba_2008 <- fitted(modele_1_2008), 20)
+head(predict_proba_2007 <- fitted(modele_1_2007), 20)
+
+# ou vérfication
+predict_proba_2019_test_1 <- modele_1_2019$fitted.values
+
+# ou vérification
+predict_proba_2019_test_2 <- predict(modele_1_2019, variables_2019, type = "prob")
+
+# to delete :       juste pour comprendre l'interprétation des prédictions de proba car ici somme des proba n'est pas égale à 1
+### vérifions si somme des proba = 1
+mat_predict_proba_2019 <- matrix(predict_proba_2019)
+sum(mat_predict_proba_2019)
+
+### comparaison
+sum(as.numeric(predict_proba_2019==predict_proba_2019_test_1)) # donc on a 151 TRUE donc c'est identique
+sum(as.numeric(predict_proba_2019==predict_proba_2019_test_2))
+sum(as.numeric(predict_proba_2019_test_1==predict_proba_2019_test_2))
+
+### prédiction en termes de firme_inv et firme_spec par le modele
+predict_cote_credit_2019 <- predict(modele_1_2019, variables_2019) # je ne vais pas interpréter ça un par un donc je le mets dans un tableau
+predict_cote_credit_2018 <- predict(modele_1_2018, variables_2018)
+predict_cote_credit_2009 <- predict(modele_1_2009, variables_2009)
+predict_cote_credit_2008 <- predict(modele_1_2008, variables_2008)
+predict_cote_credit_2007 <- predict(modele_1_2007, variables_2007)
+
+
+
+
+### mettre cote à cote prediction à coté vrai vriables
+head(data.frame(observed=variables_2019$binaire_cote_credit_2019, predicted=predict_cote_credit_2019), 20)
+head(data.frame(observed=variables_2018$binaire_cote_credit_2018, predicted=predict_cote_credit_2018), 20)
+head(data.frame(observed=variables_2009$binaire_cote_credit_2009, predicted=predict_cote_credit_2009), 20)
+head(data.frame(observed=variables_2008$binaire_cote_credit_2008, predicted=predict_cote_credit_2008), 20)
+head(data.frame(observed=variables_2007$binaire_cote_credit_2007, predicted=predict_cote_credit_2007), 20)
+
+### comparaison predictions qui sont tombées good par rapport au données de départ
+sum(as.numeric(predict_cote_credit_2019==variables_2019$binaire_cote_credit_2019)) # 115 éléments qui ont été bien prédit par le modèle conformément aux données de départ sur 151 données au total
+sum(as.numeric(predict_cote_credit_2018==variables_2018$binaire_cote_credit_2018))
+sum(as.numeric(predict_cote_credit_2009==variables_2009$binaire_cote_credit_2009))
+sum(as.numeric(predict_cote_credit_2008==variables_2008$binaire_cote_credit_2008))
+sum(as.numeric(predict_cote_credit_2007==variables_2007$binaire_cote_credit_2007))
+
+### matrice de confusion : erreur dans les prédictions
+mc_2019 <- table(predict(modele_1_2019), variables_2019$binaire_cote_credit_2019)  # to delete : voir interprétation dans other doc R reg
+mc_2018 <- table(predict(modele_1_2018), variables_2018$binaire_cote_credit_2018) 
+mc_2009 <- table(predict(modele_1_2009), variables_2009$binaire_cote_credit_2009) 
+mc_2008 <- table(predict(modele_1_2008), variables_2008$binaire_cote_credit_2008) 
+mc_2007 <- table(predict(modele_1_2007), variables_2007$binaire_cote_credit_2007) 
+
+# to delete        try to understand
+###
+mc_pourcentage_2019 <- mc_2019 / colSums(mc_2019) # voir interprétation dans other doc R : 0.831 c'est pour colonne firm inv : = (79 * 100%) / (79+16)
+mc_pourcentage_2018 <- mc_2018 / colSums(mc_2018)
+mc_pourcentage_2009 <- mc_2009 / colSums(mc_2009)
+mc_pourcentage_2008 <- mc_2008 / colSums(mc_2008)
+mc_pourcentage_2007 <- mc_2007 / colSums(mc_2007)
+
+# to delete way calcul from mc_2019
+81 / (81+14) # = 0.8526316
+14 / (22+34) # = 0.25
+
+22 / (81+14) # =  0.2315789
+34 / (22+34) # =  0.6071429
+
+
+### MISCLASSIFICATION pour présentation output
+#### Pourcentage de mauvaise classification (misclassifaction)
+miscalsification_pourcentage_2019 <- 1- sum(diag(mc_2019))/sum(mc_2019) # from mc : (14 + 22) / 151
+# to delete : voir interpretation dans l'auttre doc R
+
+miscalsification_pourcentage_2018 <- 1- sum(diag(mc_2018))/sum(mc_2018)
+miscalsification_pourcentage_2009 <- 1- sum(diag(mc_2009))/sum(mc_2009)
+miscalsification_pourcentage_2008 <- 1- sum(diag(mc_2008))/sum(mc_2008)
+miscalsification_pourcentage_2007 <- 1- sum(diag(mc_2007))/sum(mc_2007)
+
+### ACCURACY DU MODEL pour présentation output
+### Pourcenttage de bonne classification : la somme de la diag qu'on divise par le nombre total d'observation 
+bonne_classifcation_pourcentage_2019 <- sum(diag(mc_2019))/sum(mc_2019)  # ou 1 - miscalsification_pourcentage_2019
+bonne_classifcation_pourcentage_2018 <- sum(diag(mc_2018))/sum(mc_2018)
+bonne_classifcation_pourcentage_2009 <- sum(diag(mc_2009))/sum(mc_2009)
+bonne_classifcation_pourcentage_2008 <- sum(diag(mc_2008))/sum(mc_2008)
+bonne_classifcation_pourcentage_2007 <- sum(diag(mc_2007))/sum(mc_2007)
+
+# vérification
+# MISCLASSIFICATION + ACCURACY DU MODEL
+miscalsification_pourcentage_2019+bonne_classifcation_pourcentage_2019
+miscalsification_pourcentage_2018+bonne_classifcation_pourcentage_2018
+miscalsification_pourcentage_2009+bonne_classifcation_pourcentage_2009
+miscalsification_pourcentage_2008+bonne_classifcation_pourcentage_2008
+miscalsification_pourcentage_2007+bonne_classifcation_pourcentage_2007
+
+#ou vérification
+# ça nous donne matrice de confision et statistique
+library(caret)
+confusionMatrix(table(predict(modele_1_2019), variables_2019$binaire_cote_credit_2019)) 
+confusionMatrix(table(predict(modele_1_2018), variables_2018$binaire_cote_credit_2018)) 
+confusionMatrix(table(predict(modele_1_2009), variables_2009$binaire_cote_credit_2009)) 
+confusionMatrix(table(predict(modele_1_2008), variables_2008$binaire_cote_credit_2008)) 
+confusionMatrix(table(predict(modele_1_2007), variables_2007$binaire_cote_credit_2007)) 
+
+# calcul pour chaque ratings sensitivity,.... 
+# calcul aussi Accuracy, CI, p-value
+
+confusionMatrix(table(predict(modele_1_2018), variables_2018$binaire_cote_credit_2018)) 
+confusionMatrix(table(predict(modele_1_2009), variables_2009$binaire_cote_credit_2009)) 
+confusionMatrix(table(predict(modele_1_2008), variables_2008$binaire_cote_credit_2008)) 
+confusionMatrix(table(predict(modele_1_2007), variables_2007$binaire_cote_credit_2007)) 
+
+### to delete : observation de départ en POURCENTAGE
+n <- table(variables_2019$binaire_cote_credit_2019) #nombre de firme pour chaque type de rating
+n/sum(n) # pourcentage de firme par type de rating # la plupart des firmes ont un rating de 4
+
+
+
+
+#to delete
+#rm(list = ls())
+
+
+
+### Table précision prédiction : période de récession : 2007, 2008, 2009, 2018 et 2019
+
+# 2019
+
+prediction_table_2019 <- matrix(0,3, 2)
+colnames(prediction_table_2019) <- c("Prediction_correcte_2019", "Prediction_incorrecte")
+rownames(prediction_table_2019) <- c("Firmes_investissement", "Firmes_speculative", "Precision_Globale_de_la_Prediction")
+
+prediction_table_2019[1,1] <- mc_pourcentage_2019[1,1]
+prediction_table_2019[2,1] <- mc_pourcentage_2019[2,2]
+prediction_table_2019[3,1] <- bonne_classifcation_pourcentage_2019
+
+prediction_table_2019[1,2] <- mc_pourcentage_2019[2,1]
+prediction_table_2019[2,2] <- mc_pourcentage_2019[1,2]
+prediction_table_2019[3,2] <- bonne_classifcation_pourcentage_2019
+
+round(prediction_table_2019 * 100, digits = 2)
+
+
+
+
+
+# 2018
+prediction_table_2018 <- matrix(0,3, 2)
+colnames(prediction_table_2018) <- c("Prediction_correcte_2018", "Prediction_incorrecte")
+rownames(prediction_table_2018) <- c("Firmes_investissement", "Firmes_speculative", "Precision_Globale_de_la_Prediction")
+
+prediction_table_2018[1,1] <- mc_pourcentage_2018[1,1]
+prediction_table_2018[2,1] <- mc_pourcentage_2018[2,2]
+prediction_table_2018[3,1] <- bonne_classifcation_pourcentage_2018
+
+prediction_table_2018[1,2] <- mc_pourcentage_2018[2,1]
+prediction_table_2018[2,2] <- mc_pourcentage_2018[1,2]
+prediction_table_2018[3,2] <- bonne_classifcation_pourcentage_2018
+
+round(prediction_table_2018 * 100, digits = 2)
+
+
+
+
+# 2009
+prediction_table_2009 <- matrix(0,3, 2)
+colnames(prediction_table_2009) <- c("Prediction_correcte_2009", "Prediction_incorrecte")
+rownames(prediction_table_2009) <- c("Firmes_investissement", "Firmes_speculative", "Precision_Globale_de_la_Prediction")
+
+prediction_table_2009[1,1] <- mc_pourcentage_2009[1,1]
+prediction_table_2009[2,1] <- mc_pourcentage_2009[2,2]
+prediction_table_2009[3,1] <- bonne_classifcation_pourcentage_2009
+
+prediction_table_2009[1,2] <- mc_pourcentage_2009[2,1]
+prediction_table_2009[2,2] <- mc_pourcentage_2009[1,2]
+prediction_table_2009[3,2] <- bonne_classifcation_pourcentage_2009
+
+round(prediction_table_2009 * 100, digits = 2)
+
+
+
+
+
+
+
+# 2008
+prediction_table_2008 <- matrix(0,3, 2)
+colnames(prediction_table_2008) <- c("Prediction_correcte_2008", "Prediction_incorrecte")
+rownames(prediction_table_2008) <- c("Firmes_investissement", "Firmes_speculative", "Precision_Globale_de_la_Prediction")
+
+prediction_table_2008[1,1] <- mc_pourcentage_2008[1,1]
+prediction_table_2008[2,1] <- mc_pourcentage_2008[2,2]
+prediction_table_2008[3,1] <- bonne_classifcation_pourcentage_2008
+
+prediction_table_2008[1,2] <- mc_pourcentage_2008[2,1]
+prediction_table_2008[2,2] <- mc_pourcentage_2008[1,2]
+prediction_table_2008[3,2] <- bonne_classifcation_pourcentage_2008
+
+round(prediction_table_2008 * 100, digits = 2)
+
+
+
+
+
+
+# 2007
+prediction_table_2007 <- matrix(0,3, 2)
+colnames(prediction_table_2007) <- c("Prediction_correcte_2007", "Prediction_incorrecte")
+rownames(prediction_table_2007) <- c("Firmes_investissement", "Firmes_speculative", "Precision_Globale_de_la_Prediction")
+
+prediction_table_2007[1,1] <- mc_pourcentage_2007[1,1]
+prediction_table_2007[2,1] <- mc_pourcentage_2007[2,2]
+prediction_table_2007[3,1] <- bonne_classifcation_pourcentage_2007
+
+prediction_table_2007[1,2] <- mc_pourcentage_2007[2,1]
+prediction_table_2007[2,2] <- mc_pourcentage_2007[1,2]
+prediction_table_2007[3,2] <- bonne_classifcation_pourcentage_2007
+
+round(prediction_table_2007 * 100, digits = 2)
+
+
+
+
+
+
+
 

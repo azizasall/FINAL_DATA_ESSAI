@@ -515,12 +515,12 @@ fix(base_de_donnees_2019)
 
 # base de données avec vol 
 
-write.csv(base_de_donnees_2000, file = "base_de_donnees_2000.csv")
-write.csv(base_de_donnees_2007, file = "base_de_donnees_2007.csv")
-write.csv(base_de_donnees_2008, file = "base_de_donnees_2008.csv")
-write.csv(base_de_donnees_2009, file = "base_de_donnees_2009.csv")
-write.csv(base_de_donnees_2016, file = "base_de_donnees_2016.csv")
-write.csv(base_de_donnees_2018, file = "base_de_donnees_2018.csv")
-write.csv(base_de_donnees_2019, file = "base_de_donnees_2019.csv")
+#write.csv(base_de_donnees_2000, file = "base_de_donnees_2000.csv")
+#write.csv(base_de_donnees_2007, file = "base_de_donnees_2007.csv")
+#write.csv(base_de_donnees_2008, file = "base_de_donnees_2008.csv")
+#write.csv(base_de_donnees_2009, file = "base_de_donnees_2009.csv")
+#write.csv(base_de_donnees_2016, file = "base_de_donnees_2016.csv")
+#write.csv(base_de_donnees_2018, file = "base_de_donnees_2018.csv")
+#write.csv(base_de_donnees_2019, file = "base_de_donnees_2019.csv")
 
 
