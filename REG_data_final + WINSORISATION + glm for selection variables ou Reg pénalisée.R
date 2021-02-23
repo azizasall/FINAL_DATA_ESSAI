@@ -215,7 +215,10 @@ ggplot(count_data_2019, aes(x=Cote_credit, y=n))+
 
 
 
+
+
 # delete partout line avec fix
+
 
 
 
@@ -328,7 +331,7 @@ variables_2019 <- variables_2019_x
 
 
 # to delete
-#rm(list = ls())
+# NUAGE DE POINTS :
 # pour see la corrélation avec nuage de points
 
 plot(variables_2019[, 3:ncol(variables_2019)]) # but deja fait dans matrice de corrélation that why not take account variables X corrélées entre elles
@@ -340,7 +343,7 @@ abline(lm(variables_2019[,3]~ variables_2019[,4], data = variables_2019), col = 
 
 
 # to delete 
-# peut t'on utiliser k-validation croisée avec logit modèle 
+# peut t'on utiliser k-validation croisée avec logit modèle : oui mais only regression simple
 
 
 
@@ -384,6 +387,81 @@ boxplot(variables_2018$Marge_operationnelle)
 boxplot(variables_2018$Beta_applique)
 boxplot(variables_2018$volatilite_annuelle)
 boxplot(variables_2018)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# --------------------->
+# WINSORISONS NOS VARIABLES (Traitement valeur extrèmes):
+
+library(pacman)
+
+pacman::p_load(data.table, fixest, DescTools, magrittr)
+set.seed(1)
+
+
+class(variables_2018$binaire_cote_credit_2018)
+
+
+
+# 2018
+# boxplot : ce que je peux faire c'est avoir 2 boxplot pour firme_inv et firme_spec : voir code cours app aut en science de l'ad
+split.screen(c(2,1))
+
+screen(1)
+boxplot(variables_2018$Marge_sur_EBITDA)
+
+# Trouvons les valeurs à la 2eme et 98eme percentile de 2019
+
+pct_2 <- quantile(variables_2018$Marge_sur_EBITDA, c(0.02, 0.98), type = 1)
+
+# remplecement des valeurs inférieures à la 2eme percentile 
+
+as.table(variables_2018)
+as.data.frame(variables_2018)
+
+variables_2018 <- variables_2018 %>%
+  .[Marge_sur_EBITDA <= pct_2[1], Marge_sur_EBITDA := pct_2[1]] %>%
+  .[Marge_sur_EBITDA >= pct_2[2], Marge_sur_EBITDA := pct_2[2]] 
+
+
+is.data.table(variables_2018$Marge_sur_EBITDA)
+
+
+screen(1)
+boxplot(variables_2018$Marge_sur_EBITDA)
+
+# --------------------->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

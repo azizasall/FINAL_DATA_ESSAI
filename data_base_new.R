@@ -22,10 +22,12 @@ library(DataExplorer)    #plot_missing()  fait le plot par colonne
 
 # import_data -------------------------------------------------------------
 
+
+
 library(readxl)
-X454_data_Copie <- read_excel("C:/Users/aziza/Desktop/Session_3/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/454_data - Copie.xlsx", 
+X454_data_Copie <- read_excel("C:/Users/aziza/Desktop/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/454_data - Copie.xlsx", 
                               col_names = FALSE)
-View(X454_data_Copie)
+#View(X454_data_Copie)
 
 
 
@@ -33,7 +35,7 @@ View(X454_data_Copie)
 
 data.1 <- X454_data_Copie[3:23 ,4:ncol(X454_data_Copie)]
 
-View(data.1)
+#View(data.1)
 
 # extraction_variables_names ----------------------------------------------------
 
@@ -48,7 +50,7 @@ variables_names <- matrix(variables_names, 1,35)
 
 # select _2000_2007_2008_2009_2016_2018_2019_data -------------------------------------------------------
 
-#fix(data.1)
+##fix(data.1)
 
 data_2000 <- data.1[21,]
 data_2007 <- data.1[14,]
@@ -58,17 +60,17 @@ data_2016 <- data.1[5,]
 data_2018 <- data.1[3,]
 data_2019 <- data.1[2,]
 
-#fix(data_2000)
+##fix(data_2000)
 
 
 #chech qu'il sont bons
-View(data_2000)
-View(data_2007)
-View(data_2008)
-View(data_2009)
-View(data_2016)
-View(data_2018)
-View(data_2019)
+#View(data_2000)
+#View(data_2007)
+#View(data_2008)
+#View(data_2009)
+#View(data_2016)
+#View(data_2018)
+#View(data_2019)
 
 
 
@@ -85,7 +87,7 @@ dim(data_2000.1)
 
 
 #j'ai 35 ratios
-View(data_2000.1)
+#View(data_2000.1)
 
 data_2000.2 <- matrix(data_2000.1, 410, 35, byrow = TRUE)
 data_2007.2 <- matrix(data_2007.1, 410, 35, byrow = TRUE)
@@ -104,8 +106,8 @@ data_2019.2 <- matrix(data_2019.1, 410, 35, byrow = TRUE)
 
 data_2000.2.df <- as.data.frame(data_2000.2)
 dim(data_2000.2.df)
-View(data_2000.2.df)
-fix(data_2000.2.df)
+#View(data_2000.2.df)
+#fix(data_2000.2.df)
 
 data_2007.2.df <- as.data.frame(data_2007.2)
 dim(data_2007.2.df)
@@ -177,9 +179,9 @@ colnames(data_2019.2.df)
 
 
 library(readxl)
-ratings_SDM <- read_excel("C:/Users/aziza/Desktop/Session_3/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/SDM_ratings_2020-12-18-Elhadji-Adbou-Aziz-Sall_a_jour.xlsx", 
+ratings_SDM <- read_excel("C:/Users/aziza/Desktop/Projet de fin d'études en gestion financière/data_traiement_dans_R/FINAL_DATA/FINAL_DATA/FINAL_DATA_ESSAI/SDM_ratings_2020-12-18-Elhadji-Adbou-Aziz-Sall_a_jour.xlsx", 
                            col_names = FALSE)
-View(ratings_SDM)
+#View(ratings_SDM)
 
 
 
@@ -189,7 +191,7 @@ ratings_2000 <-matrix(ratings_SDM[9, 3:ncol(ratings_SDM)],410,1)
 ratings_2000 <- data.frame(ratings_2000)
 
 
-View(ratings_2000)
+#View(ratings_2000)
 dim(ratings_2000)
 
 
@@ -230,8 +232,8 @@ ratings_2019 <- data.frame(ratings_2019)
 #cbind ratings et data_2019.2.df
 
 data_2000.2.df_rat <- cbind(ratings_2000, data_2000.2.df)
-View(data_2000.2.df_rat)
-fix(data_2000.2.df_rat)
+#View(data_2000.2.df_rat)
+#fix(data_2000.2.df_rat)
 dim(data_2000.2.df_rat)
 
 
@@ -244,7 +246,7 @@ data_2018.2.df_rat <- cbind(ratings_2018, data_2018.2.df)
 data_2019.2.df_rat <- cbind(ratings_2019, data_2019.2.df)
 
 
-fix(data_2019.2.df_rat)
+#fix(data_2019.2.df_rat)
 
 
 
@@ -290,7 +292,7 @@ dim(data_2000.3.df)
 
 colSums(is.na(data_2000.3.df))
 
-fix(data_2000.3.df)
+#fix(data_2000.3.df)
 
 
 dev.new() 
@@ -324,7 +326,7 @@ rowSums(is.na(data_2000.3.df))
 
 
 
-fix(data_2000.3.df)
+#fix(data_2000.3.df)
 dim(data_2000.3.df)
 
 
@@ -356,7 +358,7 @@ variables_names_2 <- c("RATINGS", variables_names)
 dim(variables_names_2)
 
 colnames(data_2000.3.df) <- variables_names_2
-fix(data_2000.3.df)
+#fix(data_2000.3.df)
 
 
 head(variables_names_2)
@@ -472,12 +474,12 @@ dim(data_2019.3.df)# 407 -> 100 donc 60% -> 243
 # se base sur .3.df car .3.df_2 etait juste pour plot car can't afeter ajout name col
 
 # le nombre 153 représente 60% de la base de données 2000. Voir step en haut
-data_2000.4.df_x <- data_2000.3.df[ ,colSums(is.na(data_2000.3.df))<166] # Take all colonnes ou la somme du nombre de NA est inférieur à 153. donc si sur une colonne on fait la somme des NA et que c'est 154 ou plus on ne tient pas compte de cette colonne
+data_2000.4.df_x <- data_2000.3.df[ ,colSums(is.na(data_2000.3.df))<184] # Take all colonnes ou la somme du nombre de NA est inférieur à 153. donc si sur une colonne on fait la somme des NA et que c'est 154 ou plus on ne tient pas compte de cette colonne
 dim(data_2000.4.df_x)
-fix(data_2000.4.df_x)
+#fix(data_2000.4.df_x)
 
 test_data_2000.3.df <- data_2000.2.df_rat[rowSums(is.na(data_2000.2.df_rat))<20,]  
-fix(test_data_2000.3.df)
+#fix(test_data_2000.3.df)
 
 # COMPTER nombre de celulle qui ne sont pas des NA dans ratings_2000
 nb_not_NA <- sum(as.numeric(!is.na(test_data_2000.3.df$ratings_2000))) # j'en ai que 58
@@ -496,37 +498,37 @@ plot_missing(data_2000.4.df_x)
 # le nombre 210 représente 60% de la base de données 2007. Voir step en haut
 data_2007.4.df_x <- data_2007.3.df[ ,colSums(is.na(data_2007.3.df))<210]
 dim(data_2007.4.df_x)
-fix(data_2007.4.df_x)
+#fix(data_2007.4.df_x)
 plot_missing(data_2007.4.df_x)
 
 # le nombre 213 représente 60% de la base de données 2008. Voir step en haut
 data_2008.4.df_x <- data_2008.3.df[ ,colSums(is.na(data_2008.3.df))<213]
 dim(data_2008.4.df_x)
-fix(data_2008.4.df_x)
+#fix(data_2008.4.df_x)
 plot_missing(data_2008.4.df_x)
 
 # le nombre 217 représente 60% de la base de données 2009. Voir step en haut
 data_2009.4.df_x <- data_2009.3.df[ ,colSums(is.na(data_2009.3.df))<217]
 dim(data_2009.4.df_x)
-fix(data_2009.4.df_x)
+#fix(data_2009.4.df_x)
 plot_missing(data_2009.4.df_x)
 
 # le nombre 241 représente 60% de la base de données 2016. Voir step en haut
 data_2016.4.df_x <- data_2016.3.df[ ,colSums(is.na(data_2016.3.df))<241]
 dim(data_2016.4.df_x)
-fix(data_2016.4.df_x)
+#fix(data_2016.4.df_x)
 plot_missing(data_2016.4.df_x)
 
 # le nombre 243 représente 60% de la base de données 2018. Voir step en haut
 data_2018.4.df_x <- data_2018.3.df[ ,colSums(is.na(data_2018.3.df))<243]
 dim(data_2018.4.df_x)
-fix(data_2018.4.df_x)
+#fix(data_2018.4.df_x)
 plot_missing(data_2018.4.df_x)
 
 # le nombre 243 représente 60% de la base de données 2019. Voir step en haut
 data_2019.4.df_x <- data_2019.3.df[ ,colSums(is.na(data_2019.3.df))<243]
 dim(data_2019.4.df_x) # 2018 il me reste 25 variables
-fix(data_2019.4.df_x)
+#fix(data_2019.4.df_x)
 plot_missing(data_2019.4.df_x)
 # 2019 il me reste 23 variables
 
@@ -549,7 +551,7 @@ plot_missing(data_2019.4.df_x)
 
 # comme on connait nombre de colonne qui restent après avoir delete ceux qui n'ont pas de data
 
-
+#fix(data_2000.4.df_x)
 
 # Refaire le rowSums pour éléiminer les lignes avec plus de la moitié vide par data base
 # si la somme des NA est inférieure à 36 on garde
@@ -560,6 +562,8 @@ dim(data_2000.4.df_x) # nrow = 19 donc 19/2 = 10 donc si une ligne à plus de 10 
 data_2000.4.df <- data_2000.4.df_x[rowSums(is.na(data_2000.4.df_x))<10,]  
 rowSums(is.na(data_2000.4.df))
 dim(data_2000.4.df)
+
+#fix(data_2000.4.df)
 
 
 
@@ -685,42 +689,42 @@ dim(data_2019.5.df)
 # 2000 on a 38 ratings non vides sur 105  ==> donc 67 vides
 dim(data_2000.5.df)
 sum(as.numeric(!is.na(data_2000.5.df$RATINGS)))
-fix(data_2000.5.df)
+#fix(data_2000.5.df)
 plot_missing(data_2000.5.df)
 
 
 # 2007 on a 91 ratings non vides sur 149 ==> donc 58 vides
 dim(data_2007.5.df)
 sum(as.numeric(!is.na(data_2007.5.df$RATINGS)))
-fix(data_2007.5.df)
+#fix(data_2007.5.df)
 plot_missing(data_2007.5.df)
 
 
 # 2008 on a 99 rating non vides sur 160 ==> donc 61 vides
 dim(data_2008.5.df)
 sum(as.numeric(!is.na(data_2008.5.df$RATINGS)))
-fix(data_2008.5.df)
+#fix(data_2008.5.df)
 plot_missing(data_2008.5.df)
 
 
 # 2009 on a 103 ratings non vides sur 164 ==> donc 61 vides
 dim(data_2009.5.df)
 sum(as.numeric(!is.na(data_2009.5.df$RATINGS)))
-fix(data_2009.5.df)
+#fix(data_2009.5.df)
 plot_missing(data_2009.5.df)
 
 
 # 2016 on a 151 ratings non vides sur 163 ==> donc 12 vides
 dim(data_2016.5.df)
 sum(as.numeric(!is.na(data_2016.5.df$RATINGS)))
-fix(data_2016.5.df)
+#fix(data_2016.5.df)
 plot_missing(data_2016.5.df)
 
 
 # 2018 on a 156 ratings non vides sur 161 ==> donc 5 vides
 dim(data_2018.5.df)
 sum(as.numeric(!is.na(data_2018.5.df$RATINGS)))
-fix(data_2018.5.df)
+#fix(data_2018.5.df)
 plot_missing(data_2018.5.df)
 
 
@@ -728,7 +732,7 @@ plot_missing(data_2018.5.df)
 # 2019 on a 152 ratings non vides sur 156 ==> donc 4 vides
 dim(data_2019.5.df)
 sum(as.numeric(!is.na(data_2019.5.df$RATINGS)))
-fix(data_2019.5.df)
+#fix(data_2019.5.df)
 plot_missing(data_2019.5.df)
 
 
@@ -752,14 +756,14 @@ rowSums(is.na(data_2019.5.df))
 dim(data_2000.5.df)
 
 data_2000.5.df_2 <- data_2000.5.df
-fix(data_2000.5.df_2)
+#fix(data_2000.5.df_2)
 
 # 2007
 dim(data_2007.5.df)
 
 data_2007.5.df_2 <- data_2007.5.df[!is.na(data_2007.5.df$RATINGS),]
 dim(data_2007.5.df_2)
-fix(data_2007.5.df_2)
+#fix(data_2007.5.df_2)
 
 plot_missing(data_2007.5.df_2)
 
@@ -770,7 +774,7 @@ dim(data_2008.5.df)
 
 data_2008.5.df_2 <- data_2008.5.df[!is.na(data_2008.5.df$RATINGS),]
 dim(data_2008.5.df_2)
-fix(data_2008.5.df_2)
+#fix(data_2008.5.df_2)
 
 plot_missing(data_2008.5.df_2)
 
@@ -782,8 +786,9 @@ plot_missing(data_2008.5.df_2)
 dim(data_2009.5.df)
 
 data_2009.5.df_2 <- data_2009.5.df[!is.na(data_2009.5.df$RATINGS),]
+
 dim(data_2009.5.df_2)
-fix(data_2009.5.df_2)
+#fix(data_2009.5.df_2)
 
 plot_missing(data_2009.5.df_2)
 
@@ -796,7 +801,7 @@ dim(data_2016.5.df)
 
 data_2016.5.df_2 <- data_2016.5.df[!is.na(data_2016.5.df$RATINGS),]
 dim(data_2016.5.df_2)
-fix(data_2016.5.df_2)
+#fix(data_2016.5.df_2)
 
 plot_missing(data_2016.5.df_2)
 
@@ -809,7 +814,7 @@ dim(data_2018.5.df)
 
 data_2018.5.df_2 <- data_2018.5.df[!is.na(data_2018.5.df$RATINGS),]
 dim(data_2018.5.df_2)
-fix(data_2018.5.df_2)
+#fix(data_2018.5.df_2)
 
 plot_missing(data_2018.5.df_2)
 
@@ -822,7 +827,7 @@ dim(data_2019.5.df)
 
 data_2019.5.df_2 <- data_2019.5.df[!is.na(data_2019.5.df$RATINGS),]
 dim(data_2019.5.df_2)
-fix(data_2019.5.df_2)
+#fix(data_2019.5.df_2)
 
 plot_missing(data_2019.5.df_2)
 
@@ -846,6 +851,12 @@ plot_missing(data_2019.5.df_2)
 library(mice)
 
 summary(data_2000.5.df_2)
+
+#fix(data_2000.5.df_2)
+
+data_2000.5.df_2$RATINGS
+data_2007.5.df_2$RATINGS
+data_2008.5.df_2$RATINGS
 
 
 
@@ -925,7 +936,7 @@ data_2000.5.df_2[,-1] <- lapply(data_2000.5.df_2[,-1], function(x) as.numeric(as
 summary(data_2000.5.df_2)
 dim(data_2000.5.df_2)
 
-
+data_2000.5.df_2$RATINGS
 
 
 
@@ -984,7 +995,7 @@ is.list(data_2000.5.df_2$RATINGS)
 
 
 
-data_2000.5.df_2$RATINGS <- as.factor(data_2000.5.df_2$RATINGS)
+#data_2000.5.df_2$RATINGS <- as.factor(data_2000.5.df_2$RATINGS)
 data_2007.5.df_2$RATINGS <- as.factor(data_2007.5.df_2$RATINGS)
 data_2008.5.df_2$RATINGS <- as.factor(data_2008.5.df_2$RATINGS)
 data_2009.5.df_2$RATINGS <- as.factor(data_2009.5.df_2$RATINGS)
@@ -995,7 +1006,7 @@ data_2019.5.df_2$RATINGS <- as.factor(data_2019.5.df_2$RATINGS)
 
 
 
-levels(data_2000.5.df_2$RATINGS)
+#levels(data_2000.5.df_2$RATINGS)
 levels(data_2007.5.df_2$RATINGS)
 levels(data_2008.5.df_2$RATINGS)
 levels(data_2009.5.df_2$RATINGS)
@@ -1142,45 +1153,45 @@ data_2019.6.df <- data_2019.6.df[-13,] # pour checher si c'est enlevé, lorsque j
 data_2000.6.df <- data_2000.6.df[-3]
 dim(data_2000.6.df)
 dim(data_2000.5.df)
-View(data_2000.6.df)
+#View(data_2000.6.df)
 
 
 data_2007.6.df <- data_2007.6.df[-3]
 dim(data_2007.6.df)
 dim(data_2007.5.df)
-View(data_2007.6.df)
+#View(data_2007.6.df)
 
 
 data_2008.6.df <- data_2008.6.df[-3]
 dim(data_2008.6.df)
 dim(data_2008.5.df)
-View(data_2008.6.df)
+#View(data_2008.6.df)
 
 
 data_2009.6.df <- data_2009.6.df[-3]
 dim(data_2009.6.df)
 dim(data_2009.5.df)
-View(data_2009.6.df)
+#View(data_2009.6.df)
 
 
 data_2016.6.df <- data_2016.6.df[-3]
 dim(data_2016.6.df)
 dim(data_2016.5.df)
-View(data_2016.6.df)
+#View(data_2016.6.df)
 
 
 
 data_2018.6.df <- data_2018.6.df[-3]
 dim(data_2018.6.df)
 dim(data_2018.5.df)
-View(data_2018.6.df)
+#View(data_2018.6.df)
 
 
 
 data_2019.6.df <- data_2019.6.df[-2] # CAR NOT PTOFIT MARGIN COL DELETED ==> CHECK IT
 dim(data_2019.6.df)
 dim(data_2019.5.df)
-View(data_2019.6.df)
+#View(data_2019.6.df)
 
 
 
@@ -1208,7 +1219,7 @@ n7 <- colnames(data_2019.6.df)   # 2019 sur data not yet profit margin
 
 summary(data_2019.6.df)
 dim(data_2019.6.df)
-fix(data_2019.6.df)
+#fix(data_2019.6.df)
 
 
 
@@ -1228,6 +1239,36 @@ which(colSums(is.na(data_2019.6.df))==0)
 
 
 #pour (2019) col 1,6, 8, 10, 13, 19
+
+
+#data.frame(data_2000.6.df$RATINGS, stringsAsFactors = FALSE)
+
+
+
+#fix(data_2000.6.df)
+
+table(data_2000.6.df$RATINGS)
+table(data_2009.6.df$RATINGS)
+
+
+data_2000.6.df[[33,1]]="CCC+"
+data_2000.6.df[[44,1]]="B-"
+data_2000.6.df[[62,1]]="B+"
+
+table(data_2000.6.df$RATINGS)
+
+fix(data_2000.6.df)
+
+#34 CCC+, 44 B-,  62 B+
+
+
+data_2000.6.df$RATINGS <- as.factor(data_2000.6.df$RATINGS)
+levels(data_2000.6.df$RATINGS)
+
+
+fix(data_2000.5.df_2)
+
+
 
 
 library(mice)
@@ -1260,7 +1301,7 @@ data_imputation_2019 <- mice(data_2019.6.df, m=5, method = "pmm", maxit = 5, rem
 plot_missing(data_2018.6.df)
 
 
-
+plot_missing(data_2000.6.df)
 
 
 
@@ -1317,10 +1358,12 @@ final_clean_dataset_2019 <- complete(data_imputation_2019, 5)
 
 
 
-View(final_clean_dataset_2016)
+#View(final_clean_dataset_2016)
 plot_missing(data_2019.6.df)
 plot_missing(final_clean_dataset_2019)
 
+
+plot_missing(final_clean_dataset_2000)
 
 any(is.na(final_clean_dataset_2000))
 any(is.na(final_clean_dataset_2007))
@@ -1581,7 +1624,7 @@ my_rating_grd_grp_2019 <- grd_grp_rat[my_RATINGS_2019]
 see_2000 <- matrix(my_rating_grd_grp_2000)
 dim(see_2000)
 
-fix(see_2000)
+#fix(see_2000)
 
 see_2007 <- matrix(my_rating_grd_grp_2007)
 see_2008 <- matrix(my_rating_grd_grp_2008)
@@ -1832,7 +1875,8 @@ library(dplyr)  # database : data_2000_avt_good_ratio
 
 # 2000
 data_2000_with_good_ratio <- data_2000_avt_good_ratio%>%
-  mutate(ratio_Flux_de_TR_expl_sur_passif_cour = CF_CASH_FROM_OPER/BS_CUR_LIAB,
+  mutate(ratio_B_non_rep_sur_Tot_actif = BS_PURE_RETAINED_EARNINGS/BS_TOT_ASSET,
+         ratio_Flux_de_TR_expl_sur_passif_cour = CF_CASH_FROM_OPER/BS_CUR_LIAB,
          ratio_Fonds_de_roulement_sur_tot_actif = WORKING_CAPITAL/BS_TOT_ASSET)
 
 #ratio_val_marchd_tot_sur_tot_actif =TOT_MKT_VAL/BS_TOT_ASSET) is deleted car TOT_MKT8VAL pas dans new database
@@ -2034,6 +2078,8 @@ col_names_var_not_ds_mice #elles sont au nombre de 5 -> ci dessous par ordre
 
 
 
+
+
 # 2000
 nom_col_2000 <- colnames(data_2000_with_good_ratio)
 nom_col_2000
@@ -2043,23 +2089,25 @@ length(nom_col_2000)
 nom_col_good_2000 <- c("Cote_crédit_num", "Cote_crédit", "RATINGS", "Marge_bénéficiaire nette",
                   "Marge_sur_EBITDA","Marge_sur_EBIT", "Rendement_sur_cap_prop","Rendement_sur_actif",
                   "Dette_LT",
-                  "Total_actif","Flux_de_trésorie_d'expl","Passif_courant",
+                  "Total_actif", "Bénéfices_non_répartis","Flux_de_trésorie_d'expl","Passif_courant",
                   "ratio_ben_avt_impot_sur_frais_int", "ratio_tot_dette_sur_tot_actif",
                   "ratio_actuel","Ratio_de_liquid_réduite","Ratio_de_liquidité","Fonds_roulement",
                   "Ratio_Fonds_de_roulmt_sur_ventes","Marge_opérationnelle","Beta_applique",
+                  "EQY_DPS", "Croissance_tot_actif",
+                  "ratio_B_non_rep_sur_Tot_actif",
                   "ratio_Flux_de_TR_expl_sur_passif_cour","ratio_Fonds_de_roulement_sur_tot_actif")
                   
-                  
+dim(nom_col_good_2000)                  
                   
 length(nom_col_2000)
 length(nom_col_good_2000)
 
 #juste pour des fins de comparaisons
-matrice_comparaison_nom_var_1_2000 <- matrix(nom_col_2000, 23, 1)
-matrice_comparaison_nom_var_2_2000 <- matrix(nom_col_good_2000, 23, 1)
+matrice_comparaison_nom_var_1_2000 <- matrix(nom_col_2000)
+matrice_comparaison_nom_var_2_2000 <- matrix(nom_col_good_2000)
 
 m_2000 <-  cbind(matrice_comparaison_nom_var_1_2000, matrice_comparaison_nom_var_2_2000)
-fix(m_2000)
+#fix(m_2000)
 
 #le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
 
@@ -2103,7 +2151,7 @@ matrice_comparaison_nom_var_1_2007 <- matrix(nom_col_2007, 24, 1)
 matrice_comparaison_nom_var_2_2007 <- matrix(nom_col_good_2007, 24, 1)
 
 m_2007 <-  cbind(matrice_comparaison_nom_var_1_2007, matrice_comparaison_nom_var_2_2007)
-fix(m_2007)
+#fix(m_2007)
 
 #le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
 
@@ -2144,7 +2192,7 @@ matrice_comparaison_nom_var_1_2008 <- matrix(nom_col_2008, 24, 1)
 matrice_comparaison_nom_var_2_2008 <- matrix(nom_col_good_2008, 24, 1)
 
 m_2008 <-  cbind(matrice_comparaison_nom_var_1_2008, matrice_comparaison_nom_var_2_2008)
-fix(m_2008)
+#fix(m_2008)
 
 #le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
 
@@ -2186,7 +2234,7 @@ matrice_comparaison_nom_var_1_2009 <- matrix(nom_col_2009, 26, 1)
 matrice_comparaison_nom_var_2_2009 <- matrix(nom_col_good_2009, 26, 1)
 
 m_2009 <-  cbind(matrice_comparaison_nom_var_1_2009, matrice_comparaison_nom_var_2_2009)
-fix(m_2009)
+#fix(m_2009)
 
 #le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
 
@@ -2226,7 +2274,7 @@ matrice_comparaison_nom_var_1_2016 <- matrix(nom_col_2016, 26, 1)
 matrice_comparaison_nom_var_2_2016 <- matrix(nom_col_good_2016, 26, 1)
 
 m_2016 <-  cbind(matrice_comparaison_nom_var_1_2016, matrice_comparaison_nom_var_2_2016)
-fix(m_2016)
+#fix(m_2016)
 
 #le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
 
@@ -2272,7 +2320,7 @@ matrice_comparaison_nom_var_1_2018 <- matrix(nom_col_2018, 29, 1)
 matrice_comparaison_nom_var_2_2018 <- matrix(nom_col_good_2018, 29, 1)
 
 m_2018 <-  cbind(matrice_comparaison_nom_var_1_2018, matrice_comparaison_nom_var_2_2018)
-fix(m_2018)
+#fix(m_2018)
 
 #le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
 
@@ -2316,11 +2364,13 @@ matrice_comparaison_nom_var_1_2019 <- matrix(nom_col_2019, 28, 1)
 matrice_comparaison_nom_var_2_2019 <- matrix(nom_col_good_2019, 28, 1)
 
 m_2019 <-  cbind(matrice_comparaison_nom_var_1_2019, matrice_comparaison_nom_var_2_2019)
-fix(m_2019)
+#fix(m_2019)
 
 #le 3 est good car EBIT_TO_NET_SALES = Marge_sur_EBIT
 
 #good car comparaison équitable dans leur positionnement
+
+
 
 
 
@@ -2400,11 +2450,30 @@ colnames(data_2018_with_good_ratio.1) <- nom_col_good_2018
 data_2019_with_good_ratio.1 <- data_2019_with_good_ratio
 colnames(data_2019_with_good_ratio.1) <- nom_col_good_2019
 
-fix(data_2019_with_good_ratio.1)
+#fix(data_2000_with_good_ratio.1)
 
 
 
 
+
+# extraire 2000 ratio_B_non_rep_sur_Tot_actif
+
+ratio_B_non_rep_sur_Tot_actif_2000 <- data_2000_with_good_ratio.1$ratio_B_non_rep_sur_Tot_actif
+
+#write.csv(ratio_B_non_rep_sur_Tot_actif_2000, file = "ratio_B_non_rep_sur_Tot_actif_2000.csv")
+
+
+
+
+# extraction rating 2000 avec CCC et
+
+fix(data_2000_with_good_ratio.1)
+
+
+Cote_crédit_2000 <- data_2000_with_good_ratio.1$Cote_crédit
+table(Cote_crédit_2000)
+
+#write.csv(Cote_crédit_2000 , file = "Cote_crédit_2000.csv")
 
 
 
@@ -2462,7 +2531,7 @@ bon_variables <- data_2019_with_good_ratio.1%>%
          Marge_d_explt, Beta_applique)
 
 
-fix(bon_variables)
+#fix(bon_variables)
 
 
 #extraire base de donneés sur excel
