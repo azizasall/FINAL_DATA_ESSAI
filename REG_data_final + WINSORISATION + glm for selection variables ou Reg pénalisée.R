@@ -3940,7 +3940,7 @@ y_2019 = variables_2019_reg_pen$response_2019
 # LASSO from lab4
 
 # (1)
-
+par(mfrow = c(1,2))
 
 lasso_model_2019_ungrouped <-  glmnet(x_2019, y_2019, alpha = 1, family = "multinomial", type.multinomial = "ungrouped")
 plot(lasso_model_2019_ungrouped, xvar = 'lambda')
@@ -3992,28 +3992,31 @@ coef(cv_lasso_2019_grouped, s = "lambda.1se")
 
 # do it comme en haut --------------------> to delete this line
 # matrice de confusion: ON USE ONLY 1se not min
-response_2019_prob_ungrouped <- unlist(predict(cv_lasso_2019_ungrouped, x_2019, s = "lambda.1se", type="class"))
+response_2019_prob_ungrouped <- predict(cv_lasso_2019_ungrouped, x_2019, s = "lambda.1se", type="class")
 response_2019_prob_ungrouped <- factor(response_2019_prob_ungrouped, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
-table(response_2019_prob_ungrouped, variables_2019_reg_pen$response_2019)
+mc_2019_ungrouped <- table(response_2019_prob_ungrouped, variables_2019_reg_pen$response_2019)
+
 
 
 response_2019_prob_grouped <- predict(cv_lasso_2019_grouped, x_2019, s = "lambda.1se", type="class")
 response_2019_prob_grouped <- factor(response_2019_prob_grouped, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
-table(response_2019_prob_grouped, variables_2019_reg_pen$response_2019)
+mc_2019_grouped <- table(response_2019_prob_grouped, variables_2019_reg_pen$response_2019)
+ 
 
 
-
-
+#---------------------------------->
 #--> delete ---> all with lamda.min : maybe
 
 #ON SEE PREDICTION SUR LES 5 CLASSE
 
-response_2019_prob_ungrouped <- predict(cv_lasso_2019_ungrouped, x_2019, s = "lambda.min", type="class")
-mc_2019_ungrouped <- table(response_2019_prob_ungrouped, variables_2019_reg_pen$response_2019)
-
-
-response_2019_prob_grouped <- predict(cv_lasso_2019_grouped, x_2019, s = "lambda.min", type="class")
-mc_2019_grouped <- table(response_2019_prob_grouped, variables_2019_reg_pen$response_2019)
+# response_2019_prob_ungrouped <- predict(cv_lasso_2019_ungrouped, x_2019, s = "lambda.min", type="class")
+#
+# 
+# 
+# response_2019_prob_grouped <- predict(cv_lasso_2019_grouped, x_2019, s = "lambda.min", type="class")
+# 
+# 
+#---------------------------------->
 
 
 
