@@ -4009,13 +4009,63 @@ table(response_2019_prob_grouped, variables_2019_reg_pen$response_2019)
 #ON SEE PREDICTION SUR LES 5 CLASSE
 
 response_2019_prob_ungrouped <- predict(cv_lasso_2019_ungrouped, x_2019, s = "lambda.min", type="class")
-table(response_2019_prob_ungrouped, variables_2019_reg_pen$response_2019)
+mc_2019_ungrouped <- table(response_2019_prob_ungrouped, variables_2019_reg_pen$response_2019)
 
 
 response_2019_prob_grouped <- predict(cv_lasso_2019_grouped, x_2019, s = "lambda.min", type="class")
-table(response_2019_prob_grouped, variables_2019_reg_pen$response_2019)
+mc_2019_grouped <- table(response_2019_prob_grouped, variables_2019_reg_pen$response_2019)
 
 
+
+# TABLE ACCURARY & MISCLASSIFICATION
+
+mc_pourcentage_2019_ungrouped <- mc_2019_ungrouped / colSums(mc_2019_ungrouped)
+
+mc_pourcentage_2019_grouped <- mc_2019_grouped / colSums(mc_2019_grouped)
+
+### MISCLASSIFICATION pour présentation output
+#### Pourcentage de mauvaise classification (misclassifaction)
+miscalsification_pourcentage_2019_ungrouped <- 1- sum(diag(mc_2019_ungrouped))/sum(mc_2019_ungrouped) # from mc : (14 + 22) / 151
+
+miscalsification_pourcentage_2019_grouped <- 1- sum(diag(mc_2019_grouped))/sum(mc_2019_grouped)
+
+### ACCURACY DU MODEL pour présentation output
+### Pourcenttage de bonne classification : la somme de la diag qu'on divise par le nombre total d'observation 
+bonne_classifcation_pourcentage_2019_ungrouped <- sum(diag(mc_2019_ungrouped))/sum(mc_2019_ungrouped) 
+
+bonne_classifcation_pourcentage_2019_grouped <- sum(diag(mc_2019_grouped))/sum(mc_2019_grouped) 
+
+# vérification
+# MISCLASSIFICATION + ACCURACY DU MODEL
+miscalsification_pourcentage_2019_ungrouped+bonne_classifcation_pourcentage_2019_ungrouped
+
+miscalsification_pourcentage_2019_grouped+bonne_classifcation_pourcentage_2019_grouped
+
+
+
+
+# TABLE DE PRECISION
+
+# ungrouped
+prediction_table_2019_ungrouped_reg_pen <- matrix(0,6, 2)
+colnames(prediction_table_2019_ungrouped_reg_pen) <- c("Prediction_correcte_2016_en_%", "Prediction_incorrecte_en_%")
+rownames(prediction_table_2019_ungrouped_reg_pen) <- c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC", "Precision_Globale_de_la_Prediction")
+
+prediction_table_2019_ungrouped_reg_pen[1,1] <- mc_pourcentage_2019_ungrouped[1,1]
+prediction_table_2019_ungrouped_reg_pen[2,1] <- mc_pourcentage_2019_ungrouped[2,2]
+prediction_table_2019_ungrouped_reg_pen[3,1] <- mc_pourcentage_2019_ungrouped[3,3]
+prediction_table_2019_ungrouped_reg_pen[4,1] <- mc_pourcentage_2019_ungrouped[4,4]
+prediction_table_2019_ungrouped_reg_pen[5,1] <- mc_pourcentage_2019_ungrouped[5,5]
+prediction_table_2019_ungrouped_reg_pen[6,1] <- bonne_classifcation_pourcentage_2019_ungrouped
+
+prediction_table_2019_ungrouped_reg_pen[1,2] <- 1 - mc_pourcentage_2019_ungrouped[1,1]
+prediction_table_2019_ungrouped_reg_pen[2,2] <- 1 - mc_pourcentage_2019_ungrouped[2,2]
+prediction_table_2019_ungrouped_reg_pen[3,2] <- 1 - mc_pourcentage_2019_ungrouped[3,3]
+prediction_table_2019_ungrouped_reg_pen[4,2] <- 1 - mc_pourcentage_2019_ungrouped[4,4]
+prediction_table_2019_ungrouped_reg_pen[5,2] <- 1 - mc_pourcentage_2019_ungrouped[5,5]
+prediction_table_2019_ungrouped_reg_pen[6,2] <- bonne_classifcation_pourcentage_2019_ungrouped
+
+round(prediction_table_2019_ungrouped_reg_pen * 100, digits = 2)
 
 
 #vérification
@@ -4023,11 +4073,58 @@ library("lattice")
 library("ggplot2")
 library("caret")
 variables_2019_reg_pen$response_2019 <- factor(variables_2019_reg_pen$response_2019, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
+response_2019_prob_ungrouped <- factor(response_2019_prob_ungrouped, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
 confusionMatrix(data=response_2019_prob_ungrouped, reference=variables_2019_reg_pen$response_2019)
 
 
 
-# COURBE ROC
+
+
+# grouped
+prediction_table_2019_grouped_reg_pen <- matrix(0,6, 2)
+colnames(prediction_table_2019_grouped_reg_pen) <- c("Prediction_correcte_2016_en_%", "Prediction_incorrecte_en_%")
+rownames(prediction_table_2019_grouped_reg_pen) <- c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC", "Precision_Globale_de_la_Prediction")
+
+prediction_table_2019_grouped_reg_pen[1,1] <- mc_pourcentage_2019_grouped[1,1]
+prediction_table_2019_grouped_reg_pen[2,1] <- mc_pourcentage_2019_grouped[2,2]
+prediction_table_2019_grouped_reg_pen[3,1] <- mc_pourcentage_2019_grouped[3,3]
+prediction_table_2019_grouped_reg_pen[4,1] <- mc_pourcentage_2019_grouped[4,4]
+prediction_table_2019_grouped_reg_pen[5,1] <- mc_pourcentage_2019_grouped[5,5]
+prediction_table_2019_grouped_reg_pen[6,1] <- bonne_classifcation_pourcentage_2019_grouped
+
+prediction_table_2019_grouped_reg_pen[1,2] <- 1 - mc_pourcentage_2019_grouped[1,1]
+prediction_table_2019_grouped_reg_pen[2,2] <- 1 - mc_pourcentage_2019_grouped[2,2]
+prediction_table_2019_grouped_reg_pen[3,2] <- 1 - mc_pourcentage_2019_grouped[3,3]
+prediction_table_2019_grouped_reg_pen[4,2] <- 1 - mc_pourcentage_2019_grouped[4,4]
+prediction_table_2019_grouped_reg_pen[5,2] <- 1 - mc_pourcentage_2019_grouped[5,5]
+prediction_table_2019_grouped_reg_pen[6,2] <- bonne_classifcation_pourcentage_2019_grouped
+
+round(prediction_table_2019_grouped_reg_pen * 100, digits = 2)
+
+
+#vérification
+library("lattice")
+library("ggplot2")
+library("caret")
+variables_2019_reg_pen$response_2019 <- factor(variables_2019_reg_pen$response_2019, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
+response_2019_prob_grouped <- factor(response_2019_prob_grouped, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
+confusionMatrix(data=response_2019_prob_grouped, reference=variables_2019_reg_pen$response_2019)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# to delete
+# COURBE ROC --> ROCR currently supports only evaluation of binary classification tasks.
 
 library(ROCR)
 pred_logit = prediction(response_2019_prob_ungrouped, variables_2019_reg_pen$response_2019)
