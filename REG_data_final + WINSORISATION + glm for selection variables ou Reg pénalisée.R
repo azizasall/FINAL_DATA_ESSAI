@@ -302,7 +302,6 @@ dim(variables_2018_x)
 
 
 
-
 volatilite_annuelle <- variables_2019$volalitilite_30_jours * sqrt(12)
 dim(variables_2019)
 #fix(variables_2019)
@@ -318,26 +317,35 @@ dim(variables_2019_x)
 
 
 
-variables_2000 <- variables_2000_x
-variables_2007 <- variables_2007_x
-variables_2008 <- variables_2008_x
-variables_2009 <- variables_2009_x
-variables_2016 <- variables_2016_x
-variables_2018 <- variables_2018_x
-variables_2019 <- variables_2019_x
+
+
+
+
+
+
+
+
+
 
 
 
 
 
 # to delete
-# NUAGE DE POINTS :
+# NUAGE DE POINTS :  --> tendance, not need
+#-->not need boxplot fait l'affaire pr données extrèmes
 # pour see la corrélation avec nuage de points
 
-plot(variables_2019[, 3:ncol(variables_2019)]) # but deja fait dans matrice de corrélation that why not take account variables X corrélées entre elles
 
-plot(variables_2019[, 3:4], xlab = "", ylab = "")
-abline(lm(variables_2019[,3]~ variables_2019[,4], data = variables_2019), col = "red", lwd = 2)
+
+
+
+
+# ---> plot(variables_2019_x[, 3:ncol(variables_2019_x)]) # but deja fait dans matrice de corrélation that why not take account variables X corrélées entre elles
+
+# ---> plot(variables_2019_x[, 3:4], xlab = "", ylab = "")
+# ---> abline(lm(variables_2019_x[,3]~ variables_2019_x[,4], data = variables_2019_x), col = "red", lwd = 2)
+
 
 
 
@@ -350,43 +358,6 @@ abline(lm(variables_2019[,3]~ variables_2019[,4], data = variables_2019), col = 
 
 
 
-# to delete
-
-# ne savait pas 
-# to delete ou non
-# scatter plot
-dev.new()
-plot(variables_2019)
-
-
-
-# to delete  : car si je change now quelque chose mon modèle va changer et je devrait reprendre all interprétation
-# boxplot pour voir s'il y a valeur aberrante : chequer pour other database
-
-# ask comment les traiter 
-
-boxplot(variables_2018$Marge_beneficiaire_nette)
-boxplot(variables_2018$Marge_sur_EBITDA)
-boxplot(variables_2018$Marge_sur_EBIT)
-boxplot(variables_2018$Rendement_sur_cap_prop)
-boxplot(variables_2018$Rendement_sur_actif)
-boxplot(variables_2018$Croissance_adj_des_Ben_ann)
-boxplot(variables_2018$Croissance_tot_actif)
-boxplot(variables_2018$ratio_ben_avt_impot_sur_frais_int)
-boxplot(variables_2018$ratio_tot_dette_sur_tot_actif)
-boxplot(variables_2018$ratio_tot_liab_sur_tot_actif)
-boxplot(variables_2018$ratio_B_non_rep_sur_Tot_actif)
-boxplot(variables_2018$ratio_Flux_de_TR_expl_sur_passif_cour)
-boxplot(variables_2018$ratio_actuel)
-boxplot(variables_2018$Ratio_de_liquid_reduite)
-boxplot(variables_2018$Ratio_de_liquidite)
-boxplot(variables_2018$Ratio_Fonds_de_roulmt_sur_ventes)
-boxplot(variables_2018$ratio_Fonds_de_roulement_sur_tot_actif)
-boxplot(variables_2018$Total_actif)
-boxplot(variables_2018$Marge_operationnelle)
-boxplot(variables_2018$Beta_applique)
-boxplot(variables_2018$volatilite_annuelle)
-boxplot(variables_2018)
 
 
 
@@ -397,6 +368,116 @@ boxplot(variables_2018)
 
 
 
+
+
+
+
+
+
+# Traitement des valeurs extrèmes par WINSORISATION -----------------------
+
+
+variables_2000_wins <- variables_2000_x[,-c(1,2)]
+variables_2007_wins <- variables_2007_x[,-c(1,2)]
+variables_2008_wins <- variables_2008_x[,-c(1,2)]
+variables_2009_wins <- variables_2009_x[,-c(1,2)]
+variables_2016_wins <- variables_2016_x[,-c(1,2)]
+variables_2018_wins <- variables_2018_x[,-c(1,2)]
+variables_2019_wins <- variables_2019_x[,-c(1,2)]
+
+
+
+library(DescTools)
+
+variables_2000_wins[]<-lapply(variables_2000_wins, Winsorize, minval = NULL, maxval = NULL, probs = c(0.05, 0.95), na.rm = FALSE)
+variables_2007_wins[]<-lapply(variables_2007_wins, Winsorize, minval = NULL, maxval = NULL, probs = c(0.05, 0.95), na.rm = FALSE)
+variables_2008_wins[]<-lapply(variables_2008_wins, Winsorize, minval = NULL, maxval = NULL, probs = c(0.05, 0.95), na.rm = FALSE)
+variables_2009_wins[]<-lapply(variables_2009_wins, Winsorize, minval = NULL, maxval = NULL, probs = c(0.05, 0.95), na.rm = FALSE)
+variables_2016_wins[]<-lapply(variables_2016_wins, Winsorize, minval = NULL, maxval = NULL, probs = c(0.05, 0.95), na.rm = FALSE)
+variables_2018_wins[]<-lapply(variables_2018_wins, Winsorize, minval = NULL, maxval = NULL, probs = c(0.05, 0.95), na.rm = FALSE)
+variables_2019_wins[]<-lapply(variables_2019_wins, Winsorize, minval = NULL, maxval = NULL, probs = c(0.05, 0.95), na.rm = FALSE)
+
+
+
+
+# Vérification pour 2018 :
+# comparaison des Boxplots après winsorisation --> porter attention sur l'échelle entre les 2 plots
+
+par(mfrow = c(1, 2))
+boxplot(variables_2018_x$Marge_beneficiaire_nette, xlab = "Marge_beneficiaire_nette")
+boxplot(variables_2018_wins$Marge_beneficiaire_nette, xlab = "Marge_beneficiaire_nette_WINS")
+
+
+# vérification
+variables_2018_x$Marge_sur_EBITDA == variables_2018_wins$Marge_sur_EBITDA
+cbind(variables_2018_x$Marge_sur_EBITDA, variables_2018_wins$Marge_sur_EBITDA)
+#-->
+
+
+
+
+
+boxplot(variables_2018_x$Marge_sur_EBITDA, xlab = "Marge_sur_EBITDA")
+boxplot(variables_2018_wins$Marge_sur_EBITDA, xlab = "Marge_sur_EBITDA_WINS")
+
+
+boxplot(variables_2018_x$Marge_sur_EBIT, xlab = "Marge_sur_EBIT")
+boxplot(variables_2018_wins$Marge_sur_EBIT, xlab = "Marge_sur_EBIT_WINS")
+
+
+boxplot(variables_2018_x$Rendement_sur_cap_prop, xlab = "Rendement_sur_cap_prop")
+boxplot(variables_2018_wins$Rendement_sur_cap_prop, xlab = "Rendement_sur_cap_prop_WINS")
+
+boxplot(variables_2018_x$Rendement_sur_actif, xlab = "Rendement_sur_actif")
+boxplot(variables_2018_wins$Rendement_sur_actif, xlab = "Rendement_sur_actif_WINS")
+
+boxplot(variables_2018$Croissance_adj_des_Ben_ann, xlab = "Croissance_adj_des_Ben_ann")
+boxplot(variables_2018_wins$Croissance_adj_des_Ben_ann, xlab = "Croissance_adj_des_Ben_ann_WINS")
+
+boxplot(variables_2018_x$Croissance_tot_actif, xlab = "Croissance_tot_actif")
+boxplot(variables_2018_wins$Croissance_tot_actif, xlab = "Croissance_tot_actif_WINS")
+
+boxplot(variables_2018_x$ratio_ben_avt_impot_sur_frais_int, xlab = "ratio_ben_avt_impot_sur_frais_int")
+boxplot(variables_2018_wins$ratio_ben_avt_impot_sur_frais_int, xlab = "ratio_ben_avt_impot_sur_frais_int_WINS")
+
+boxplot(variables_2018_x$ratio_tot_dette_sur_tot_actif, xlab = "ratio_tot_dette_sur_tot_actif")
+boxplot(variables_2018_wins$ratio_tot_dette_sur_tot_actif, xlab = "ratio_tot_dette_sur_tot_actif_WINS")
+
+boxplot(variables_2018_x$ratio_tot_liab_sur_tot_actif, xlab = "ratio_tot_liab_sur_tot_actif")
+boxplot(variables_2018_wins$ratio_tot_liab_sur_tot_actif, xlab = "ratio_tot_liab_sur_tot_actif_WINS")
+
+boxplot(variables_2018_x$ratio_B_non_rep_sur_Tot_actif, xlab = "ratio_B_non_rep_sur_Tot_actif")
+boxplot(variables_2018_wins$ratio_B_non_rep_sur_Tot_actif, xlab = "ratio_B_non_rep_sur_Tot_actif_WINS")
+
+boxplot(variables_2018_x$ratio_Flux_de_TR_expl_sur_passif_cour, xlab = "ratio_Flux_de_TR_expl_sur_passif_cour")
+boxplot(variables_2018_wins$ratio_Flux_de_TR_expl_sur_passif_cour, xlab = "ratio_Flux_de_TR_expl_sur_passif_cour_WINS")
+
+boxplot(variables_2018_x$ratio_actuel, xlab = "ratio_actuel")
+boxplot(variables_2018_wins$ratio_actuel, xlab = "ratio_actuel_WINS")
+
+boxplot(variables_2018_x$Ratio_de_liquid_reduite, xlab = "Ratio_de_liquid_reduite")
+boxplot(variables_2018_wins$Ratio_de_liquid_reduite, xlab = "Ratio_de_liquid_reduite_WINS")
+
+boxplot(variables_2018_x$Ratio_de_liquidite, xlab = "Ratio_de_liquidite")
+boxplot(variables_2018_wins$Ratio_de_liquidite, xlab = "Ratio_de_liquidite_WINS")
+
+boxplot(variables_2018_x$Ratio_Fonds_de_roulmt_sur_ventes, xlab = "Ratio_Fonds_de_roulmt_sur_ventes")
+boxplot(variables_2018_wins$Ratio_Fonds_de_roulmt_sur_ventes, xlab = "Ratio_Fonds_de_roulmt_sur_ventes_WINS")
+
+boxplot(variables_2018_x$ratio_Fonds_de_roulement_sur_tot_actif, xlab = "ratio_Fonds_de_roulement_sur_tot_actif")
+boxplot(variables_2018_wins$ratio_Fonds_de_roulement_sur_tot_actif, xlab = "ratio_Fonds_de_roulement_sur_tot_actif_WINS")
+
+boxplot(variables_2018_x$Total_actif, xlab = "Total_actif")
+boxplot(variables_2018_wins$Total_actif, xlab = "Total_actif_WINS")
+
+boxplot(variables_2018_x$Marge_operationnelle, xlab = "Marge_operationnelle")
+boxplot(variables_2018_wins$Marge_operationnelle, xlab = "Marge_operationnelle_WINS")
+
+boxplot(variables_2018_x$Beta_applique, xlab = "Beta_applique")
+boxplot(variables_2018_wins$Beta_applique, xlab = "Beta_applique_WINS")
+
+boxplot(variables_2018_x$volatilite_annuelle, xlab = "volatilite_annuelle")
+boxplot(variables_2018_wins$volatilite_annuelle, xlab = "volatilite_annuelle_WINS")
 
 
 
@@ -404,43 +485,6 @@ boxplot(variables_2018)
 # --------------------->
 # WINSORISONS NOS VARIABLES (Traitement valeur extrèmes):
 
-library(pacman)
-
-pacman::p_load(data.table, fixest, DescTools, magrittr)
-set.seed(1)
-
-
-class(variables_2018$binaire_cote_credit_2018)
-
-
-
-# 2018
-# boxplot : ce que je peux faire c'est avoir 2 boxplot pour firme_inv et firme_spec : voir code cours app aut en science de l'ad
-split.screen(c(2,1))
-
-screen(1)
-boxplot(variables_2018$Marge_sur_EBITDA)
-
-# Trouvons les valeurs à la 2eme et 98eme percentile de 2019
-
-pct_2 <- quantile(variables_2018$Marge_sur_EBITDA, c(0.02, 0.98), type = 1)
-
-# remplecement des valeurs inférieures à la 2eme percentile 
-
-as.table(variables_2018)
-as.data.frame(variables_2018)
-
-variables_2018 <- variables_2018 %>%
-  .[Marge_sur_EBITDA <= pct_2[1], Marge_sur_EBITDA := pct_2[1]] %>%
-  .[Marge_sur_EBITDA >= pct_2[2], Marge_sur_EBITDA := pct_2[2]] 
-
-
-is.data.table(variables_2018$Marge_sur_EBITDA)
-
-
-screen(1)
-boxplot(variables_2018$Marge_sur_EBITDA)
-
 # --------------------->
 
 
@@ -453,11 +497,15 @@ boxplot(variables_2018$Marge_sur_EBITDA)
 
 
 
+# a ajuster
 
-
-
-
-
+variables_2000 <- cbind(variables_2000_x[, c(1,2)], variables_2000_wins)
+variables_2007 <- cbind(variables_2007_x[, c(1,2)], variables_2007_wins)
+variables_2008 <- cbind(variables_2008_x[, c(1,2)], variables_2008_wins)
+variables_2009 <- cbind(variables_2009_x[, c(1,2)], variables_2009_wins)
+variables_2016 <- cbind(variables_2016_x[, c(1,2)], variables_2016_wins)
+variables_2018 <- cbind(variables_2018_x[, c(1,2)], variables_2018_wins)
+variables_2019 <- cbind(variables_2019_x[, c(1,2)], variables_2019_wins)
 
 
 
@@ -503,6 +551,8 @@ ggcorrplot(corr_2018, hc.order = TRUE,
            method = "circle",
            colors = c("tomato2", "thistle", "springgreen3"),
            ggtheme = theme_bw)
+
+
 
 
 
@@ -558,21 +608,21 @@ summary(variables_2019)
 
 # 2019
 as.data.frame(variables_2019)
-matrixx <- matrix(0, ncol(variables_2019)-2, 6)
+matrixx_2019 <- matrix(0, ncol(variables_2019)-2, 6)
 
-rownames(matrixx) <- colnames(variables_2019[c(-1,-2)])
-colnames(matrixx) <- c("Moyenne", "Ecart_Type_en_%", "Min", "Max", "1er_quartile", "3eme_quartile")
+rownames(matrixx_2019) <- colnames(variables_2019[c(-1,-2)])
+colnames(matrixx_2019) <- c("Moyenne", "Ecart_Type_en_%", "Min", "Max", "1er_quartile", "3eme_quartile")
 
-for(j in 1:nrow(matrixx)){ #19
-  matrixx[j,1] <- round(mean(as.numeric(unlist(variables_2019[,(j+2)]))), digits = 2)
-  matrixx[j,2] <- round(sqrt(var(variables_2019[ ,(j+2)])), digits = 1)
-  matrixx[j,3] <- round(min(variables_2019[ ,(j+2)]), digits = 2)
-  matrixx[j,4] <- round(max(variables_2019[ ,(j+2)]), digits = 2)
-  matrixx[j,5] <- round(quantile(variables_2019[ ,(j+2)], 0.25), digits = 2)
-  matrixx[j,6] <- round(quantile(variables_2019[ ,(j+2)], 0.75), digits = 2)
+for(j in 1:nrow(matrixx_2019)){ #19
+  matrixx_2019[j,1] <- round(mean(as.numeric(unlist(variables_2019[,(j+2)]))), digits = 2)
+  matrixx_2019[j,2] <- round(sqrt(var(variables_2019[ ,(j+2)])), digits = 1)
+  matrixx_2019[j,3] <- round(min(variables_2019[ ,(j+2)]), digits = 2)
+  matrixx_2019[j,4] <- round(max(variables_2019[ ,(j+2)]), digits = 2)
+  matrixx_2019[j,5] <- round(quantile(variables_2019[ ,(j+2)], 0.25), digits = 2)
+  matrixx_2019[j,6] <- round(quantile(variables_2019[ ,(j+2)], 0.75), digits = 2)
 }
 
-print(matrixx)
+print(matrixx_2019)
 
 # vérification calcul écart type   -> les autres peuvent être vérifiés avec summary
 apply(variables_2019[,c(-1,-2)], 2, sd)
@@ -582,24 +632,25 @@ apply(variables_2019[,c(-1,-2)], 2, sd)
 
 # 2018
 as.data.frame(variables_2018)
-matrixx <- matrix(0, ncol(variables_2018)-2, 6)
+matrixx_2018 <- matrix(0, ncol(variables_2018)-2, 6)
 
-rownames(matrixx) <- colnames(variables_2018[c(-1,-2)])
-colnames(matrixx) <- c("Moyenne", "Ecart_Type_en_%", "Min", "Max", "1er_quartile", "3eme_quartile")
+rownames(matrixx_2018) <- colnames(variables_2018[c(-1,-2)])
+colnames(matrixx_2018) <- c("Moyenne", "Ecart_Type_en_%", "Min", "Max", "1er_quartile", "3eme_quartile")
 
-for(j in 1:nrow(matrixx)){ #19
-  matrixx[j,1] <- round(mean(as.numeric(unlist(variables_2018[,(j+2)]))), digits = 2)
-  matrixx[j,2] <- round(sqrt(var(variables_2018[ ,(j+2)])), digits = 1)
-  matrixx[j,3] <- round(min(variables_2018[ ,(j+2)]), digits = 2)
-  matrixx[j,4] <- round(max(variables_2018[ ,(j+2)]), digits = 2)
-  matrixx[j,5] <- round(quantile(variables_2018[ ,(j+2)], 0.25), digits = 2)
-  matrixx[j,6] <- round(quantile(variables_2018[ ,(j+2)], 0.75), digits = 2)
+for(j in 1:nrow(matrixx_2018)){ #19
+  matrixx_2018[j,1] <- round(mean(as.numeric(unlist(variables_2018[,(j+2)]))), digits = 2)
+  matrixx_2018[j,2] <- round(sqrt(var(variables_2018[ ,(j+2)])), digits = 1)
+  matrixx_2018[j,3] <- round(min(variables_2018[ ,(j+2)]), digits = 2)
+  matrixx_2018[j,4] <- round(max(variables_2018[ ,(j+2)]), digits = 2)
+  matrixx_2018[j,5] <- round(quantile(variables_2018[ ,(j+2)], 0.25), digits = 2)
+  matrixx_2018[j,6] <- round(quantile(variables_2018[ ,(j+2)], 0.75), digits = 2)
 }
 
-print(matrixx)
+print(matrixx_2018)
 
 # vérification calcul écart type   -> les autres peuvent être vérifiés avec summary
 round(apply(variables_2018[,c(-1,-2)], 2, sd), digits = 3)
+
 
 
 
@@ -649,24 +700,6 @@ round(anova_1 <- Anova(modele_uvni_2019_Marge_sur_EBITDA,type="III"), digits = 5
 
 modele_uvni_2019_Marge_sur_EBIT <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Marge_sur_EBIT, data = variables_2019)
 anova_2 <- Anova(modele_uvni_2019_Marge_sur_EBIT,type="III")
-
-
-#------>
-# to delete from #------> to #------>
-plot(variables_2019$Marge_sur_EBITDA, variables_2019$binaire_cote_credit_2019, xlab = "Marge sur EBITDA", ylab = "binaire cote de credit")
-
-xx <- seq(0, 3, 0.01)
-yy <- predict(modele_uvni_2019_Marge_sur_EBIT, list(variables_2019$Marge_sur_EBITDA = xx), type = "response")
-lines(xx, yy, lwd = 1.5, col = "steelblue")
-
-
-
-# to delete from #------> to #------>
-xx1 = variables_2019$Marge_sur_EBITDA
-prob = modele_uvni_2019_Marge_sur_EBIT$fitted.values
-lines(xx1[order(xx1)], prob[order(xx1)], col = 'red')
-#------>
-
 
 modele_uvni_2019_Rendement_sur_cap_prop <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Rendement_sur_cap_prop, data = variables_2019)
 round(anova_3 <- Anova(modele_uvni_2019_Rendement_sur_cap_prop,type="III"), digits = 3)
@@ -719,6 +752,7 @@ anova_18 <- Anova(modele_uvni_2019_Marge_opérationnelle,type="III")
 
 modele_uvni_2019_Beta_applique <- multinom(variables_2019$binaire_cote_credit_2019~variables_2019$Beta_applique, data = variables_2019)
 anova_19 <- Anova(modele_uvni_2019_Beta_applique,type="III")
+
 
 
 
@@ -806,7 +840,7 @@ matrixx_2[16,5] <- anova_16$`LR Chisq`
 matrixx_2[17,5] <- anova_17$`LR Chisq`
 matrixx_2[18,5] <- anova_18$`LR Chisq`
 matrixx_2[19,5] <- anova_19$`LR Chisq`
-
+matrixx_2[20,5] <- anova_20$`LR Chisq`
 
 
 # Remplissons la colonne Pr > chiSquare
@@ -837,11 +871,48 @@ matrixx_2[19,6] <- anova_19$`Pr(>Chisq)`
 
 
 
-round(print(matrixx_2), digits = 3)
+round(matrixx_2, digits = 3)
+
+
+
+
+
+
+
+
+
+# ON SAUTE POUR AVANCER CAR NOT IMPORTANT POUR LA SUITE
+# A REVOIR 
+
+# ----------> to delete : pour genre graphe : voir fichier wword AU PROPRE 
+
+# impossible pour moi car mes xlab sont numérique
+# apres analyse univarié
+
+# from en bas
+
+predict_cote_credit_2019 <- predict(modele_uvni_2019_Volatilite_annuelle, variables_2019)
+# from en bas
+
+
+plot(variables_2019$volatilite_annuelle,  predict_cote_credit_2019)
+xtt <-  variables_2019$volatilite_annuelle
+prob <-  modele_uvni_2019_Volatilite_annuelle$fitted.values
+lines(xtt[order(xtt)], prob[order(xtt)], col = 'red')
+
+# ----------> to delete
+
+
+
+
+
+
+
 
 
 
 # to delete
+# from ---------------> to --------------->
 # a continuer
 
 ### représentation graphique univariée
@@ -872,8 +943,27 @@ cc_2018 <- variables_2018 %>%
 
 plot(cc_2018$Marge_sur_EBITDA_test, type = "l")
 
+# from ---------------> to --------------->
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ---> to delete : 
+# try courbe ROC 
 
 
 
@@ -919,42 +1009,6 @@ confint(modele_1_2016) # permet d'avoir intervalle de confiance
 table(variables_2016$binaire_cote_credit_2016)
 
 
-
-# ------>
-# ça marche au lieu de use multinom je pouvais use glm plus conviviale --> next incha alla
-# to delete : use glm a la place de multinom pr see if same result
-
-library(glmnet)
-glm_modele_1_2016 <- glm(variables_2016$binaire_cote_credit_2016 ~ Marge_sur_EBITDA +
-                           ratio_ben_avt_impot_sur_frais_int + 
-                           ratio_Fonds_de_roulement_sur_tot_actif +
-                           Total_actif + volatilite_annuelle,
-                           data = variables_2016, family = binomial (link = "logit"))
-
-
-summary(modele_1_2016)
-summary(glm_modele_1_2016)
-#( même résultat)
-
-
-# visualiser courbe
-
-plot(variables_2016$binaire_cote_credit_2016, glm_modele_1_2016$y, xlab = "Binaire", ylab = "variables_2016")
-
-x=variables_2016$Marge_sur_EBITDA
-
-prob = glm_modele_1_2016$fitted.values
-
-lines(x[order(x)], prob[order(x)], col = 'red'   )
-# to delete : résultat not good car courbe pour régression univarié not multi varié
-# ------>
-
-
-
-
-
-
-#suite
 
 modele_1_2000 <- multinom(variables_2000$binaire_cote_credit_2000 ~ Marge_sur_EBITDA +
                             ratio_ben_avt_impot_sur_frais_int + 
@@ -1114,6 +1168,11 @@ knn_2_prob_yes = ifelse((predict(modele_1_2016))=="firm_inv", knn_2_prob, 1 - kn
 
 
 # ----->
+
+
+
+
+
 
 
 # to delete        try to understand
@@ -1295,6 +1354,8 @@ modele_1_2007 <- multinom(variables_2007$binaire_cote_credit_2007 ~ Marge_sur_EB
                             Total_actif + volatilite_annuelle,
                             data = variables_2007)
 
+
+
 ### Pour avoir :  coef, std Error, z value, Pr(>|z|)
 library(AER) # à utiliser pour les autres
 round(coeftest(modele_1_2019), digits = 3) 
@@ -1319,8 +1380,9 @@ p_value_2019 <- (1 - pnorm(abs(z_2019), 0, 1)) * 2 # on multiplie par 2 car c'es
 
 # to delete
 
+# AIC de chque période
 glance(modele_1_2019) # marche pr lm
-
+glance(modele_1_2019)
 
 
 
@@ -1828,11 +1890,10 @@ variables_2000_mod_2 <- cbind(cote_credit_2000_mod_2, variables_2000)
 
 
 
-#----------> méttons nos cote de crédit en factor
-
+#----------> méttons nos cotes de crédit en factor
 
 # POUR 2000, on va seulement mettre 2 niveaux étant donnée que BB_&_CCC n'existe pas car sinon ça fausse notre régression
-variables_2000_mod_2$cote_credit_2000_mod_2 <- factor(variables_2000_mod_2$cote_credit_2000_mod_2, levels = c("firm_inv", "BB"))
+variables_2000_mod_2$cote_credit_2000_mod_2 <- factor(variables_2000_mod_2$cote_credit_2000_mod_2, levels = c("firm_inv", "BB", "B_&_CCC"))
 variables_2007_mod_2$cote_credit_2007_mod_2 <- factor(variables_2007_mod_2$cote_credit_2007_mod_2, levels = c("firm_inv", "BB", "B_&_CCC"))
 variables_2008_mod_2$cote_credit_2008_mod_2 <- factor(variables_2008_mod_2$cote_credit_2008_mod_2, levels = c("firm_inv", "BB", "B_&_CCC"))
 variables_2009_mod_2$cote_credit_2009_mod_2 <- factor(variables_2009_mod_2$cote_credit_2009_mod_2, levels = c("firm_inv", "BB", "B_&_CCC"))
@@ -1863,7 +1924,7 @@ modele_2_2016 <- multinom(variables_2016_mod_2$cote_credit_2016_mod_2 ~ Marge_su
                             ratio_ben_avt_impot_sur_frais_int + 
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2016_mod_2)
+                            data = variables_2016_mod_2)
 
 confint(modele_2_2016) # permet d'avoir intervalle de confiance
 
@@ -1879,7 +1940,7 @@ modele_2_2000 <- multinom(variables_2000_mod_2$cote_credit_2000_mod_2 ~ Marge_su
                             ratio_ben_avt_impot_sur_frais_int + 
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2000_mod_2) # mais j'ai ratio_ben_avt_impot_sur_frais_int
+                            data = variables_2000_mod_2) # mais j'ai ratio_ben_avt_impot_sur_frais_int
 
 
 
@@ -2068,12 +2129,12 @@ rownames(prediction_table_2000_mod_2) <- c("Firmes_investissement", "BB", "BB_&_
 
 prediction_table_2000_mod_2[1,1] <- mc_pourcentage_2000_mod_2[1,1]
 prediction_table_2000_mod_2[2,1] <- mc_pourcentage_2000_mod_2[2,2]
-prediction_table_2000_mod_2[3,1] <- 0.00
+prediction_table_2000_mod_2[3,1] <- mc_pourcentage_2000_mod_2[3,3]
 prediction_table_2000_mod_2[4,1] <- bonne_classifcation_pourcentage_2000_mod_2
 
 prediction_table_2000_mod_2[1,2] <- 1 - mc_pourcentage_2000_mod_2[1,1]
 prediction_table_2000_mod_2[2,2] <- 1 - mc_pourcentage_2000_mod_2[2,2]
-prediction_table_2000_mod_2[3,2] <- 0.00
+prediction_table_2000_mod_2[3,2] <- 1 - mc_pourcentage_2000_mod_2[3,3]
 prediction_table_2000_mod_2[4,2] <- bonne_classifcation_pourcentage_2000_mod_2
 
 round(prediction_table_2000_mod_2 * 100, digits = 2)
@@ -2114,7 +2175,7 @@ modele_2_2019 <- multinom(variables_2019_mod_2$cote_credit_2019_mod_2 ~ Marge_su
                             ratio_ben_avt_impot_sur_frais_int + 
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2019_mod_2)
+                            data = variables_2019_mod_2)
 
 
 
@@ -2133,19 +2194,21 @@ confint(modele_2_2019) # permet d'avoir intervalle de confiance
 # CROSS VALIDATION AVEC LOGISITK REG MODELE 1 & 2 2019 --------------------
 
 # MODELE 1 : 2019   --> rég Penalisée  --> see commennt l'interpréter
-CV10 <- trainControl(method = "repeatedcv", number = 10)
-lm_1_CV <- train(cote_credit_2019_mod_2 ~ Marge_sur_EBITDA + 
-                   ratio_ben_avt_impot_sur_frais_int + 
-                   ratio_Fonds_de_roulement_sur_tot_actif +
-                   Total_actif + volatilite_annuelle,
-                 data = variables_2019_mod_2, method = "multinom", trControl = CV10)
-print(lm_1_CV)
+
+
+#CV10 <- trainControl(method = "repeatedcv", number = 10)
+#lm_1_CV <- train(cote_credit_2019_mod_2 ~ Marge_sur_EBITDA + 
+#                   ratio_ben_avt_impot_sur_frais_int + 
+#                   ratio_Fonds_de_roulement_sur_tot_actif +
+#                   Total_actif + volatilite_annuelle,
+#                 data = variables_2019_mod_2, method = "multinom", trControl = CV10)
+#print(lm_1_CV)
 
 
 # MODELE 2 : 2019
-CV10 <- trainControl(method = "cv", number = 10)
-lm_1_CV <- train(mpg ~ horsepower, data = Auto, method = "nprne", trControl = CV10)
-print(lm_1_CV)
+#CV10 <- trainControl(method = "cv", number = 10)
+#lm_1_CV <- train(mpg ~ horsepower, data = Auto, method = "nprne", trControl = CV10)
+#print(lm_1_CV)
 
 
 
@@ -2164,14 +2227,14 @@ modele_2_2018 <- multinom(variables_2018_mod_2$cote_credit_2018_mod_2 ~ Marge_su
                             ratio_ben_avt_impot_sur_frais_int + 
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2018_mod_2)
+                            data = variables_2018_mod_2)
 
 
 modele_2_2009 <- multinom(variables_2009_mod_2$cote_credit_2009_mod_2 ~ Marge_sur_EBITDA +
                             ratio_ben_avt_impot_sur_frais_int + 
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2009_mod_2)
+                            data = variables_2009_mod_2)
 
 
 modele_2_2008 <- multinom(variables_2008_mod_2$cote_credit_2008_mod_2 ~ Marge_sur_EBITDA +
@@ -2185,7 +2248,7 @@ modele_2_2007 <- multinom(variables_2007_mod_2$cote_credit_2007_mod_2 ~ Marge_su
                             ratio_ben_avt_impot_sur_frais_int + 
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2007_mod_2)
+                            data = variables_2007_mod_2)
 
 ### Pour avoir :  coef, std Error, z value, Pr(>|z|)
 library(AER) # à utiliser pour les autres
@@ -2475,8 +2538,6 @@ prediction_table_2009_mod_2[3,1] <- mc_pourcentage_2009_mod_2[3,3]
 prediction_table_2009_mod_2[4,1] <- bonne_classifcation_pourcentage_2009_mod_2
 
 
-# to delete 
-# a ajuster ligne 2 et 3
 prediction_table_2009_mod_2[1,2] <- 1 - mc_pourcentage_2009_mod_2[1,1]
 prediction_table_2009_mod_2[2,2] <- 1 - mc_pourcentage_2009_mod_2[2,2]
 prediction_table_2009_mod_2[3,2] <- 1 - mc_pourcentage_2009_mod_2[3,3]
@@ -2501,8 +2562,6 @@ prediction_table_2008_mod_2[3,1] <- mc_pourcentage_2008_mod_2[3,3]
 prediction_table_2008_mod_2[4,1] <- bonne_classifcation_pourcentage_2008_mod_2
 
 
-# to delete 
-# a ajuster ligne 2 et 3 : DONE
 prediction_table_2008_mod_2[1,2] <- 1 - mc_pourcentage_2008_mod_2[1,1]
 prediction_table_2008_mod_2[2,2] <- 1 - mc_pourcentage_2008_mod_2[2,2]
 prediction_table_2008_mod_2[3,2] <- 1 - mc_pourcentage_2008_mod_2[3,3]
@@ -2551,6 +2610,23 @@ round(prediction_table_2007_mod_2 * 100, digits = 2)
 # modele_2 par modele_3
 # et
 # mod_2 par mod_3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2609,9 +2685,6 @@ variables_2016_mod_3 <- cbind(cote_credit_2016_mod_3, variables_2016)
 
 
 
-
-
-
 cote_credit_2009_mod_3 <- variables_2009$Cote_credit # extraction cote de credit 2009
 cote_credit_2009_mod_3 <- cote_credt_modele_3[cote_credit_2009_mod_3]
 table(cote_credit_2009_mod_3)
@@ -2651,7 +2724,7 @@ variables_2000_mod_3 <- cbind(cote_credit_2000_mod_3, variables_2000)
 
 
 
-#----------> méttons nos cote de crédit en factor
+#----------> méttons nos cotes de crédit en factor
 
 
 # POUR 2000, on va seulement mettre 2 niveaux étant donnée que BB_&_CCC n'existe pas car sinon ça fausse notre régression
@@ -2662,13 +2735,6 @@ variables_2009_mod_3$cote_credit_2009_mod_3 <- factor(variables_2009_mod_3$cote_
 variables_2016_mod_3$cote_credit_2016_mod_3 <- factor(variables_2016_mod_3$cote_credit_2016_mod_3, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
 variables_2018_mod_3$cote_credit_2018_mod_3 <- factor(variables_2018_mod_3$cote_credit_2018_mod_3, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
 variables_2019_mod_3$cote_credit_2019_mod_3 <- factor(variables_2019_mod_3$cote_credit_2019_mod_3, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
-
-table(variables_2019_mod_3$cote_credit_2019_mod_3)
-
-
-
-
-
 
 
 
@@ -2682,24 +2748,16 @@ table(variables_2019_mod_3$cote_credit_2019_mod_3)
 variables_2016_mod_3$cote_credit_2016_mod_3 <- relevel(variables_2016_mod_3$cote_credit_2016_mod_3, ref = "AAA_&_AA")
 variables_2000_mod_3$cote_credit_2000_mod_3 <- relevel(variables_2000_mod_3$cote_credit_2000_mod_3, ref = "AAA_&_AA")
 
-#on choisit seulement celles qui sont significatives d'après notre analyse univariée
 
-# on choisit celles qui ont une p-value dans analyse univariée de 0.00
-# et ceux de la même catégorie s'il en reste plus d'un on vérifie leur corrélation et si c'est forte on en choisit qu'un seul choisit
+
 
 modele_3_2016 <- multinom(variables_2016_mod_3$cote_credit_2016_mod_3 ~ Marge_sur_EBITDA +
-                            Rendement_sur_cap_prop + Rendement_sur_actif +
+                            Rendement_sur_cap_prop  +
                             ratio_ben_avt_impot_sur_frais_int + ratio_B_non_rep_sur_Tot_actif +
-                            Ratio_Fonds_de_roulmt_sur_ventes +
+                            ratio_tot_dette_sur_tot_actif + ratio_Flux_de_TR_expl_sur_passif_cour +
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2016_mod_3)     
-# to delete correlation : 0.6, 0.7
-
-
-
-colnames(variables_2016_mod_3)
-
+                            data = variables_2016_mod_3)     
 
 
 confint(modele_3_2016) # permet d'avoir intervalle de confiance
@@ -2712,12 +2770,28 @@ length(variables_2016_mod_3$cote_credit_2016_mod_3)
 #suite
 
 modele_3_2000 <- multinom(variables_2000_mod_3$cote_credit_2000_mod_3 ~ Marge_sur_EBITDA +
-                            Rendement_sur_cap_prop + Rendement_sur_actif +
+                            Rendement_sur_cap_prop  +
                             ratio_ben_avt_impot_sur_frais_int + ratio_B_non_rep_sur_Tot_actif_2000 +
-                            Ratio_Fonds_de_roulmt_sur_ventes +
+                            ratio_tot_dette_sur_tot_actif + ratio_Flux_de_TR_expl_sur_passif_cour +
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2000_mod_3) 
+                            data = variables_2000_mod_3)      
+                            
+                      
+
+      
+#-------------------->                            
+# to delete
+
+#Marge_sur_EBITDA +
+#Rendement_sur_cap_prop +         --->       Rendement_sur_actif -->delete car fortement corrélée avec rendement sur capitaux propre 0.7
+#ratio_ben_avt_impot_sur_frais_int + ratio_B_non_rep_sur_Tot_actif_2000 +
+#Ratio_Fonds_de_roulmt_sur_ventes + ----> -->delete car fortement corrélée avec ratio fonds de roulement sur tot actif 0.8
+# ---->      ratio_Fonds_de_roulement_sur_tot_actif 
+#Total_actif + volatilite_annuelle,
+#data = variables_2000_mod_3) 
+#------------------>
+
 
 
 
@@ -2741,8 +2815,6 @@ z_2016_mod_3 <- summary(modele_3_2016)$coefficients/summary(modele_3_2016)$stand
 p_value_2016_mod_3 <- (1 - pnorm(abs(z_2016_mod_3), 0, 1)) * 2 # on multiplie par 2 car c'est un 2 tails test
 
 
-library(AER) 
-round(coeftest(modele_3_2000), digits = 3) 
 
 
 
@@ -2874,19 +2946,23 @@ n_mod_3/sum(n_mod_3) # pourcentage de firme par type de rating # la plupart des 
 
 # to delete : check it if conforme
 
-prediction_table_2016_mod_3 <- matrix(0,4, 2)
+prediction_table_2016_mod_3 <- matrix(0,6, 2)
 colnames(prediction_table_2016_mod_3) <- c("Prediction_correcte_2016", "Prediction_incorrecte")
-rownames(prediction_table_2016_mod_3) <- c("Firmes_investissement", "BB", "BB_&_CCC", "Precision_Globale_de_la_Prediction")
+rownames(prediction_table_2016_mod_3) <- c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC", "Precision_Globale_de_la_Prediction")
 
 prediction_table_2016_mod_3[1,1] <- mc_pourcentage_2016_mod_3[1,1]
 prediction_table_2016_mod_3[2,1] <- mc_pourcentage_2016_mod_3[2,2]
 prediction_table_2016_mod_3[3,1] <- mc_pourcentage_2016_mod_3[3,3]
-prediction_table_2016_mod_3[4,1] <- bonne_classifcation_pourcentage_2016_mod_3
+prediction_table_2016_mod_3[4,1] <- mc_pourcentage_2016_mod_3[4,4]
+prediction_table_2016_mod_3[5,1] <- mc_pourcentage_2016_mod_3[5,5]
+prediction_table_2016_mod_3[6,1] <- bonne_classifcation_pourcentage_2016_mod_3
 
 prediction_table_2016_mod_3[1,2] <- 1 - mc_pourcentage_2016_mod_3[1,1]
 prediction_table_2016_mod_3[2,2] <- 1 - mc_pourcentage_2016_mod_3[2,2]
 prediction_table_2016_mod_3[3,2] <- 1 - mc_pourcentage_2016_mod_3[3,3]
-prediction_table_2016_mod_3[4,2] <- bonne_classifcation_pourcentage_2016_mod_3
+prediction_table_2016_mod_3[4,2] <- 1 - mc_pourcentage_2016_mod_3[4,4]
+prediction_table_2016_mod_3[5,2] <- 1 - mc_pourcentage_2016_mod_3[5,5]
+prediction_table_2016_mod_3[6,2] <- bonne_classifcation_pourcentage_2016_mod_3
 
 round(prediction_table_2016_mod_3 * 100, digits = 2)
 
@@ -2900,29 +2976,25 @@ round(prediction_table_2016_mod_3 * 100, digits = 2)
 
 # 2000
 
-prediction_table_2000_mod_3 <- matrix(0,4, 2)
+prediction_table_2000_mod_3 <- matrix(0,6, 2)
 colnames(prediction_table_2000_mod_3) <- c("Prediction_correcte_2000", "Prediction_incorrecte")
-rownames(prediction_table_2000_mod_3) <- c("Firmes_investissement", "BB", "BB_&_CCC", "Precision_Globale_de_la_Prediction")
+rownames(prediction_table_2000_mod_3) <- c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC", "Precision_Globale_de_la_Prediction")
 
 prediction_table_2000_mod_3[1,1] <- mc_pourcentage_2000_mod_3[1,1]
 prediction_table_2000_mod_3[2,1] <- mc_pourcentage_2000_mod_3[2,2]
-prediction_table_2000_mod_3[3,1] <- 0.00
-prediction_table_2000_mod_3[4,1] <- bonne_classifcation_pourcentage_2000_mod_3
+prediction_table_2000_mod_3[3,1] <- mc_pourcentage_2000_mod_3[3,3]
+prediction_table_2000_mod_3[4,1] <- mc_pourcentage_2000_mod_3[4,4]
+prediction_table_2000_mod_3[5,1] <- mc_pourcentage_2000_mod_3[5,5]
+prediction_table_2000_mod_3[6,1] <- bonne_classifcation_pourcentage_2000_mod_3
 
 prediction_table_2000_mod_3[1,2] <- 1 - mc_pourcentage_2000_mod_3[1,1]
 prediction_table_2000_mod_3[2,2] <- 1 - mc_pourcentage_2000_mod_3[2,2]
-prediction_table_2000_mod_3[3,2] <- 0.00
-prediction_table_2000_mod_3[4,2] <- bonne_classifcation_pourcentage_2000_mod_3
+prediction_table_2000_mod_3[3,2] <- 1 - mc_pourcentage_2000_mod_3[3,3]
+prediction_table_2000_mod_3[4,2] <- 1 - mc_pourcentage_2000_mod_3[4,4]
+prediction_table_2000_mod_3[5,2] <- 1 - mc_pourcentage_2000_mod_3[5,5]
+prediction_table_2000_mod_3[6,2] <- bonne_classifcation_pourcentage_2000_mod_3
 
 round(prediction_table_2000_mod_3 * 100, digits = 2)
-
-
-
-
-
-
-
-
 
 
 
@@ -2957,13 +3029,15 @@ variables_2007_mod_3$cote_credit_2007_mod_3 <- relevel(variables_2007_mod_3$cote
 # et ceux de la même catégorie s'il en reste plus d'un on check leur corrélation et si c'est forte on en choisit qu'un seul choisit
 
 modele_3_2019 <- multinom(variables_2019_mod_3$cote_credit_2019_mod_3 ~ Marge_sur_EBITDA +
-                            Rendement_sur_cap_prop + Rendement_sur_actif +
+                            Rendement_sur_cap_prop  +
                             ratio_ben_avt_impot_sur_frais_int + ratio_B_non_rep_sur_Tot_actif +
-                            Ratio_Fonds_de_roulmt_sur_ventes +
+                            ratio_tot_dette_sur_tot_actif + ratio_Flux_de_TR_expl_sur_passif_cour +
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2019_mod_3)
-
+                            data = variables_2019_mod_3)      
+                            
+                            
+                          
 
 
 
@@ -2973,37 +3047,45 @@ confint(modele_3_2019) # permet d'avoir intervalle de confiance
 
 
 modele_3_2018 <- multinom(variables_2018_mod_3$cote_credit_2018_mod_3 ~ Marge_sur_EBITDA +
-                            Rendement_sur_cap_prop + Rendement_sur_actif +
+                            Rendement_sur_cap_prop  +
                             ratio_ben_avt_impot_sur_frais_int + ratio_B_non_rep_sur_Tot_actif +
-                            Ratio_Fonds_de_roulmt_sur_ventes +
+                            ratio_tot_dette_sur_tot_actif + ratio_Flux_de_TR_expl_sur_passif_cour +
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2018_mod_3)
+                            data = variables_2018_mod_3)      
+                            
+
 
 
 modele_3_2009 <- multinom(variables_2009_mod_3$cote_credit_2009_mod_3 ~ Marge_sur_EBITDA +
-                            ratio_ben_avt_impot_sur_frais_int + 
+                            Rendement_sur_cap_prop  +
+                            ratio_ben_avt_impot_sur_frais_int + ratio_B_non_rep_sur_Tot_actif +
+                            ratio_tot_dette_sur_tot_actif + ratio_Flux_de_TR_expl_sur_passif_cour +
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2009_mod_3)
+                            data = variables_2009_mod_3)      
 
+                            
 
 modele_3_2008 <- multinom(variables_2008_mod_3$cote_credit_2008_mod_3 ~ Marge_sur_EBITDA +
-                            Rendement_sur_cap_prop + Rendement_sur_actif +
+                            Rendement_sur_cap_prop  +
                             ratio_ben_avt_impot_sur_frais_int + ratio_B_non_rep_sur_Tot_actif +
-                            Ratio_Fonds_de_roulmt_sur_ventes +
+                            ratio_tot_dette_sur_tot_actif + ratio_Flux_de_TR_expl_sur_passif_cour +
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2008_mod_3)
-
-
+                            data = variables_2008_mod_3)      
+                            
+                            
 modele_3_2007 <- multinom(variables_2007_mod_3$cote_credit_2007_mod_3 ~ Marge_sur_EBITDA +
-                            Rendement_sur_cap_prop + Rendement_sur_actif +
+                            Rendement_sur_cap_prop  +
                             ratio_ben_avt_impot_sur_frais_int + ratio_B_non_rep_sur_Tot_actif +
-                            Ratio_Fonds_de_roulmt_sur_ventes +
+                            ratio_tot_dette_sur_tot_actif + ratio_Flux_de_TR_expl_sur_passif_cour +
                             ratio_Fonds_de_roulement_sur_tot_actif +
                             Total_actif + volatilite_annuelle,
-                          data = variables_2007_mod_3)
+                            data = variables_2007_mod_3)      
+
+
+
 
 ### Pour avoir :  coef, std Error, z value, Pr(>|z|)
 library(AER) # à utiliser pour les autres
@@ -3167,12 +3249,6 @@ mc_pourcentage_2009_mod_3 <- mc_2009_mod_3 / colSums(mc_2009_mod_3)
 mc_pourcentage_2008_mod_3 <- mc_2008_mod_3 / colSums(mc_2008_mod_3)
 mc_pourcentage_2007_mod_3 <- mc_2007_mod_3 / colSums(mc_2007_mod_3)
 
-# to delete way calcul from mc_2019_mod_3
-81 / (81+14) # = 0.8526316
-14 / (22+34) # = 0.25
-
-22 / (81+14) # =  0.2315789
-34 / (22+34) # =  0.6071429
 
 
 ### MISCLASSIFICATION pour présentation output
@@ -3234,24 +3310,23 @@ n_2019_mod_3/sum(n_2019_mod_3) # pourcentage de firme par type de rating # la pl
 
 # 2019
 
-prediction_table_2019_mod_3 <- matrix(0,4, 2)
+prediction_table_2019_mod_3 <- matrix(0,6, 2)
 colnames(prediction_table_2019_mod_3) <- c("Prediction_correcte_2019", "Prediction_incorrecte")
-rownames(prediction_table_2019_mod_3) <- c("Firmes_investissement", "BB", "BB_&_CCC", "Precision_Globale_de_la_Prediction")
-
-
+rownames(prediction_table_2019_mod_3) <- c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC", "Precision_Globale_de_la_Prediction")
 
 prediction_table_2019_mod_3[1,1] <- mc_pourcentage_2019_mod_3[1,1]
 prediction_table_2019_mod_3[2,1] <- mc_pourcentage_2019_mod_3[2,2]
 prediction_table_2019_mod_3[3,1] <- mc_pourcentage_2019_mod_3[3,3]
-prediction_table_2019_mod_3[4,1] <- bonne_classifcation_pourcentage_2019_mod_3
+prediction_table_2019_mod_3[4,1] <- mc_pourcentage_2019_mod_3[4,4]
+prediction_table_2019_mod_3[5,1] <- mc_pourcentage_2019_mod_3[5,5]
+prediction_table_2019_mod_3[6,1] <- bonne_classifcation_pourcentage_2019_mod_3
 
-
-# to delete 
-# a ajuster ligne 2 et 3
 prediction_table_2019_mod_3[1,2] <- 1 - mc_pourcentage_2019_mod_3[1,1]
 prediction_table_2019_mod_3[2,2] <- 1 - mc_pourcentage_2019_mod_3[2,2]
 prediction_table_2019_mod_3[3,2] <- 1 - mc_pourcentage_2019_mod_3[3,3]
-prediction_table_2019_mod_3[4,2] <- bonne_classifcation_pourcentage_2019_mod_3
+prediction_table_2019_mod_3[4,2] <- 1 - mc_pourcentage_2019_mod_3[4,4]
+prediction_table_2019_mod_3[5,2] <- 1 - mc_pourcentage_2019_mod_3[5,5]
+prediction_table_2019_mod_3[6,2] <- bonne_classifcation_pourcentage_2019_mod_3
 
 round(prediction_table_2019_mod_3 * 100, digits = 2)
 
@@ -3260,71 +3335,75 @@ round(prediction_table_2019_mod_3 * 100, digits = 2)
 
 
 # 2018
-prediction_table_2018_mod_3 <- matrix(0,4, 2)
+prediction_table_2018_mod_3 <- matrix(0,6, 2)
 colnames(prediction_table_2018_mod_3) <- c("Prediction_correcte_2018", "Prediction_incorrecte")
-rownames(prediction_table_2018_mod_3) <- c("Firmes_investissement", "BB", "BB_&_CCC", "Precision_Globale_de_la_Prediction")
+rownames(prediction_table_2018_mod_3) <- c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC", "Precision_Globale_de_la_Prediction")
 
 prediction_table_2018_mod_3[1,1] <- mc_pourcentage_2018_mod_3[1,1]
 prediction_table_2018_mod_3[2,1] <- mc_pourcentage_2018_mod_3[2,2]
 prediction_table_2018_mod_3[3,1] <- mc_pourcentage_2018_mod_3[3,3]
-prediction_table_2018_mod_3[4,1] <- bonne_classifcation_pourcentage_2018_mod_3
+prediction_table_2018_mod_3[4,1] <- mc_pourcentage_2018_mod_3[4,4]
+prediction_table_2018_mod_3[5,1] <- mc_pourcentage_2018_mod_3[5,5]
+prediction_table_2018_mod_3[6,1] <- bonne_classifcation_pourcentage_2018_mod_3
 
 
-# to delete 
-# a ajuster ligne 2 et 3
 prediction_table_2018_mod_3[1,2] <- 1 - mc_pourcentage_2018_mod_3[1,1]
 prediction_table_2018_mod_3[2,2] <- 1 - mc_pourcentage_2018_mod_3[2,2]
 prediction_table_2018_mod_3[3,2] <- 1 - mc_pourcentage_2018_mod_3[3,3]
-prediction_table_2018_mod_3[4,2] <- bonne_classifcation_pourcentage_2018_mod_3
+prediction_table_2018_mod_3[4,2] <- 1 - mc_pourcentage_2018_mod_3[4,4]
+prediction_table_2018_mod_3[5,2] <- 1 - mc_pourcentage_2018_mod_3[5,5]
+prediction_table_2018_mod_3[6,2] <- bonne_classifcation_pourcentage_2018_mod_3
 
 round(prediction_table_2018_mod_3 * 100, digits = 2)
 
 
 
 
+
 # 2009
-prediction_table_2009_mod_3 <- matrix(0,4, 2)
+
+
+prediction_table_2009_mod_3 <- matrix(0,6, 2)
 colnames(prediction_table_2009_mod_3) <- c("Prediction_correcte_2009", "Prediction_incorrecte")
-rownames(prediction_table_2009_mod_3) <- c("Firmes_investissement", "BB", "BB_&_CCC", "Precision_Globale_de_la_Prediction")
+rownames(prediction_table_2009_mod_3) <- c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC", "Precision_Globale_de_la_Prediction")
 
 prediction_table_2009_mod_3[1,1] <- mc_pourcentage_2009_mod_3[1,1]
 prediction_table_2009_mod_3[2,1] <- mc_pourcentage_2009_mod_3[2,2]
 prediction_table_2009_mod_3[3,1] <- mc_pourcentage_2009_mod_3[3,3]
-prediction_table_2009_mod_3[4,1] <- bonne_classifcation_pourcentage_2009_mod_3
+prediction_table_2009_mod_3[4,1] <- mc_pourcentage_2009_mod_3[4,4]
+prediction_table_2009_mod_3[5,1] <- mc_pourcentage_2009_mod_3[5,5]
+prediction_table_2009_mod_3[6,1] <- bonne_classifcation_pourcentage_2009_mod_3
 
-
-# to delete 
-# a ajuster ligne 2 et 3
 prediction_table_2009_mod_3[1,2] <- 1 - mc_pourcentage_2009_mod_3[1,1]
 prediction_table_2009_mod_3[2,2] <- 1 - mc_pourcentage_2009_mod_3[2,2]
 prediction_table_2009_mod_3[3,2] <- 1 - mc_pourcentage_2009_mod_3[3,3]
-prediction_table_2009_mod_3[4,2] <- bonne_classifcation_pourcentage_2009_mod_3
+prediction_table_2009_mod_3[4,2] <- 1 - mc_pourcentage_2009_mod_3[4,4]
+prediction_table_2009_mod_3[5,2] <- 1 - mc_pourcentage_2009_mod_3[5,5]
+prediction_table_2009_mod_3[6,2] <- bonne_classifcation_pourcentage_2009_mod_3
 
 round(prediction_table_2009_mod_3 * 100, digits = 2)
 
 
 
 
-
-
-
 # 2008
-prediction_table_2008_mod_3 <- matrix(0,4, 2)
+prediction_table_2008_mod_3 <- matrix(0,6, 2)
 colnames(prediction_table_2008_mod_3) <- c("Prediction_correcte_2008", "Prediction_incorrecte")
-rownames(prediction_table_2008_mod_3) <- c("Firmes_investissement", "BB", "BB_&_CCC", "Precision_Globale_de_la_Prediction")
+rownames(prediction_table_2008_mod_3) <- c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC", "Precision_Globale_de_la_Prediction")
 
 prediction_table_2008_mod_3[1,1] <- mc_pourcentage_2008_mod_3[1,1]
 prediction_table_2008_mod_3[2,1] <- mc_pourcentage_2008_mod_3[2,2]
 prediction_table_2008_mod_3[3,1] <- mc_pourcentage_2008_mod_3[3,3]
-prediction_table_2008_mod_3[4,1] <- bonne_classifcation_pourcentage_2008_mod_3
+prediction_table_2008_mod_3[4,1] <- mc_pourcentage_2008_mod_3[4,4]
+prediction_table_2008_mod_3[5,1] <- mc_pourcentage_2008_mod_3[5,5]
+prediction_table_2008_mod_3[6,1] <- bonne_classifcation_pourcentage_2008_mod_3
 
-
-# to delete 
-# a ajuster ligne 2 et 3 : DONE
 prediction_table_2008_mod_3[1,2] <- 1 - mc_pourcentage_2008_mod_3[1,1]
 prediction_table_2008_mod_3[2,2] <- 1 - mc_pourcentage_2008_mod_3[2,2]
 prediction_table_2008_mod_3[3,2] <- 1 - mc_pourcentage_2008_mod_3[3,3]
-prediction_table_2008_mod_3[4,2] <- bonne_classifcation_pourcentage_2008_mod_3
+prediction_table_2008_mod_3[4,2] <- 1 - mc_pourcentage_2008_mod_3[4,4]
+prediction_table_2008_mod_3[5,2] <- 1 - mc_pourcentage_2008_mod_3[5,5]
+prediction_table_2008_mod_3[6,2] <- bonne_classifcation_pourcentage_2008_mod_3
 
 round(prediction_table_2008_mod_3 * 100, digits = 2)
 
@@ -3334,23 +3413,24 @@ round(prediction_table_2008_mod_3 * 100, digits = 2)
 
 
 # 2007
-prediction_table_2007_mod_3 <- matrix(0,4, 2)
+
+prediction_table_2007_mod_3 <- matrix(0,6, 2)
 colnames(prediction_table_2007_mod_3) <- c("Prediction_correcte_2007", "Prediction_incorrecte")
-rownames(prediction_table_2007_mod_3) <- c("Firmes_investissement", "BB", "BB_&_CCC", "Precision_Globale_de_la_Prediction")
+rownames(prediction_table_2007_mod_3) <- c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC", "Precision_Globale_de_la_Prediction")
 
 prediction_table_2007_mod_3[1,1] <- mc_pourcentage_2007_mod_3[1,1]
 prediction_table_2007_mod_3[2,1] <- mc_pourcentage_2007_mod_3[2,2]
 prediction_table_2007_mod_3[3,1] <- mc_pourcentage_2007_mod_3[3,3]
-prediction_table_2007_mod_3[4,1] <- bonne_classifcation_pourcentage_2007_mod_3
-
-
-# to delete 
-# a ajuster ligne 2 et 3
+prediction_table_2007_mod_3[4,1] <- mc_pourcentage_2007_mod_3[4,4]
+prediction_table_2007_mod_3[5,1] <- mc_pourcentage_2007_mod_3[5,5]
+prediction_table_2007_mod_3[6,1] <- bonne_classifcation_pourcentage_2007_mod_3
 
 prediction_table_2007_mod_3[1,2] <- 1 - mc_pourcentage_2007_mod_3[1,1]
 prediction_table_2007_mod_3[2,2] <- 1 - mc_pourcentage_2007_mod_3[2,2]
 prediction_table_2007_mod_3[3,2] <- 1 - mc_pourcentage_2007_mod_3[3,3]
-prediction_table_2007_mod_3[4,2] <- bonne_classifcation_pourcentage_2007_mod_3
+prediction_table_2007_mod_3[4,2] <- 1 - mc_pourcentage_2007_mod_3[4,4]
+prediction_table_2007_mod_3[5,2] <- 1 - mc_pourcentage_2007_mod_3[5,5]
+prediction_table_2007_mod_3[6,2] <- bonne_classifcation_pourcentage_2007_mod_3
 
 round(prediction_table_2007_mod_3 * 100, digits = 2)
 
@@ -3360,75 +3440,655 @@ round(prediction_table_2007_mod_3 * 100, digits = 2)
 
 
 
-# Regression pénalisé (ridge, lasso, elastic net), Validation croi --------
 
+
+
+
+
+
+
+# METHODE MACHINE LEARNING ------------------------------------------------
+
+
+# METHODES DE LA SELECTION DE VARIABLES  ----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ON SUATE POUR L'INSTANT
+
+
+
+
+
+
+
+
+# METHODE NOT GOOD POUR SELECTION DE VARIABLE CAR JE L'AI FAIT WAY REGRESSION LINEAIRE
+# to delete line --> # ça marche aussi avec multinom
+
+
+# a) Période d'expansion --------------------------------------------------
+
+
+
+# ---> to delete all with leap --> donc subsets_reg car not pour logistique rég mais +tot pr lm reg
+# 2016
+library(leaps)
+ppp_2016 <- variables_2016_mod_3[4:ncol(variables_2016_mod_3)]
+
+variables_2016_mod_3_reg_sub_2 <- cbind(variables_2016_mod_3[1], ppp_2016)
+
+variables_2016_mod_3_reg_sub_2 <- data.frame(variables_2016_mod_3_reg_sub_2)
+regsubsets_full_2016 <- regsubsets(cote_credit_2016_mod_3 ~ . , data = variables_2016_mod_3_reg_sub_2, nvmax = 20)
+
+regsubsets_summary_2016 <- summary(regsubsets_full_2016)
+
+
+# le RSS et le R2 ne peuvent pas être utilisés directement pour effectuer 
+# une sélection entre les modèles avec un nombre différent de prédicteurs. 
+# Ceci est dû au fait que le RSS va toujours décroître et que le R2
+# va toujours augmenter avec l'ajout de prédicteurs
+
+par( mfrow = c(1, 2) )
+
+plot(regsubsets_summary_2016$rss, type = 'b', xlab = 'Number of predictors k', ylab = 'RSS')
+plot(regsubsets_summary_2016$rsq, type = 'b', xlab = 'Number of predictors k', ylab = 'R squared')
+
+
+# Le Rsqr adjusté, le Cp de Mallow et le BIC offrent de meilleur mesures pour choisir le meilleur modèle puisque qu'ils estiment l'erreur de test en tenant compte de la complexité des modèles
+
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_summary_2016$adjr2, type = 'b', xlab = 'Number of predictors d', ylab = 'Adjusted R squared', main = 'Adjusted R squared')
+best_adjr2_2016 = which.max(regsubsets_summary_2016$adjr2)
+best_adjr2_2016
+points(best_adjr2_2016, regsubsets_summary_2016$adjr2[best_adjr2_2016], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2016$cp, type = 'b', xlab = 'Number of predictors d', ylab = 'Mallow\'s Cp', main = 'Mallow\'s Cp')
+best_cp_2016 = which.min(regsubsets_summary_2016$cp)
+best_cp_2016
+points(best_cp_2016, regsubsets_summary_2016$cp[best_cp_2016], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2016$bic, type = 'b', xlab = 'Number of predictors d', ylab = 'BIC', main = 'BIC')
+best_bic_2016 = which.min(regsubsets_summary_2016$bic)
+best_bic_2016
+points(best_bic_2016, regsubsets_summary_2016$bic[best_bic_2016], col = "red", cex = 2, pch=17)
+
+
+# visualiser les modèles ordonnés selon chacune des mesures
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_full_2016, scale = "adjr2", main = 'Adjusted R squared')
+plot(regsubsets_full_2016, scale = "Cp", main = 'Mallow\'s Cp')
+plot(regsubsets_full_2016, scale = "bic", main = 'BIC')
+
+
+
+
+
+# 2000
+library(leaps)
+ppp_2000 <- variables_2000_mod_3[4:ncol(variables_2000_mod_3)]
+
+variables_2000_mod_3_reg_sub_2 <- cbind(variables_2000_mod_3[1], ppp_2000)
+
+variables_2000_mod_3_reg_sub_2 <- data.frame(variables_2000_mod_3_reg_sub_2)
+regsubsets_full_2000 <- regsubsets(cote_credit_2000_mod_3 ~ . , data = variables_2000_mod_3_reg_sub_2, nvmax = 20)
+
+regsubsets_summary_2000 <- summary(regsubsets_full_2000)
+
+
+# le RSS et le R2 ne peuvent pas être utilisés directement pour effectuer 
+# une sélection entre les modèles avec un nombre différent de prédicteurs. 
+# Ceci est dû au fait que le RSS va toujours décroître et que le R2
+# va toujours augmenter avec l'ajout de prédicteurs
+
+par( mfrow = c(1, 2) )
+
+plot(regsubsets_summary_2000$rss, type = 'b', xlab = 'Number of predictors k', ylab = 'RSS')
+plot(regsubsets_summary_2000$rsq, type = 'b', xlab = 'Number of predictors k', ylab = 'R squared')
+
+
+# Le Rsqr adjusté, le Cp de Mallow et le BIC offrent de meilleur mesures pour choisir le meilleur modèle puisque qu'ils estiment l'erreur de test en tenant compte de la complexité des modèles
+
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_summary_2000$adjr2, type = 'b', xlab = 'Number of predictors d', ylab = 'Adjusted R squared', main = 'Adjusted R squared')
+best_adjr2_2000 = which.max(regsubsets_summary_2000$adjr2)
+best_adjr2_2000
+points(best_adjr2_2000, regsubsets_summary_2000$adjr2[best_adjr2_2000], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2000$cp, type = 'b', xlab = 'Number of predictors d', ylab = 'Mallow\'s Cp', main = 'Mallow\'s Cp')
+best_cp_2000 = which.min(regsubsets_summary_2000$cp)
+best_cp_2000
+points(best_cp_2000, regsubsets_summary_2000$cp[best_cp_2000], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2000$bic, type = 'b', xlab = 'Number of predictors d', ylab = 'BIC', main = 'BIC')
+best_bic_2000 = which.min(regsubsets_summary_2000$bic)
+best_bic_2000
+points(best_bic_2000, regsubsets_summary_2000$bic[best_bic_2000], col = "red", cex = 2, pch=17)
+
+
+# visualiser les modèles ordonnés selon chacune des mesures
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_full_2000, scale = "adjr2", main = 'Adjusted R squared')
+plot(regsubsets_full_2000, scale = "Cp", main = 'Mallow\'s Cp')
+plot(regsubsets_full_2000, scale = "bic", main = 'BIC')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# b) Période de récession -------------------------------------------------
+
+
+# 2019
+library(leaps)
+ppp_2019 <- variables_2019_mod_3[4:ncol(variables_2019_mod_3)]
+
+variables_2019_mod_3_reg_sub_2 <- cbind(variables_2019_mod_3[1], ppp_2019)
+
+variables_2019_mod_3_reg_sub_2 <- data.frame(variables_2019_mod_3_reg_sub_2)
+regsubsets_full_2019 <- regsubsets(cote_credit_2019_mod_3 ~ . , data = variables_2019_mod_3_reg_sub_2, nvmax = 20)
+
+regsubsets_summary_2019 <- summary(regsubsets_full_2019)
+
+
+# le RSS et le R2 ne peuvent pas être utilisés directement pour effectuer 
+# une sélection entre les modèles avec un nombre différent de prédicteurs. 
+# Ceci est dû au fait que le RSS va toujours décroître et que le R2
+# va toujours augmenter avec l'ajout de prédicteurs
+
+par( mfrow = c(1, 2) )
+
+plot(regsubsets_summary_2019$rss, type = 'b', xlab = 'Number of predictors k', ylab = 'RSS')
+plot(regsubsets_summary_2019$rsq, type = 'b', xlab = 'Number of predictors k', ylab = 'R squared')
+
+
+# Le Rsqr adjusté, le Cp de Mallow et le BIC offrent de meilleur mesures pour choisir le meilleur modèle puisque qu'ils estiment l'erreur de test en tenant compte de la complexité des modèles
+
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_summary_2019$adjr2, type = 'b', xlab = 'Number of predictors d', ylab = 'Adjusted R squared', main = 'Adjusted R squared')
+best_adjr2_2019 = which.max(regsubsets_summary_2019$adjr2)
+best_adjr2_2019
+points(best_adjr2_2019, regsubsets_summary_2019$adjr2[best_adjr2_2019], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2019$cp, type = 'b', xlab = 'Number of predictors d', ylab = 'Mallow\'s Cp', main = 'Mallow\'s Cp')
+best_cp_2019 = which.min(regsubsets_summary_2019$cp)
+best_cp_2019
+points(best_cp_2019, regsubsets_summary_2019$cp[best_cp_2019], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2019$bic, type = 'b', xlab = 'Number of predictors d', ylab = 'BIC', main = 'BIC')
+best_bic_2019 = which.min(regsubsets_summary_2019$bic)
+best_bic_2019
+points(best_bic_2019, regsubsets_summary_2019$bic[best_bic_2019], col = "red", cex = 2, pch=17)
+
+
+# visualiser les modèles ordonnés selon chacune des mesures
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_full_2019, scale = "adjr2", main = 'Adjusted R squared')
+plot(regsubsets_full_2019, scale = "Cp", main = 'Mallow\'s Cp')
+plot(regsubsets_full_2019, scale = "bic", main = 'BIC')
+
+
+
+
+
+# 2018
+library(leaps)
+ppp_2018 <- variables_2018_mod_3[4:ncol(variables_2018_mod_3)]
+
+variables_2018_mod_3_reg_sub_2 <- cbind(variables_2018_mod_3[1], ppp_2018)
+
+variables_2018_mod_3_reg_sub_2 <- data.frame(variables_2018_mod_3_reg_sub_2)
+regsubsets_full_2018 <- regsubsets(cote_credit_2018_mod_3 ~ . , data = variables_2018_mod_3_reg_sub_2, nvmax = 20)
+
+regsubsets_summary_2018 <- summary(regsubsets_full_2018)
+
+
+# le RSS et le R2 ne peuvent pas être utilisés directement pour effectuer 
+# une sélection entre les modèles avec un nombre différent de prédicteurs. 
+# Ceci est dû au fait que le RSS va toujours décroître et que le R2
+# va toujours augmenter avec l'ajout de prédicteurs
+
+par( mfrow = c(1, 2) )
+
+plot(regsubsets_summary_2018$rss, type = 'b', xlab = 'Number of predictors k', ylab = 'RSS')
+plot(regsubsets_summary_2018$rsq, type = 'b', xlab = 'Number of predictors k', ylab = 'R squared')
+
+
+# Le Rsqr adjusté, le Cp de Mallow et le BIC offrent de meilleur mesures pour choisir le meilleur modèle puisque qu'ils estiment l'erreur de test en tenant compte de la complexité des modèles
+
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_summary_2018$adjr2, type = 'b', xlab = 'Number of predictors d', ylab = 'Adjusted R squared', main = 'Adjusted R squared')
+best_adjr2_2018 = which.max(regsubsets_summary_2018$adjr2)
+best_adjr2_2018
+points(best_adjr2_2018, regsubsets_summary_2018$adjr2[best_adjr2_2018], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2018$cp, type = 'b', xlab = 'Number of predictors d', ylab = 'Mallow\'s Cp', main = 'Mallow\'s Cp')
+best_cp_2018 = which.min(regsubsets_summary_2018$cp)
+best_cp_2018
+points(best_cp_2018, regsubsets_summary_2018$cp[best_cp_2018], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2018$bic, type = 'b', xlab = 'Number of predictors d', ylab = 'BIC', main = 'BIC')
+best_bic_2018 = which.min(regsubsets_summary_2018$bic)
+best_bic_2018
+points(best_bic_2018, regsubsets_summary_2018$bic[best_bic_2018], col = "red", cex = 2, pch=17)
+
+
+# visualiser les modèles ordonnés selon chacune des mesures
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_full_2018, scale = "adjr2", main = 'Adjusted R squared')
+plot(regsubsets_full_2018, scale = "Cp", main = 'Mallow\'s Cp')
+plot(regsubsets_full_2018, scale = "bic", main = 'BIC')
+
+
+
+
+
+# 2009
+library(leaps)
+ppp_2009 <- variables_2009_mod_3[4:ncol(variables_2009_mod_3)]
+
+variables_2009_mod_3_reg_sub_2 <- cbind(variables_2009_mod_3[1], ppp_2009)
+
+variables_2009_mod_3_reg_sub_2 <- data.frame(variables_2009_mod_3_reg_sub_2)
+regsubsets_full_2009 <- regsubsets(cote_credit_2009_mod_3 ~ . , data = variables_2009_mod_3_reg_sub_2, nvmax = 20)
+
+regsubsets_summary_2009 <- summary(regsubsets_full_2009)
+
+
+# le RSS et le R2 ne peuvent pas être utilisés directement pour effectuer 
+# une sélection entre les modèles avec un nombre différent de prédicteurs. 
+# Ceci est dû au fait que le RSS va toujours décroître et que le R2
+# va toujours augmenter avec l'ajout de prédicteurs
+
+par( mfrow = c(1, 2) )
+
+plot(regsubsets_summary_2009$rss, type = 'b', xlab = 'Number of predictors k', ylab = 'RSS')
+plot(regsubsets_summary_2009$rsq, type = 'b', xlab = 'Number of predictors k', ylab = 'R squared')
+
+
+# Le Rsqr adjusté, le Cp de Mallow et le BIC offrent de meilleur mesures pour choisir le meilleur modèle puisque qu'ils estiment l'erreur de test en tenant compte de la complexité des modèles
+
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_summary_2009$adjr2, type = 'b', xlab = 'Number of predictors d', ylab = 'Adjusted R squared', main = 'Adjusted R squared')
+best_adjr2_2009 = which.max(regsubsets_summary_2009$adjr2)
+best_adjr2_2009
+points(best_adjr2_2009, regsubsets_summary_2009$adjr2[best_adjr2_2009], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2009$cp, type = 'b', xlab = 'Number of predictors d', ylab = 'Mallow\'s Cp', main = 'Mallow\'s Cp')
+best_cp_2009 = which.min(regsubsets_summary_2009$cp)
+best_cp_2009
+points(best_cp_2009, regsubsets_summary_2009$cp[best_cp_2009], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2009$bic, type = 'b', xlab = 'Number of predictors d', ylab = 'BIC', main = 'BIC')
+best_bic_2009 = which.min(regsubsets_summary_2009$bic)
+best_bic_2009
+points(best_bic_2009, regsubsets_summary_2009$bic[best_bic_2009], col = "red", cex = 2, pch=17)
+
+
+# visualiser les modèles ordonnés selon chacune des mesures
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_full_2009, scale = "adjr2", main = 'Adjusted R squared')
+plot(regsubsets_full_2009, scale = "Cp", main = 'Mallow\'s Cp')
+plot(regsubsets_full_2009, scale = "bic", main = 'BIC')
+
+
+
+
+
+# 2008
+library(leaps)
+ppp_2008 <- variables_2008_mod_3[4:ncol(variables_2008_mod_3)]
+
+variables_2008_mod_3_reg_sub_2 <- cbind(variables_2008_mod_3[1], ppp_2008)
+
+variables_2008_mod_3_reg_sub_2 <- data.frame(variables_2008_mod_3_reg_sub_2)
+regsubsets_full_2008 <- regsubsets(cote_credit_2008_mod_3 ~ . , data = variables_2008_mod_3_reg_sub_2, nvmax = 20)
+
+regsubsets_summary_2008 <- summary(regsubsets_full_2008)
+
+
+# le RSS et le R2 ne peuvent pas être utilisés directement pour effectuer 
+# une sélection entre les modèles avec un nombre différent de prédicteurs. 
+# Ceci est dû au fait que le RSS va toujours décroître et que le R2
+# va toujours augmenter avec l'ajout de prédicteurs
+
+par( mfrow = c(1, 2) )
+
+plot(regsubsets_summary_2008$rss, type = 'b', xlab = 'Number of predictors k', ylab = 'RSS')
+plot(regsubsets_summary_2008$rsq, type = 'b', xlab = 'Number of predictors k', ylab = 'R squared')
+
+
+# Le Rsqr adjusté, le Cp de Mallow et le BIC offrent de meilleur mesures pour choisir le meilleur modèle puisque qu'ils estiment l'erreur de test en tenant compte de la complexité des modèles
+
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_summary_2008$adjr2, type = 'b', xlab = 'Number of predictors d', ylab = 'Adjusted R squared', main = 'Adjusted R squared')
+best_adjr2_2008 = which.max(regsubsets_summary_2008$adjr2)
+best_adjr2_2008
+points(best_adjr2_2008, regsubsets_summary_2008$adjr2[best_adjr2_2008], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2008$cp, type = 'b', xlab = 'Number of predictors d', ylab = 'Mallow\'s Cp', main = 'Mallow\'s Cp')
+best_cp_2008 = which.min(regsubsets_summary_2008$cp)
+best_cp_2008
+points(best_cp_2008, regsubsets_summary_2008$cp[best_cp_2008], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2008$bic, type = 'b', xlab = 'Number of predictors d', ylab = 'BIC', main = 'BIC')
+best_bic_2008 = which.min(regsubsets_summary_2008$bic)
+best_bic_2008
+points(best_bic_2008, regsubsets_summary_2008$bic[best_bic_2008], col = "red", cex = 2, pch=17)
+
+
+# visualiser les modèles ordonnés selon chacune des mesures
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_full_2008, scale = "adjr2", main = 'Adjusted R squared')
+plot(regsubsets_full_2008, scale = "Cp", main = 'Mallow\'s Cp')
+plot(regsubsets_full_2008, scale = "bic", main = 'BIC')
+
+
+
+
+
+# 2007
+library(leaps)
+ppp_2007 <- variables_2007_mod_3[4:ncol(variables_2007_mod_3)]
+
+variables_2007_mod_3_reg_sub_2 <- cbind(variables_2007_mod_3[1], ppp_2007)
+
+variables_2007_mod_3_reg_sub_2 <- data.frame(variables_2007_mod_3_reg_sub_2)
+regsubsets_full_2007 <- regsubsets(cote_credit_2007_mod_3 ~ . , data = variables_2007_mod_3_reg_sub_2, nvmax = 20)
+
+regsubsets_summary_2007 <- summary(regsubsets_full_2007)
+
+
+# le RSS et le R2 ne peuvent pas être utilisés directement pour effectuer 
+# une sélection entre les modèles avec un nombre différent de prédicteurs. 
+# Ceci est dû au fait que le RSS va toujours décroître et que le R2
+# va toujours augmenter avec l'ajout de prédicteurs
+
+par( mfrow = c(1, 2) )
+
+plot(regsubsets_summary_2007$rss, type = 'b', xlab = 'Number of predictors k', ylab = 'RSS')
+plot(regsubsets_summary_2007$rsq, type = 'b', xlab = 'Number of predictors k', ylab = 'R squared')
+
+
+# Le Rsqr adjusté, le Cp de Mallow et le BIC offrent de meilleur mesures pour choisir le meilleur modèle puisque qu'ils estiment l'erreur de test en tenant compte de la complexité des modèles
+
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_summary_2007$adjr2, type = 'b', xlab = 'Number of predictors d', ylab = 'Adjusted R squared', main = 'Adjusted R squared')
+best_adjr2_2007 = which.max(regsubsets_summary_2007$adjr2)
+best_adjr2_2007
+points(best_adjr2_2007, regsubsets_summary_2007$adjr2[best_adjr2_2007], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2007$cp, type = 'b', xlab = 'Number of predictors d', ylab = 'Mallow\'s Cp', main = 'Mallow\'s Cp')
+best_cp_2007 = which.min(regsubsets_summary_2007$cp)
+best_cp_2007
+points(best_cp_2007, regsubsets_summary_2007$cp[best_cp_2007], col = "red", cex = 2, pch=17)
+
+plot(regsubsets_summary_2007$bic, type = 'b', xlab = 'Number of predictors d', ylab = 'BIC', main = 'BIC')
+best_bic_2007 = which.min(regsubsets_summary_2007$bic)
+best_bic_2007
+points(best_bic_2007, regsubsets_summary_2007$bic[best_bic_2007], col = "red", cex = 2, pch=17)
+
+
+# visualiser les modèles ordonnés selon chacune des mesures
+par( mfrow = c(1, 3) )
+
+plot(regsubsets_full_2007, scale = "adjr2", main = 'Adjusted R squared')
+plot(regsubsets_full_2007, scale = "Cp", main = 'Mallow\'s Cp')
+plot(regsubsets_full_2007, scale = "bic", main = 'BIC')
+
+# --------------> tout en haut not good car use way REGRESSION LINEAIRE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# REGRESSION PENALISEE : (ridge, lasso, elastic net), Validation croi --------
+
+
+
+
+#-------------->
+# to delete 
+# vif : need modele lm(
 # see lab REGRESSION LOGISTIQUE : lab 2, lab 3 et lab 4
 
-# faire step aussi avec glmnet comme dans lab jusqu'à matrice de confusion après continuer comme ici
-
 # et dire les variables qu'une régression ridege ou lasso nous propose
+#-------------->
 
 
 
 
-
-
-
-
-
-
-
-# to delete
-
-# a rendre au propre pr all
-# just try danta_2019
-library(bestglm)
-
-str(variables_2019)
-
-fix(variables_2019)
-
-#xy <- cbind(variables_2019[-c(1,2)], variables_2019[2])
-xy <- cbind(variables_2019[-c(1,2,3,4,5,6,7,8,9)], variables_2019[1]) # car nombre de variable odoivent être inférieur ou egale à 15 --> donc enlever all avec forte corrélation
-
-fix(xy) 
-
-#xy$Cote_credit <- factor(xy$Cote_credit, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
-xy$binaire_cote_credit_2019 <-  factor(xy$binaire_cote_credit_2019, levels = c("firm_inv", "firm_spec"))
-
-
-str(xy)
-
-vif(glmnet_full)
-
-# nombre de variable doivent être inférieur ou égale à 15
-bestglm_bic <- bestglm(xy, family = binomial(link = "logit"), IC = 'BIC')
-
-bestglm_bic$Subsets
-
-summary(bestglm_bic$BestModels)
-
-# validation croissée
-set.seed(12345)
+# to delete this line : ---> same variables que mod 3
 
 library(glmnet)
 
-var_here <- variables_2019[-2]
+# 2019  
 
-fix(var_here)
+response_2019 <- variables_2019_mod_3$cote_credit_2019_mod_3
+other_var_2019 <- variables_2019_mod_3[4:ncol(variables_2019_mod_3)]
+variables_2019_reg_pen <- cbind(response_2019, other_var_2019)
+
+x_2019 = model.matrix(response_2019 ~ . , data = variables_2019_reg_pen)[,-1]
 
 
-# fait pour bianaire --> just pour try
-x = model.matrix(var_here$binaire_cote_credit_2019~., data = var_here)[,-1]
-y = var_here$binaire_cote_credit_2019
-lasso_model = glmnet(x, y, alpha = 1, family = "binomial")
-plot(lasso_model, xvar = 'lambda')
 
+# x_2019 = model.matrix(response_2019 ~ Marge_sur_EBITDA +
+#                         Rendement_sur_cap_prop  +
+#                         ratio_ben_avt_impot_sur_frais_int + ratio_B_non_rep_sur_Tot_actif +
+#                         ratio_tot_dette_sur_tot_actif + ratio_Flux_de_TR_expl_sur_passif_cour +
+#                         ratio_Fonds_de_roulement_sur_tot_actif +
+#                         Total_actif + volatilite_annuelle, data = variables_2019_reg_pen)[,-1]  # --> [,-1] pour enlever l'intercepte
+
+
+y_2019 = variables_2019_reg_pen$response_2019
+
+# LASSO from lab4
+
+# (1)
+
+
+lasso_model_2019_ungrouped <-  glmnet(x_2019, y_2019, alpha = 1, family = "multinomial", type.multinomial = "ungrouped")
+plot(lasso_model_2019_ungrouped, xvar = 'lambda')
+
+
+
+# --> delete grouped car "warning" if take en compte all variable
+
+lasso_model_2019_grouped <-  glmnet(x_2019, y_2019, alpha = 1, family = "multinomial", type.multinomial = "grouped")
+plot(lasso_model_2019_grouped, xvar = 'lambda')
+
+
+
+# (2) --> meilleur lamda sélectionné à partir de cross validation
+
+# Afin de choisir la valeur pour le paramètre d'ajustement ?? avec une 10-validation croisée, on utilise la méthode cv.glmnet:
+set.seed(2021)
+cv_lasso_2019_ungrouped <-  cv.glmnet(x_2019, y_2019, alpha = 1, family = "multinomial", type.multinomial = "ungrouped", nfolds = 10)
+cv_lasso_2019_ungrouped$lambda.min
+cv_lasso_2019_ungrouped$lambda.1se
+plot(cv_lasso_2019_ungrouped)
+
+# to delete line : -----> si on take nb var comme dans mod_3, not "warning" dans grouped
+
+# --> delete grouped car "warning" if take en compte all variable
+set.seed(2021)
+cv_lasso_2019_grouped <-  cv.glmnet(x_2019, y_2019, alpha = 1, family = "multinomial", type.multinomial = "grouped", nfolds = 10)
+cv_lasso_2019_grouped$lambda.min
+cv_lasso_2019_grouped$lambda.1se
+plot(cv_lasso_2019_grouped)
+
+
+# MODELE QU'ON OBTIENT & POINTS = VARIABLES NON SELECTIONNEES
+
+# delete  lamda.min et conserver only lamda.1se
+
+#Si on utilise l'erreur minimale de validation croisée (correpondante à la ligne verticale à la gauche), on obtient un modèle avec les 10 variables:
+coef(cv_lasso_2019_ungrouped, s = "lambda.min")
+coef(cv_lasso_2019_grouped, s = "lambda.min")
+
+
+
+# --> delete grouped car "warning" if take en compte all variable
+
+# Si on utilise le lambda qui correspond à la plus grande valeur de lambda telle que le MSE est à l'intérieur d'une erreur standard du minimum (la ligne vertical à la droite), on obtient un modèle avec entre [7 et 3] variables ()!:
+coef(cv_lasso_2019_ungrouped, s = "lambda.1se")
+coef(cv_lasso_2019_grouped, s = "lambda.1se")
+
+
+# do it comme en haut --------------------> to delete this line
+# matrice de confusion: ON USE ONLY 1se not min
+response_2019_prob_ungrouped <- unlist(predict(cv_lasso_2019_ungrouped, x_2019, s = "lambda.1se", type="class"))
+response_2019_prob_ungrouped <- factor(response_2019_prob_ungrouped, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
+table(response_2019_prob_ungrouped, variables_2019_reg_pen$response_2019)
+
+
+response_2019_prob_grouped <- predict(cv_lasso_2019_grouped, x_2019, s = "lambda.1se", type="class")
+response_2019_prob_grouped <- factor(response_2019_prob_grouped, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
+table(response_2019_prob_grouped, variables_2019_reg_pen$response_2019)
+
+
+
+
+#--> delete ---> all with lamda.min : maybe
+
+#ON SEE PREDICTION SUR LES 5 CLASSE
+
+response_2019_prob_ungrouped <- predict(cv_lasso_2019_ungrouped, x_2019, s = "lambda.min", type="class")
+table(response_2019_prob_ungrouped, variables_2019_reg_pen$response_2019)
+
+
+response_2019_prob_grouped <- predict(cv_lasso_2019_grouped, x_2019, s = "lambda.min", type="class")
+table(response_2019_prob_grouped, variables_2019_reg_pen$response_2019)
+
+
+
+
+#vérification
+library("lattice")
+library("ggplot2")
+library("caret")
+variables_2019_reg_pen$response_2019 <- factor(variables_2019_reg_pen$response_2019, levels = c("AAA_&_AA", "A", "BBB", "BB", "B_&_CCC"))
+confusionMatrix(data=response_2019_prob_ungrouped, reference=variables_2019_reg_pen$response_2019)
+
+
+
+# COURBE ROC
+
+library(ROCR)
+pred_logit = prediction(response_2019_prob_ungrouped, variables_2019_reg_pen$response_2019)
+roc_logit = performance(pred_logit, measure = "tpr", x.measure = "fpr")
+plot(roc_logit, col = 'green', main = "ROC curve of logistic")
+abline(0, 1, col = 'darkgray', lty = 2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# LASSO ------> http://web.stanford.edu/~hastie/glmnet/glmnet_alpha.html#log
+
+fit_grouped <- glmnet(x, y, family = "multinomial", type.multinomial = "ungrouped")
+fit_ungrouped <- glmnet(x, y, family = "multinomial", type.multinomial = "grouped")
+
+plot(fit_grouped, xvar = "lambda", label = TRUE, type.coef = "2norm")
+
+plot(fit_ungrouped, xvar = "lambda", label = TRUE, type.coef = "2norm")
+
+
+
+# We can also do cross-validation and plot the returned object.
+
+cvfit_grouped <- cv.glmnet(x, y, family="multinomial", type.multinomial = "grouped", parallel = TRUE)
+plot(cvfit_grouped)
+
+
+
+
+# Users may wish to predict at the optimally selected ??:
+
+predict(cvfit_grouped, newx = x[1:10,], s = "lambda.min", type = "class")
+
+
+
+
+
+
+
+
+
+# ELASTIC NET
 
 
 
 # ---> pour suite voir last feuille notes cours 
-
 # matrice de confusion
 
 
@@ -3444,3 +4104,57 @@ plot(lasso_model, xvar = 'lambda')
 
 
 # auc = air sous la courbe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Linear Discriminant Analysis --------------------------------------------
+
+
+
+# on peut use après all technique qu'on avait dans reg logistique ici
+# matrice confusion, courbe roc, ...
+
+library(MASS)
+
+lda_full <- lda_full(variables_2016_mod_3$cote_credit_2016_mod_3 ~ Marge_sur_EBITDA +
+                       Rendement_sur_cap_prop  + ratio_ben_avt_impot_sur_frais_int + 
+                       ratio_B_non_rep_sur_Tot_actif + ratio_tot_dette_sur_tot_actif + 
+                       ratio_Flux_de_TR_expl_sur_passif_cour +
+                       ratio_Fonds_de_roulement_sur_tot_actif +
+                       Total_actif + volatilite_annuelle,
+                       data = variables_2016_mod_3)     
+
+
